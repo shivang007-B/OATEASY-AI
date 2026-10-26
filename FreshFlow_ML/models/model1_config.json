@@ -1,0 +1,30 @@
+{
+  "features": [
+    "restaurant_code",
+    "dish_code",
+    "category_code",
+    "dow",
+    "is_weekend",
+    "month",
+    "doy_sin",
+    "doy_cos",
+    "selling_price_inr",
+    "promo_flag",
+    "holiday_flag",
+    "avg_temp_c",
+    "rainfall_mm",
+    "lag_1",
+    "lag_7",
+    "lag_14",
+    "roll_mean_7",
+    "roll_mean_28"
+  ],
+  "categorical_features": [
+    "restaurant_code",
+    "dish_code",
+    "category_code",
+    "dow"
+  ],
+  "train_end": "2025-06-30",
+  "forecast_date": "2026-01-01"
+}

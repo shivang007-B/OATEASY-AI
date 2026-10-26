@@ -1,0 +1,13 @@
+dish_id,dish_name,category,list_price_inr,base_daily_orders,weekend_uplift,temp_sensitivity
+D01,Paneer Tikka,Starter,320,30,0.25,0.0
+D02,Dal Makhani,Main Course,280,26,0.15,-0.01
+D03,Veg Biryani,Rice & Biryani,340,40,0.35,0.0
+D04,Butter Naan,Breads,60,55,0.1,0.0
+D05,Chole Bhature,Main Course,220,22,0.3,-0.008
+D06,Palak Paneer,Main Course,300,20,0.1,-0.012
+D07,Jeera Rice,Rice & Biryani,150,25,0.1,0.0
+D08,Masala Dosa,South Indian,180,24,0.2,0.006
+D09,Veg Thali,Combos,420,18,0.3,0.0
+D10,Samosa Chaat,Starter,140,16,0.2,0.01
+D11,Gobi Manchurian,Starter,230,14,0.25,0.0
+D12,Mushroom Pepper Fry,Starter,310,9,0.2,0.0

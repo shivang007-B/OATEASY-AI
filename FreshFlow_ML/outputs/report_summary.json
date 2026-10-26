@@ -1,0 +1,10 @@
+{
+  "as_of": "2025-12-31",
+  "planning_date": "2026-01-01",
+  "predicted_orders_total": 821,
+  "ingredients_at_risk": 18,
+  "purchase_adjustment_qty": 180.22,
+  "recommended_purchase_value_inr": 540.0,
+  "potential_waste_avoided_inr_estimated": 27896.0,
+  "note": "Estimated, not verified. Based on synthetic data; a live pilot is needed to confirm savings."
+}

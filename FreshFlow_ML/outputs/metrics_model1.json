@@ -1,0 +1,23 @@
+{
+  "test_metrics": {
+    "seasonal_naive_lag7": {
+      "MAE": 7.096,
+      "RMSE": 9.461,
+      "WAPE": 0.2542,
+      "Bias": 0.228
+    },
+    "moving_avg_28": {
+      "MAE": 5.693,
+      "RMSE": 7.651,
+      "WAPE": 0.204,
+      "Bias": 0.377
+    },
+    "gbm_poisson (Model 1)": {
+      "MAE": 4.901,
+      "RMSE": 6.517,
+      "WAPE": 0.1756,
+      "Bias": 0.889
+    }
+  },
+  "interval_coverage_80": 0.7439
+}

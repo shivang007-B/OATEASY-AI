@@ -1,0 +1,35 @@
+{
+  "features": [
+    "restaurant_code",
+    "ingredient_code",
+    "category_code",
+    "storage_code",
+    "perishable_flag",
+    "shelf_life_days",
+    "closing_stock_qty",
+    "batches_on_hand",
+    "min_days_to_expiry",
+    "weighted_remaining_shelf_life_days",
+    "days_since_last_delivery",
+    "pending_order_qty",
+    "usage_1d",
+    "usage_7d_mean",
+    "cover_days",
+    "target_cover_days",
+    "discard_7d",
+    "discard_14d",
+    "shortage_7d",
+    "discard_rate_14d",
+    "dow",
+    "month"
+  ],
+  "categorical_features": [
+    "restaurant_code",
+    "ingredient_code",
+    "category_code",
+    "storage_code"
+  ],
+  "target": "any stock discarded on t+1..t+3",
+  "decision_threshold_0.5": true,
+  "best_f1_threshold": 0.2112
+}

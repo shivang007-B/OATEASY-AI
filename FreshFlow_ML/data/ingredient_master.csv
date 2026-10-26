@@ -1,0 +1,18 @@
+ingredient_id,ingredient_name,category,unit,unit_cost_inr,shelf_life_days,storage_type,perishable_flag,supplier_lead_time_days,min_order_qty,target_cover_days,supplier_name
+I01,Paneer,Dairy,kg,380,7,Chiller,1,1,2,3,Dairy Co-op
+I02,Tomato,Produce,kg,40,5,Cool room,1,1,5,3,Local Mandi
+I03,Onion,Produce,kg,35,21,Dry store,0,1,10,7,Local Mandi
+I04,Fresh Cream,Dairy,kg,420,5,Chiller,1,1,2,4,Dairy Co-op
+I05,Butter,Dairy,kg,520,60,Chiller,1,2,5,14,Dairy Co-op
+I06,Wheat Flour (Atta),Dry,kg,48,180,Dry store,0,3,25,14,Grain Traders
+I07,Basmati Rice,Dry,kg,110,365,Dry store,0,3,25,14,Grain Traders
+I08,Urad Dal,Dry,kg,130,180,Dry store,0,3,15,14,Grain Traders
+I09,Chickpeas (Kabuli),Dry,kg,120,180,Dry store,0,3,15,14,Grain Traders
+I10,Spinach,Produce,kg,60,3,Cool room,1,1,3,2,Local Mandi
+I11,Cauliflower,Produce,kg,50,6,Cool room,1,1,4,3,Local Mandi
+I12,Potato,Produce,kg,30,30,Dry store,0,2,10,7,Local Mandi
+I13,Yogurt (Curd),Dairy,kg,90,7,Chiller,1,1,3,3,Dairy Co-op
+I14,Mushroom,Produce,kg,180,4,Cool room,1,2,2,2,Fresh Farms
+I15,Capsicum (Bell Pepper),Produce,kg,90,6,Cool room,1,1,3,3,Local Mandi
+I16,Spice Mix (Garam Masala),Dry,kg,900,365,Dry store,0,5,1,30,Spice Co.
+I17,Cooking Oil,Dry,litre,160,365,Dry store,0,3,15,21,Oil Distributor

@@ -1,0 +1,62 @@
+restaurant_id,action,type,item,avoidable_cost_inr,feasibility,why,priority_score
+R02,Use existing Butter first,use_existing_stock,Butter,5155.28,0.9,High risk (Usage pattern); min days to expiry 34,4639.75
+R02,Use existing Paneer first,use_existing_stock,Paneer,4932.02,0.9,High risk (Usage pattern); min days to expiry 4,4438.82
+R01,Use existing Paneer first,use_existing_stock,Paneer,4448.28,0.9,High risk (Usage pattern); min days to expiry 4,4003.45
+R02,Hold purchase of Butter,hold_purchase,Butter,3568.93,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,3568.93
+R01,Use existing Butter first,use_existing_stock,Butter,3697.72,0.9,High risk (Usage pattern); min days to expiry 49,3327.95
+R01,Hold purchase of Butter,hold_purchase,Butter,1365.89,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,1365.89
+R01,Use existing Spinach first,use_existing_stock,Spinach,799.02,0.9,High risk (Expiry); min days to expiry 0,719.12
+R01,Use existing Yogurt (Curd) first,use_existing_stock,Yogurt (Curd),757.89,0.9,High risk (Expiry); min days to expiry 1,682.1
+R02,Use existing Yogurt (Curd) first,use_existing_stock,Yogurt (Curd),681.57,0.9,High risk (Usage pattern); min days to expiry 6,613.41
+R01,Use existing Fresh Cream first,use_existing_stock,Fresh Cream,676.2,0.9,Medium risk (Usage pattern); min days to expiry 4,608.58
+R01,Use existing Cauliflower first,use_existing_stock,Cauliflower,649.3,0.9,High risk (Usage pattern); min days to expiry 4,584.37
+R02,Use existing Mushroom first,use_existing_stock,Mushroom,608.4,0.9,High risk (Expiry); min days to expiry 0,547.56
+R02,Use existing Cauliflower first,use_existing_stock,Cauliflower,516.9,0.9,High risk (Expiry); min days to expiry 3,465.21
+R01,Use existing Mushroom first,use_existing_stock,Mushroom,485.1,0.9,High risk (Expiry); min days to expiry 3,436.59
+R02,Use existing Fresh Cream first,use_existing_stock,Fresh Cream,399.0,0.9,High risk (Expiry); min days to expiry 2,359.1
+R01,Stage preparation of Paneer Tikka,stage_preparation,Paneer Tikka,509.08,0.7,"Cook 29 now, replenish the other 19 in batches (forecast 29-49)",356.36
+R02,Use existing Capsicum (Bell Pepper) first,use_existing_stock,Capsicum (Bell Pepper),352.35,0.9,High risk (Usage pattern); min days to expiry 5,317.12
+R01,Use existing Tomato first,use_existing_stock,Tomato,342.6,0.9,High risk (Expiry); min days to expiry 1,308.34
+R02,Stage preparation of Paneer Tikka,stage_preparation,Paneer Tikka,428.7,0.7,"Cook 25 now, replenish the other 16 in batches (forecast 25-43)",300.09
+R01,Stage preparation of Veg Biryani,stage_preparation,Veg Biryani,422.21,0.7,"Cook 39 now, replenish the other 25 in batches (forecast 39-66)",295.55
+R01,Stage preparation of Palak Paneer,stage_preparation,Palak Paneer,412.31,0.7,"Cook 26 now, replenish the other 16 in batches (forecast 26-46)",288.62
+R02,Use existing Spinach first,use_existing_stock,Spinach,307.56,0.9,High risk (Expiry); min days to expiry 1,276.8
+R02,Stage preparation of Palak Paneer,stage_preparation,Palak Paneer,386.54,0.7,"Cook 18 now, replenish the other 15 in batches (forecast 18-34)",270.58
+R01,Stage preparation of Veg Thali,stage_preparation,Veg Thali,313.56,0.7,"Cook 20 now, replenish the other 15 in batches (forecast 20-36)",219.49
+R01,Hold purchase of Fresh Cream,hold_purchase,Fresh Cream,199.0,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,199.0
+R02,Stage preparation of Veg Biryani,stage_preparation,Veg Biryani,270.21,0.7,"Cook 35 now, replenish the other 16 in batches (forecast 35-53)",189.15
+R01,Stage preparation of Butter Naan,stage_preparation,Butter Naan,252.63,0.7,"Cook 48 now, replenish the other 29 in batches (forecast 48-79)",176.84
+R02,Stage preparation of Veg Thali,stage_preparation,Veg Thali,250.85,0.7,"Cook 17 now, replenish the other 12 in batches (forecast 17-33)",175.6
+R02,Stage preparation of Dal Makhani,stage_preparation,Dal Makhani,222.63,0.7,"Cook 26 now, replenish the other 18 in batches (forecast 26-45)",155.84
+R01,Stage preparation of Dal Makhani,stage_preparation,Dal Makhani,210.26,0.7,"Cook 29 now, replenish the other 17 in batches (forecast 29-49)",147.18
+R01,Stage preparation of Chole Bhature,stage_preparation,Chole Bhature,208.45,0.7,"Cook 26 now, replenish the other 14 in batches (forecast 26-42)",145.92
+R02,Stage preparation of Chole Bhature,stage_preparation,Chole Bhature,193.56,0.7,"Cook 20 now, replenish the other 13 in batches (forecast 20-36)",135.49
+R02,Stage preparation of Butter Naan,stage_preparation,Butter Naan,182.94,0.7,"Cook 47 now, replenish the other 21 in batches (forecast 47-70)",128.06
+R01,Stage preparation of Jeera Rice,stage_preparation,Jeera Rice,180.0,0.7,"Cook 23 now, replenish the other 18 in batches (forecast 23-44)",126.0
+R02,Stage preparation of Jeera Rice,stage_preparation,Jeera Rice,150.0,0.7,"Cook 18 now, replenish the other 15 in batches (forecast 18-38)",105.0
+R02,Use existing Tomato first,use_existing_stock,Tomato,116.6,0.9,High risk (Expiry); min days to expiry 2,104.94
+R02,Hold purchase of Capsicum (Bell Pepper),hold_purchase,Capsicum (Bell Pepper),104.13,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,104.13
+R02,Hold purchase of Cauliflower,hold_purchase,Cauliflower,96.48,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,96.48
+R02,Stage preparation of Masala Dosa,stage_preparation,Masala Dosa,119.05,0.7,"Cook 21 now, replenish the other 13 in batches (forecast 21-36)",83.34
+R02,Stage preparation of Mushroom Pepper Fry,stage_preparation,Mushroom Pepper Fry,112.58,0.7,"Cook 8 now, replenish the other 6 in batches (forecast 8-17)",78.81
+R01,Stage preparation of Mushroom Pepper Fry,stage_preparation,Mushroom Pepper Fry,112.58,0.7,"Cook 10 now, replenish the other 6 in batches (forecast 10-19)",78.81
+R01,Stage preparation of Masala Dosa,stage_preparation,Masala Dosa,109.89,0.7,"Cook 24 now, replenish the other 12 in batches (forecast 24-42)",76.92
+R01,Stage preparation of Gobi Manchurian,stage_preparation,Gobi Manchurian,107.77,0.7,"Cook 16 now, replenish the other 10 in batches (forecast 16-27)",75.44
+R02,Stage preparation of Samosa Chaat,stage_preparation,Samosa Chaat,91.06,0.7,"Cook 11 now, replenish the other 9 in batches (forecast 11-21)",63.74
+R01,Stage preparation of Samosa Chaat,stage_preparation,Samosa Chaat,91.06,0.7,"Cook 16 now, replenish the other 9 in batches (forecast 16-27)",63.74
+R01,Hold purchase of Tomato,hold_purchase,Tomato,59.3,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,59.3
+R02,Stage preparation of Gobi Manchurian,stage_preparation,Gobi Manchurian,64.66,0.7,"Cook 12 now, replenish the other 6 in batches (forecast 12-19)",45.26
+R01,Use existing Capsicum (Bell Pepper) first,use_existing_stock,Capsicum (Bell Pepper),43.47,0.9,High risk (Expiry); min days to expiry 2,39.12
+R01,Hold purchase of Cauliflower,hold_purchase,Cauliflower,25.73,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,25.73
+R02,Hold purchase of Basmati Rice,hold_purchase,Basmati Rice,0.94,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.94
+R02,Hold purchase of Spice Mix (Garam Masala),hold_purchase,Spice Mix (Garam Masala),0.89,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.89
+R02,Hold purchase of Wheat Flour (Atta),hold_purchase,Wheat Flour (Atta),0.56,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.56
+R02,Hold purchase of Urad Dal,hold_purchase,Urad Dal,0.38,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.38
+R02,Hold purchase of Chickpeas (Kabuli),hold_purchase,Chickpeas (Kabuli),0.31,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.31
+R01,Hold purchase of Wheat Flour (Atta),hold_purchase,Wheat Flour (Atta),0.29,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.29
+R02,Hold purchase of Cooking Oil,hold_purchase,Cooking Oil,0.27,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.27
+R01,Hold purchase of Potato,hold_purchase,Potato,0.25,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.25
+R01,Hold purchase of Cooking Oil,hold_purchase,Cooking Oil,0.12,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.12
+R01,Hold purchase of Onion,hold_purchase,Onion,0.08,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.08
+R02,Hold purchase of Potato,hold_purchase,Potato,0.07,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.07
+R02,Hold purchase of Onion,hold_purchase,Onion,0.05,1.0,Usable stock and incoming deliveries already cover tomorrow's requirement,0.05

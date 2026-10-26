@@ -1,0 +1,35 @@
+restaurant_id,ingredient_name,unit,required_qty,usable_stock_qty,incoming_qty,recommended_purchase_qty,purchase_value_inr,purchase_adjustment_qty
+R01,Paneer,kg,10.322,15.24,20.0,0.0,0.0,9.383
+R01,Tomato,kg,3.602,11.417,0.0,0.0,0.0,3.275
+R01,Onion,kg,8.497,34.305,0.0,0.0,0.0,7.725
+R01,Fresh Cream,kg,0.94,3.438,0.0,0.0,0.0,0.854
+R01,Butter,kg,2.536,11.332,0.0,0.0,0.0,2.306
+R01,Wheat Flour (Atta),kg,14.636,101.723,0.0,0.0,0.0,13.306
+R01,Basmati Rice,kg,21.107,47.131,275.0,0.0,0.0,19.188
+R01,Urad Dal,kg,5.128,9.608,75.0,0.0,0.0,4.662
+R01,Chickpeas (Kabuli),kg,4.936,7.007,75.0,0.0,0.0,4.487
+R01,Spinach,kg,6.582,0.0,0.0,9.0,540.0,0.0
+R01,Cauliflower,kg,6.716,18.345,0.0,0.0,0.0,6.105
+R01,Potato,kg,8.646,64.76,0.0,0.0,0.0,7.86
+R01,Yogurt (Curd),kg,5.639,13.147,0.0,0.0,0.0,5.126
+R01,Mushroom,kg,1.959,3.731,4.0,0.0,0.0,1.781
+R01,Capsicum (Bell Pepper),kg,2.066,0.855,6.0,0.0,0.0,1.878
+R01,Spice Mix (Garam Masala),kg,1.695,2.218,42.0,0.0,0.0,1.541
+R01,Cooking Oil,litre,6.841,25.041,0.0,0.0,0.0,6.219
+R02,Paneer,kg,8.561,16.803,0.0,0.0,0.0,7.782
+R02,Tomato,kg,3.138,4.414,5.0,0.0,0.0,2.853
+R02,Onion,kg,7.09,29.85,0.0,0.0,0.0,6.445
+R02,Fresh Cream,kg,0.819,1.184,0.0,0.0,0.0,0.744
+R02,Butter,kg,2.234,18.145,0.0,0.0,0.0,2.031
+R02,Wheat Flour (Atta),kg,12.443,148.948,0.0,0.0,0.0,11.311
+R02,Basmati Rice,kg,17.339,127.934,0.0,0.0,0.0,15.763
+R02,Urad Dal,kg,4.741,39.183,0.0,0.0,0.0,4.31
+R02,Chickpeas (Kabuli),kg,4.102,36.101,0.0,0.0,0.0,3.729
+R02,Spinach,kg,5.246,5.202,6.0,0.0,0.0,4.769
+R02,Cauliflower,kg,4.908,15.402,0.0,0.0,0.0,4.462
+R02,Potato,kg,7.351,39.767,0.0,0.0,0.0,6.682
+R02,Yogurt (Curd),kg,4.661,10.038,0.0,0.0,0.0,4.237
+R02,Mushroom,kg,1.681,0.0,2.0,0.0,0.0,1.528
+R02,Capsicum (Bell Pepper),kg,1.68,5.796,0.0,0.0,0.0,1.527
+R02,Spice Mix (Garam Masala),kg,1.392,13.154,0.0,0.0,0.0,1.265
+R02,Cooking Oil,litre,5.591,30.471,0.0,0.0,0.0,5.083

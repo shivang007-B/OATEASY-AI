@@ -1,0 +1,18 @@
+{
+  "test_metrics": {
+    "rule: days-to-expiry": {
+      "ROC_AUC": 0.8777,
+      "PR_AUC": 0.7974
+    },
+    "rule: stock cover days": {
+      "ROC_AUC": 0.2432,
+      "PR_AUC": 0.2629
+    },
+    "gbm classifier (Model 2)": {
+      "ROC_AUC": 0.9133,
+      "PR_AUC": 0.8506
+    }
+  },
+  "brier": 0.101,
+  "best_f1_threshold": 0.2112
+}
