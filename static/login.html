@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FreshFlow — Operator Sign In</title>
+  <meta name="description"
+    content="Sign in to FreshFlow Restaurant Intelligence Platform. Demo credentials pre-loaded for instant evaluation." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <link rel="icon" type="image/png" href="/static/logo.png" />
+  <link href="/static/styles.css?v=2.4" rel="stylesheet" />
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: url('/static/login bg.png') no-repeat center center fixed !important;
+      background-size: cover !important;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Minimal Navbar */
+    .login-nav {
+      height: 64px;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: #0f172a;
+    }
+
+    .brand-icon-box {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+    }
+
+    .brand-logo-img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      border-radius: 9px;
+      background: #ffffff;
+      padding: 2px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+      display: block;
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    /* Login Box Container (Liquid Glass) */
+    .login-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 24px;
+      padding: 2.5rem 2.25rem;
+      box-shadow:
+        0 20px 50px rgba(15, 23, 42, 0.08),
+        0 1px 3px rgba(0, 0, 0, 0.02),
+        inset 0 1px 1px rgba(255, 255, 255, 0.95);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+      pointer-events: none;
+    }
+
+    .login-brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .login-title {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.35rem;
+    }
+
+    .login-sub {
+      text-align: center;
+      font-size: 0.86rem;
+      color: #64748b;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Selected Business Context */
+    .business-context-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 0.65rem 0.95rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 1.35rem;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .context-left {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    /* Demo Credentials Banner */
+    .demo-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%);
+      border: 1.5px dashed #6ee7b7;
+      border-radius: 14px;
+      padding: 0.95rem 1.1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .demo-info {
+      font-size: 0.78rem;
+      color: #065f46;
+      line-height: 1.45;
+    }
+
+    .demo-btn-chip {
+      background: #059669;
+      color: #ffffff;
+      border: none;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
+    }
+
+    .demo-btn-chip:hover {
+      background: #047857;
+      transform: scale(1.03);
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 1.15rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 0.95rem;
+      font-size: 0.9rem;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #0f172a;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-input:focus {
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+
+    .btn-login-submit {
+      width: 100%;
+      height: 46px;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+    }
+
+    .btn-login-submit:hover {
+      background: #020617;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.25);
+    }
+
+    .login-footer-actions {
+      margin-top: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .link-subtle {
+      color: #64748b;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .link-subtle:hover {
+      color: #0f172a;
+    }
+
+    /* Privacy Policy Modal Styles */
+    .privacy-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.22s ease;
+    }
+
+    .privacy-modal-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .privacy-modal-card {
+      width: 100%;
+      max-width: 640px;
+      max-height: 85vh;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.25);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: privacyModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes privacyModalIn {
+      from {
+        transform: scale(0.96) translateY(12px);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .privacy-modal-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+    }
+
+    .privacy-modal-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .privacy-modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      transition: all 0.15s;
+    }
+
+    .privacy-modal-close:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .privacy-modal-body {
+      padding: 1.75rem;
+      overflow-y: auto;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: #334155;
+    }
+
+    .privacy-modal-body h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 1.15rem;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .privacy-modal-body h4:first-child {
+      margin-top: 0;
+    }
+
+    .privacy-modal-footer {
+      padding: 1rem 1.75rem;
+      border-top: 1px solid #f1f5f9;
+      background: #f8fafc;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-modal-agree {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.6rem 1.6rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-modal-agree:hover {
+      background: #047857;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Simple Navigation -->
+  <header class="login-nav">
+    <a href="/landing" class="brand-group">
+      <img src="/static/logo.png" alt="FreshFlow Logo" class="brand-logo-img" />
+      <span class="brand-title">FreshFlow AI</span>
+    </a>
+    <div style="font-size:0.82rem;color:#64748b;font-weight:600;display:flex;align-items:center;gap:0.35rem;">
+      <span class="material-symbols-outlined" style="font-size:16px;color:#059669;">verified_user</span>
+      <span>Secure Operational Login</span>
+    </div>
+  </header>
+
+  <!-- Login Card Form -->
+  <main class="login-main">
+    <div class="login-card">
+
+      <div class="login-brand-row">
+        <img src="/static/logo.png" alt="FreshFlow Logo" class="brand-logo-img"
+          style="width:42px;height:42px;border-radius:11px;" />
+        <span style="font-size:1.35rem;font-weight:800;color:#0f172a;letter-spacing:-0.03em;">FreshFlow AI</span>
+      </div>
+
+      <h1 class="login-title">Sign In to Workspace</h1>
+      <p class="login-sub">Access autonomous forecasting and kitchen operations.</p>
+
+      <!-- Context pill showing selected business type (Locked badge) -->
+      <div class="business-context-pill">
+        <div class="context-left">
+          <span class="material-symbols-outlined" id="contextIcon"
+            style="font-size:18px;color:#10b981;">restaurant</span>
+          <span id="loginKitchenLabel">Restaurant &amp; Dine-In Selected</span>
+        </div>
+        <span
+          style="display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem;font-weight:700;color:#059669;background:rgba(16,185,129,0.12);padding:0.25rem 0.65rem;border-radius:9999px;">
+          <span class="material-symbols-outlined" style="font-size:14px;">check_circle</span> Active Selection
+        </span>
+      </div>
+
+
+
+      <!-- Auth Form -->
+      <form id="loginForm" onsubmit="handleLoginSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Operator Work Email / ID</label>
+          <input type="email" id="loginEmail" class="form-input" value="admin@freshflow.ai" required
+            placeholder="chef@restaurant.com" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="loginPassword" class="form-input" value="freshflow2026" required
+            placeholder="••••••••••••" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Access Role</label>
+          <select class="form-input" style="cursor:pointer;" id="loginRole">
+            <option value="chef">Executive Chef &amp; Kitchen Manager</option>
+            <option value="director">Operations Director</option>
+            <option value="storekeeper">Storekeeper &amp; Purchase Lead</option>
+          </select>
+        </div>
+
+        <div class="form-group"
+          style="display:flex;align-items:flex-start;gap:0.65rem;margin-top:1.15rem;margin-bottom:0.85rem;background:#f8fafc;padding:0.75rem 0.95rem;border-radius:12px;border:1px solid #e2e8f0;">
+          <input type="checkbox" id="loginPrivacyCheckbox" required
+            style="margin-top:0.2rem;cursor:pointer;accent-color:#10b981;width:17px;height:17px;" />
+          <label for="loginPrivacyCheckbox"
+            style="font-size:0.8rem;color:#475569;line-height:1.45;cursor:pointer;user-select:none;">
+            I agree to the <a href="javascript:void(0)" onclick="openPrivacyModal()"
+              style="color:#059669;font-weight:700;text-decoration:underline;">Privacy Policy</a> &amp; Culinary Data
+            Protection terms.
+          </label>
+        </div>
+
+        <button type="submit" class="btn-login-submit" id="btnSubmitLogin">
+          <span>Open Kitchen Workspace</span>
+          <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+        </button>
+
+        <div class="login-footer-actions">
+          <a href="/app"
+            style="color:#059669;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:0.3rem;">
+            <span class="material-symbols-outlined" style="font-size:16px;">bolt</span> Instant Direct Demo (Skip Login)
+          </a>
+        </div>
+      </form>
+
+    </div>
+  </main>
+
+  <!-- Privacy Policy Popup Modal -->
+  <div id="privacyPolicyModal" class="privacy-modal-backdrop" onclick="if(event.target===this)closePrivacyModal()">
+    <div class="privacy-modal-card" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+      <div class="privacy-modal-header">
+        <div class="privacy-modal-title" id="privacyTitle">
+          <span class="material-symbols-outlined" style="color:#059669;font-size:22px;">verified_user</span>
+          <span>FreshFlow AI OS — Privacy &amp; Data Protection Policy</span>
+        </div>
+        <button type="button" class="privacy-modal-close" onclick="closePrivacyModal()" aria-label="Close modal">
+          <span class="material-symbols-outlined" style="font-size:20px;">close</span>
+        </button>
+      </div>
+
+      <div class="privacy-modal-body">
+        <p style="margin-bottom:1rem;color:#64748b;font-size:0.8rem;">
+          <strong>Effective Date:</strong> January 2026 · Compliant with ISO/IEC 27001, GDPR &amp; Commercial Culinary
+          Standards
+        </p>
+
+        <h4>
+          <span class="material-symbols-outlined" style="font-size:18px;color:#059669;">security</span>
+          1. Commercial Kitchen Data Confidentiality
+        </h4>
+        <p>
+          FreshFlow AI operates on strict enterprise privacy principles. Your restaurant's proprietary recipes, sales
+          covers, ingredient unit costs, vendor pricing negotiations, and dish profit margins are strictly confidential
+          and encrypted with military-grade AES-256.
+        </p>
+
+        <h4>
+          <span class="material-symbols-outlined" style="font-size:18px;color:#059669;">model_training</span>
+          2. Machine Learning Telemetry &amp; Isolation
+        </h4>
+        <p>
+          Neural demand forecasting curves and perishable expiry risk algorithms are containerized per organization.
+          FreshFlow AI never shares, pools, or exposes your operational data to competitor restaurants, third-party
+          brokers, or external advertising networks.
+        </p>
+
+        <h4>
+          <span class="material-symbols-outlined" style="font-size:18px;color:#059669;">sync_lock</span>
+          3. POS &amp; Inventory Integration Security
+        </h4>
+        <p>
+          When you connect Point-of-Sale (POS) systems, kitchen display units (KDS), or digital weighing scales,
+          communications are secured through TLS 1.3 encrypted tunnels with automated API token rotation and zero
+          credential exposure.
+        </p>
+
+        <h4>
+          <span class="material-symbols-outlined" style="font-size:18px;color:#059669;">shield_person</span>
+          4. Staff &amp; Operator Access Governance
+        </h4>
+        <p>
+          Role-Based Access Control (RBAC) ensures Executive Chefs, Storekeepers, and General Managers only access
+          workflows relevant to their duty stations. Every purchase order approval, inventory audit, and waste write-off
+          is logged in an immutable audit trail.
+        </p>
+
+        <h4>
+          <span class="material-symbols-outlined" style="font-size:18px;color:#059669;">delete_forever</span>
+          5. Data Ownership &amp; 1-Click Export
+        </h4>
+        <p>
+          You retain 100% intellectual property ownership of your culinary and sales data. You may download complete
+          historical CSV/JSON backups or request complete data deletion at any time via your account dashboard.
+        </p>
+      </div>
+
+      <div class="privacy-modal-footer">
+        <button type="button" class="btn-modal-agree" onclick="agreeAndClosePrivacyModal()">
+          <span>Accept &amp; Continue</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function updateContextPill() {
+      const type = localStorage.getItem('freshflow_kitchen_type') || 'restaurant';
+      const name = localStorage.getItem('freshflow_kitchen_name') || 'Restaurant & Dine-In';
+
+      const labelEl = document.getElementById('loginKitchenLabel');
+      const iconEl = document.getElementById('contextIcon');
+
+      const icons = {
+        hotel: 'hotel',
+        restaurant: 'restaurant',
+        hostelmess: 'apartment',
+        cloudkitchen: 'cloud_queue'
+      };
+
+      if (labelEl) labelEl.textContent = name + ' Mode';
+      if (iconEl) iconEl.textContent = icons[type] || 'restaurant';
+    }
+
+    function fillDemoCredentials() {
+      document.getElementById('loginEmail').value = 'admin@freshflow.ai';
+      document.getElementById('loginPassword').value = 'freshflow2026';
+
+      const btn = document.querySelector('.demo-btn-chip');
+      if (btn) {
+        btn.textContent = '✓ Pre-filled';
+        btn.style.background = '#047857';
+        setTimeout(() => { btn.textContent = 'Auto-Fill Demo'; btn.style.background = '#059669'; }, 2000);
+      }
+    }
+
+    function handleLoginSubmit(e) {
+      if (e) e.preventDefault();
+      const checkbox = document.getElementById('loginPrivacyCheckbox');
+      if (checkbox && !checkbox.checked) {
+        alert('Please agree to the Privacy Policy before proceeding to Workspace.');
+        checkbox.focus();
+        return;
+      }
+      const role = document.getElementById('loginRole').value;
+      localStorage.setItem('freshflow_operator_role', role);
+      localStorage.setItem('freshflow_authenticated', '1');
+      window.location.href = '/app';
+    }
+
+    // Privacy Policy Popup Modal Controller
+    window.openPrivacyModal = function () {
+      const modal = document.getElementById('privacyPolicyModal');
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
+    window.closePrivacyModal = function () {
+      const modal = document.getElementById('privacyPolicyModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    };
+
+    window.agreeAndClosePrivacyModal = function () {
+      const checkbox = document.getElementById('loginPrivacyCheckbox');
+      if (checkbox) checkbox.checked = true;
+      window.closePrivacyModal();
+    };
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') window.closePrivacyModal();
+    });
+
+    window.addEventListener('DOMContentLoaded', updateContextPill);
+  </script>
+</body>
+
+</html>

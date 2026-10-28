@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FreshFlow — Restaurant Operations Workspace</title>
+  <meta name="description"
+    content="Operational restaurant intelligence platform powered by Machine Learning demand forecasting, ingredient waste risk prediction, and automated prep & purchasing planning." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <link href="/static/styles.css?v=2.4" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="/static/logo.png" />
+
+  <style>
+    /* Liquid Glassmorphism & Light bg.png theme */
+    body {
+      background: url('/static/bg.png') no-repeat center center fixed !important;
+      background-size: cover !important;
+      min-height: 100vh;
+    }
+
+    .workspace-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: transparent;
+    }
+
+    /* 1. SIMPLE TOP NAVBAR (Liquid Glass) */
+    .simple-navbar {
+      height: 60px;
+      background: rgba(255, 255, 255, 0.75) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.85) !important;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+    }
+
+    .simple-navbar-inner {
+      height: 100%;
+      padding: 0 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .navbar-brand-section {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .navbar-collapse-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .navbar-collapse-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .navbar-brand-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .navbar-ai-chip {
+      font-size: 0.65rem;
+      font-weight: 800;
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+    }
+
+    .navbar-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #059669;
+      background: #ecfdf5;
+      border: 1px solid #d1fae5;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+    }
+
+    .navbar-right-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .active-kitchen-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      padding: 0.35rem 0.8rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #334155;
+      user-select: none;
+      cursor: default;
+    }
+
+    /* 2. COLORFUL COLLAPSIBLE SIDEBAR */
+    .workspace-layout {
+      display: flex;
+      flex: 1;
+      min-height: calc(100vh - 60px);
+    }
+
+    .colorful-sidebar {
+      width: 255px;
+      background: rgba(255, 255, 255, 0.74);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border-right: 1px solid rgba(255, 255, 255, 0.85);
+      display: flex;
+      flex-direction: column;
+      transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+      z-index: 30;
+      overflow-y: auto;
+      overflow-x: hidden;
+      flex-shrink: 0;
+      box-shadow: 4px 0 24px rgba(15, 23, 42, 0.02);
+    }
+
+    .colorful-sidebar.collapsed {
+      width: 74px;
+    }
+
+    .colorful-sidebar.collapsed .sidebar-label-wrap,
+    .colorful-sidebar.collapsed .sidebar-section-title,
+    .colorful-sidebar.collapsed .sidebar-profile-card,
+    .colorful-sidebar.collapsed .sidebar-badge {
+      display: none !important;
+    }
+
+    .colorful-sidebar.collapsed .sidebar-nav-item {
+      justify-content: center;
+      padding: 0.7rem 0;
+    }
+
+    .sidebar-content-wrap {
+      padding: 1.15rem 0.85rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-section-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.5rem 0.65rem 0.35rem;
+      white-space: nowrap;
+    }
+
+    .sidebar-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      width: 100%;
+      text-align: left;
+      user-select: none;
+    }
+
+    .sidebar-nav-item:hover {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    .sidebar-nav-item.active {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #e2e8f0;
+      font-weight: 600;
+    }
+
+    /* Colorful Gradient Icon Boxes */
+    .sidebar-icon-wrap {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      transition: transform 0.15s;
+    }
+
+    .sidebar-nav-item:hover .sidebar-icon-wrap {
+      transform: scale(1.05);
+    }
+
+    .icon-gradient-blue {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+    }
+
+    .icon-gradient-green {
+      background: linear-gradient(135deg, #059669, #10b981);
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+    }
+
+    .icon-gradient-teal {
+      background: linear-gradient(135deg, #0891b2, #06b6d4);
+      box-shadow: 0 4px 10px rgba(6, 182, 212, 0.25);
+    }
+
+    .icon-gradient-amber {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.25);
+    }
+
+    .icon-gradient-purple {
+      background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+      box-shadow: 0 4px 10px rgba(139, 92, 246, 0.25);
+    }
+
+    .icon-gradient-rose {
+      background: linear-gradient(135deg, #e11d48, #f43f5e);
+      box-shadow: 0 4px 10px rgba(244, 63, 94, 0.25);
+    }
+
+    .icon-gradient-slate {
+      background: linear-gradient(135deg, #475569, #64748b);
+      box-shadow: 0 4px 10px rgba(71, 85, 105, 0.25);
+    }
+
+    .icon-gradient-indigo {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+    }
+
+    .sidebar-label-wrap {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-label-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar-label-sub {
+      font-size: 0.68rem;
+      color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: #f59e0b;
+      color: #ffffff;
+      padding: 0.15rem 0.45rem;
+      border-radius: 9999px;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sidebar-profile-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-profile-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .sidebar-profile-role {
+      font-size: 0.68rem;
+      color: #64748b;
+    }
+
+    /* Main Content */
+    .workspace-main-content {
+      flex: 1;
+      min-width: 0;
+      overflow-y: auto;
+    }
+
+    /* ==========================================================================
+       LIQUID GLASS CARDS SYSTEM
+       ========================================================================== */
+    .card,
+    .kpi-card,
+    .priority-banner,
+    .chart-card {
+      background: rgba(255, 255, 255, 0.72) !important;
+      backdrop-filter: blur(20px) saturate(190%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.88) !important;
+      border-radius: 18px !important;
+      box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.04),
+        0 1px 3px rgba(0, 0, 0, 0.02),
+        inset 0 1px 1px rgba(255, 255, 255, 0.95) !important;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Specular Liquid Edge Highlight */
+    .card::before,
+    .kpi-card::before,
+    .priority-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+      pointer-events: none;
+    }
+
+    .card:hover,
+    .kpi-card:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.84) !important;
+      border-color: rgba(255, 255, 255, 1) !important;
+      box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.08),
+        0 4px 16px rgba(16, 185, 129, 0.08),
+        inset 0 1px 1px #ffffff !important;
+    }
+
+    .priority-banner {
+      border-left: 4px solid var(--warn) !important;
+    }
+
+    .card-header {
+      background: rgba(255, 255, 255, 0.45) !important;
+      backdrop-filter: blur(10px) !important;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.7) !important;
+    }
+
+    .acc-item {
+      border-bottom: 1px solid rgba(226, 232, 240, 0.6) !important;
+    }
+
+    .acc-trigger:hover {
+      background: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .acc-body {
+      background: rgba(248, 250, 252, 0.55) !important;
+      backdrop-filter: blur(10px) !important;
+    }
+
+    .search-input-wrap,
+    .form-select,
+    .rest-select {
+      background: rgba(255, 255, 255, 0.78) !important;
+      backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.9) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02), inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .modal-box {
+      background: rgba(255, 255, 255, 0.92) !important;
+      backdrop-filter: blur(28px) saturate(200%) !important;
+      -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.9) !important;
+      border-radius: 20px !important;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.15), inset 0 1px 1px rgba(255, 255, 255, 1) !important;
+    }
+
+    .sidebar-profile-card {
+      background: rgba(255, 255, 255, 0.6) !important;
+      backdrop-filter: blur(10px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="workspace-wrapper">
+
+    <!-- ==========================================================================
+       1. SIMPLE TOP NAVBAR ("navbar ko simple karo sirf naam likha hona chaiye")
+       ========================================================================== -->
+    <header class="simple-navbar">
+      <div class="simple-navbar-inner">
+
+        <!-- Left: Collapse toggle + Name / Logo -->
+        <div class="navbar-brand-section">
+          <button class="navbar-collapse-btn" id="btnSidebarToggle" type="button" title="Toggle Sidebar"
+            onclick="toggleAppSidebar()">
+            <span class="material-symbols-outlined" id="sidebarToggleIcon" style="font-size:20px;">menu_open</span>
+          </button>
+
+          <a href="/" class="navbar-brand-name">
+            <img src="/static/logo.png" alt="FreshFlow Logo" class="brand-logo-img" style="width:30px;height:30px;border-radius:8px;" />
+            <span>FreshFlow</span>
+            <span class="navbar-ai-chip">AI OS</span>
+          </a>
+
+
+        </div>
+
+        <!-- Right: Active Business Mode & Controls -->
+        <div class="navbar-right-controls">
+
+
+          <select id="restaurantSelect" class="rest-select">
+            <option value="R01">Restaurant A</option>
+            <option value="R02">Restaurant B</option>
+            <option value="all">All Locations</option>
+          </select>
+
+          <button id="btnRunAnalysis" class="btn btn-primary" type="button">
+            <span class="material-symbols-outlined" style="font-size:16px;">refresh</span>
+            Run Analysis
+          </button>
+
+          <a href="/dashboard" class="btn btn-outline" style="text-decoration:none;" title="Executive Radar">
+            <span class="material-symbols-outlined" style="font-size:16px;">monitoring</span>
+          </a>
+
+          <a href="/login" class="btn btn-ghost btn-icon" style="text-decoration:none;" title="Sign Out">
+            <span class="material-symbols-outlined" style="font-size:18px;color:#ef4444;">logout</span>
+          </a>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ==========================================================================
+       2. WORKSPACE LAYOUT: COLORFUL COLLAPSIBLE SIDEBAR + MAIN CONTENT
+       ========================================================================== -->
+    <div class="workspace-layout">
+
+      <!-- COLORFUL COLLAPSIBLE SIDEBAR -->
+      <aside class="colorful-sidebar" id="appSidebar">
+        <div class="sidebar-content-wrap">
+
+          <div
+            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.85rem;padding:0 0.4rem;">
+            <span class="sidebar-section-title" style="padding:0;">Operations Matrix</span>
+            <button class="navbar-collapse-btn" id="btnSidebarCollapseMini" type="button"
+              style="width:26px;height:26px;" onclick="toggleAppSidebar()" title="Collapse / Expand Sidebar">
+              <span class="material-symbols-outlined" id="sidebarMiniIcon" style="font-size:16px;">chevron_left</span>
+            </button>
+          </div>
+
+          <ul class="sidebar-nav-list">
+            <!-- 1. Home / Overview -->
+            <li>
+              <button class="sidebar-nav-item tab-btn active" data-tab="home" type="button"
+                title="Overview & Tomorrow's Plan">
+                <div class="sidebar-icon-wrap icon-gradient-blue">
+                  <span class="material-symbols-outlined" style="font-size:18px;">space_dashboard</span>
+                </div>
+                <div class="sidebar-label-wrap">
+                  <span class="sidebar-label-title">Overview &amp; Plan</span>
+                  <span class="sidebar-label-sub">Daily prep &amp; KPIs</span>
+                </div>
+              </button>
+            </li>
+
+            <!-- 2. Stock Control -->
+            <li>
+              <button class="sidebar-nav-item tab-btn" data-tab="stock" type="button"
+                title="Inventory Stock & Perishables">
+                <div class="sidebar-icon-wrap icon-gradient-green">
+                  <span class="material-symbols-outlined" style="font-size:18px;">inventory_2</span>
+                </div>
+                <div class="sidebar-label-wrap">
+                  <span class="sidebar-label-title">Stock Control</span>
+                  <span class="sidebar-label-sub">Shelf-life &amp; risk</span>
+                </div>
+              </button>
+            </li>
+
+            <!-- 3. Demand Forecast -->
+            <li>
+              <button class="sidebar-nav-item tab-btn" data-tab="forecast" type="button"
+                title="7-Day Dish Demand Forecasting">
+                <div class="sidebar-icon-wrap icon-gradient-teal">
+                  <span class="material-symbols-outlined" style="font-size:18px;">trending_up</span>
+                </div>
+                <div class="sidebar-label-wrap">
+                  <span class="sidebar-label-title">Demand Forecast</span>
+                  <span class="sidebar-label-sub">Quantile ML curves</span>
+                </div>
+              </button>
+            </li>
+
+            <!-- 4. Smart Actions -->
+            <li>
+              <button class="sidebar-nav-item tab-btn" data-tab="actions" type="button"
+                title="Autonomous Actions & Orders">
+                <div class="sidebar-icon-wrap icon-gradient-amber">
+                  <span class="material-symbols-outlined" style="font-size:18px;">bolt</span>
+                </div>
+                <div class="sidebar-label-wrap">
+                  <span class="sidebar-label-title">Smart Actions</span>
+                  <span class="sidebar-label-sub">Prep &amp; PO approvals</span>
+                </div>
+                <span id="pendingActionsBadge" class="sidebar-badge">0</span>
+              </button>
+            </li>
+
+            <!-- 5. Waste Analytics -->
+            <li>
+              <button class="sidebar-nav-item tab-btn" data-tab="analytics" type="button"
+                title="Performance & Waste Analytics">
+                <div class="sidebar-icon-wrap icon-gradient-purple">
+                  <span class="material-symbols-outlined" style="font-size:18px;">donut_large</span>
+                </div>
+                <div class="sidebar-label-wrap">
+                  <span class="sidebar-label-title">Waste Analytics</span>
+                  <span class="sidebar-label-sub">P&amp;L prevention ROI</span>
+                </div>
+              </button>
+            </li>
+
+            <!-- 6. My Account -->
+            <li>
+              <button class="sidebar-nav-item tab-btn" data-tab="account" type="button"
+                title="My Account & Owner Details">
+                <div class="sidebar-icon-wrap icon-gradient-indigo">
+                  <span class="material-symbols-outlined" style="font-size:18px;">manage_accounts</span>
+                </div>
+                <div class="sidebar-label-wrap">
+                  <span class="sidebar-label-title">My Account</span>
+                  <span class="sidebar-label-sub">Owner &amp; Kitchen details</span>
+                </div>
+              </button>
+            </li>
+          </ul>
+
+          <!-- Portals Section -->
+          <div class="sidebar-section-title">Portals &amp; Views</div>
+          <ul class="sidebar-nav-list" style="margin-bottom:1rem;">
+            <li>
+              <a href="/dashboard" class="sidebar-nav-item" style="text-decoration:none;"
+                title="Executive C-Suite Radar">
+                <div class="sidebar-icon-wrap icon-gradient-rose">
+                  <span class="material-symbols-outlined" style="font-size:18px;">analytics</span>
+                </div>
+                <div class="sidebar-label-wrap">
+                  <span class="sidebar-label-title">Executive Radar</span>
+                  <span class="sidebar-label-sub">Live C-Suite view &rarr;</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Sidebar Footer Profile (Clean & Clickable to My Account) -->
+          <div class="sidebar-footer">
+            <div class="sidebar-profile-card" onclick="window.app.switchTab('account')" style="cursor:pointer;"
+              title="Click to view My Account">
+              <div class="sidebar-profile-info">
+                <span class="sidebar-profile-name" id="sidebarProfileName">Restaurant Mode</span>
+                <span class="sidebar-profile-role" id="sidebarProfileRole">Head Chef / Owner</span>
+              </div>
+              <div
+                style="width:26px;height:26px;border-radius:6px;background:rgba(16,185,129,0.12);color:#059669;display:flex;align-items:center;justify-content:center;"
+                title="Active Profile">
+                <span class="material-symbols-outlined" style="font-size:16px;">verified</span>
+              </div>
+            </div>
+
+            <a href="/login" class="sidebar-nav-item" style="padding:0.45rem 0.65rem;text-decoration:none;"
+              title="Sign Out">
+              <div class="sidebar-icon-wrap icon-gradient-slate"
+                style="width:28px;height:28px;min-width:28px;border-radius:7px;">
+                <span class="material-symbols-outlined" style="font-size:15px;">logout</span>
+              </div>
+              <div class="sidebar-label-wrap">
+                <span class="sidebar-label-title" style="font-size:0.78rem;">Sign Out</span>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </aside>
+
+      <!-- ==========================================================================
+         3. MAIN OPERATIONAL WORKSPACE
+         ========================================================================== -->
+      <div class="workspace-main-content">
+        <main class="main-wrap">
+
+          <!-- ======= TAB 1: HOME / OVERVIEW ======= -->
+          <section id="tab-home" class="tab-content active">
+
+            <div class="page-header scroll-reveal">
+              <div>
+                <p
+                  style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:0.25rem;">
+                  Daily Intelligence &nbsp;·&nbsp; <span id="reportAsOfDate">—</span>
+                </p>
+                <h1 class="page-title">Tomorrow's Plan</h1>
+                <p class="page-sub">Planning date: <strong id="reportPlanningDate">—</strong></p>
+              </div>
+              <div class="page-actions">
+                <button id="btnQuickRefresh" class="btn btn-outline" type="button">
+                  <span class="material-symbols-outlined" style="font-size:15px;">refresh</span> Refresh
+                </button>
+                <button class="btn btn-outline" type="button" onclick="window.print()">
+                  <span class="material-symbols-outlined" style="font-size:15px;">ios_share</span> Export
+                </button>
+              </div>
+            </div>
+
+            <!-- KPIs -->
+            <div class="kpi-grid">
+              <div class="kpi-card scroll-reveal delay-1">
+                <div class="kpi-label">Predicted Orders</div>
+                <div id="kpiPredictedOrders" class="kpi-value">—</div>
+                <div class="kpi-foot">
+                  <span>Dish demand forecast</span>
+                  <span class="kpi-trend up">↑ 8.4%</span>
+                </div>
+              </div>
+              <div class="kpi-card scroll-reveal delay-2">
+                <div class="kpi-label">At-Risk Ingredients</div>
+                <div id="kpiIngredientsAtRisk" class="kpi-value danger">—</div>
+                <div class="kpi-foot">
+                  <span>Expiry within 3 days</span>
+                  <span style="color:var(--danger);font-weight:600;">Action needed</span>
+                </div>
+              </div>
+              <div class="kpi-card scroll-reveal delay-3">
+                <div class="kpi-label">Recommended Purchase</div>
+                <div id="kpiPurchaseValue" class="kpi-value">—</div>
+                <div class="kpi-foot">
+                  <span>PO cutoff 07:00 AM</span>
+                  <span>Auto-drafted</span>
+                </div>
+              </div>
+              <div class="kpi-card scroll-reveal delay-4">
+                <div class="kpi-label">Waste Avoided (Est.)</div>
+                <div id="kpiWasteAvoided" class="kpi-value success">—</div>
+                <div class="kpi-foot">
+                  <span>Confidence Index</span>
+                  <span class="kpi-trend up" style="color:var(--success);">94.2%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Priority Recommendation Banner -->
+            <div class="priority-banner scroll-reveal">
+              <div style="flex:1;min-width:0;">
+                <div class="priority-tag">↑ Top Priority Recommendation</div>
+                <div class="priority-title" id="priorityActionTitle">Loading…</div>
+                <div class="priority-sub" id="priorityActionWhy">—</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:1.25rem;flex-shrink:0;flex-wrap:wrap;">
+                <div>
+                  <div
+                    style="font-size:0.67rem;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">
+                    Avoidable Exposure</div>
+                  <div id="priorityActionCost" class="priority-cost">—</div>
+                </div>
+                <button class="btn btn-primary" onclick="window.app.switchTab('actions')" type="button">
+                  Review Actions <span class="material-symbols-outlined" style="font-size:14px;">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Two Column Previews -->
+            <div class="two-col scroll-reveal">
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title">
+                    <span
+                      style="width:7px;height:7px;border-radius:50%;background:var(--danger);display:inline-block;"></span>
+                    Highest Waste Risk
+                  </span>
+                  <button class="card-link" onclick="window.app.switchTab('stock')" type="button">
+                    View All <span class="material-symbols-outlined" style="font-size:13px;">arrow_forward</span>
+                  </button>
+                </div>
+                <div class="acc-list" id="homeRiskList">
+                  <div style="padding:2rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading…</div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title">
+                    <span
+                      style="width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;"></span>
+                    High Demand Dishes
+                  </span>
+                  <button class="card-link" onclick="window.app.switchTab('forecast')" type="button">
+                    View All <span class="material-symbols-outlined" style="font-size:13px;">arrow_forward</span>
+                  </button>
+                </div>
+                <div class="acc-list" id="homeForecastList">
+                  <div style="padding:2rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading…</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hourly Demand Histogram -->
+            <div class="card chart-card scroll-reveal">
+              <div class="card-header">
+                <span class="card-title">Hourly Demand Distribution</span>
+                <span style="font-size:0.72rem;color:var(--text-3);">vs Kitchen Prep Window</span>
+              </div>
+              <div class="chart-bars" id="demandHistogram"></div>
+              <div class="chart-labels" id="demandHistogramLabels"></div>
+            </div>
+
+            <!-- Telemetry Sync -->
+            <div
+              style="display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:1.5rem;"
+              class="scroll-reveal">
+              <div style="display:flex;align-items:center;gap:0.65rem;">
+                <span class="material-symbols-outlined" style="color:var(--text-3);font-size:18px;">terminal</span>
+                <span style="font-size:0.82rem;font-weight:500;color:var(--text-2);">Telemetry Linked: Kitchen Station
+                  01 (R01)</span>
+              </div>
+              <span style="font-size:0.72rem;color:var(--text-3);">Sync: 15s</span>
+            </div>
+
+            <div class="disclaimer scroll-reveal" id="reportNoteText">
+              <strong>Estimated, not verified.</strong> Based on telemetry data and verified ML quantile models.
+            </div>
+          </section>
+
+
+          <!-- ======= TAB 2: STOCK & INVENTORY ======= -->
+          <section id="tab-stock" class="tab-content">
+            <div class="page-header scroll-reveal">
+              <div>
+                <h1 class="page-title">Stock &amp; Expiry</h1>
+                <p class="page-sub">Risk-scored closing stock and shelf-life tracker</p>
+              </div>
+              <div class="page-actions">
+                <button class="btn btn-outline" onclick="window.app.openModal('modalAddStock')" type="button">
+                  <span class="material-symbols-outlined" style="font-size:15px;">add_box</span> Add Stock
+                </button>
+                <button class="btn btn-danger-outline" onclick="window.app.openModal('modalRecordWaste')" type="button">
+                  <span class="material-symbols-outlined" style="font-size:15px;">delete</span> Log Waste
+                </button>
+              </div>
+            </div>
+
+            <div class="filter-row scroll-reveal">
+              <div class="search-input-wrap">
+                <span class="material-symbols-outlined" style="font-size:16px;color:var(--text-4);">search</span>
+                <input id="inventorySearch" type="text" placeholder="Search ingredient…" />
+              </div>
+              <select id="inventoryCategoryFilter" class="form-select">
+                <option value="all">All Categories</option>
+                <option value="Dairy">Dairy</option>
+                <option value="Produce">Produce</option>
+                <option value="Dry">Dry Goods</option>
+              </select>
+              <select id="inventoryRiskFilter" class="form-select">
+                <option value="all">All Risk Levels</option>
+                <option value="High">High Risk</option>
+                <option value="Medium">Medium Risk</option>
+                <option value="Low">Low Risk</option>
+              </select>
+            </div>
+
+            <div class="card scroll-reveal">
+              <div class="card-header">
+                <span class="card-title">Inventory — <span id="stockCountLabel"
+                    style="color:var(--text-3);font-weight:400;">all items</span></span>
+              </div>
+              <div class="acc-list" id="inventoryAccList">
+                <div style="padding:2.5rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading stock
+                  balances…</div>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- ======= TAB 3: DEMAND FORECAST ======= -->
+          <section id="tab-forecast" class="tab-content">
+            <div class="page-header scroll-reveal">
+              <div>
+                <h1 class="page-title">Demand &amp; Prep Forecast</h1>
+                <p class="page-sub">Poisson + Quantile Regressor · 80% confidence intervals</p>
+              </div>
+              <div class="page-actions">
+                <button class="btn btn-outline" onclick="window.app.toggleSimulator()" type="button">
+                  <span class="material-symbols-outlined" style="font-size:15px;">tune</span> What-If Simulator
+                </button>
+              </div>
+            </div>
+
+            <!-- Simulator Card -->
+            <div id="simulatorCard" class="card section-gap" style="display:none;margin-bottom:1.5rem;">
+              <div class="card-header">
+                <span class="card-title">
+                  <span class="material-symbols-outlined" style="font-size:16px;color:var(--text-3);">psychology</span>
+                  What-If Demand Simulator
+                </span>
+                <button class="btn btn-ghost btn-sm" onclick="window.app.toggleSimulator()" type="button">Close</button>
+              </div>
+              <div style="padding:1.25rem;">
+                <div
+                  style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:0.85rem;margin-bottom:1rem;">
+                  <div class="form-group">
+                    <label class="form-label">Restaurant</label>
+                    <select id="simRestId" class="form-select-full">
+                      <option value="R01">Restaurant A</option>
+                      <option value="R02">Restaurant B</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Dish</label>
+                    <select id="simDishId" class="form-select-full">
+                      <option value="D01">Paneer Tikka</option>
+                      <option value="D02">Dal Makhani</option>
+                      <option value="D03">Veg Biryani</option>
+                      <option value="D04">Butter Naan</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Target Date</label>
+                    <input id="simDate" type="date" value="2026-01-01" class="form-input" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Selling Price (₹)</label>
+                    <input id="simPrice" type="number" placeholder="Default list price" class="form-input" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Avg Temp (°C)</label>
+                    <input id="simTemp" type="number" value="24.0" step="0.5" class="form-input" />
+                  </div>
+                </div>
+                <button class="btn btn-primary" onclick="window.app.runSimulation()" type="button">Run
+                  Simulation</button>
+                <div id="simResultBox" style="margin-top:1rem;display:none;"></div>
+              </div>
+            </div>
+
+            <div class="filter-row scroll-reveal">
+              <select id="forecastCategoryFilter" class="form-select">
+                <option value="all">All Categories</option>
+                <option value="Starters">Starters</option>
+                <option value="Mains">Mains</option>
+                <option value="Breads">Breads</option>
+              </select>
+            </div>
+
+            <div class="card scroll-reveal">
+              <div class="card-header">
+                <span class="card-title">Dish Demand — Next 7 Days</span>
+                <span style="font-size:0.72rem;color:var(--text-3);">Click any row to expand prep details</span>
+              </div>
+              <div class="acc-list" id="forecastAccList">
+                <div style="padding:2.5rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading forecasts…
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- ======= TAB 4: SMART ACTIONS ======= -->
+          <section id="tab-actions" class="tab-content">
+            <div class="page-header scroll-reveal">
+              <div>
+                <h1 class="page-title">Smart Actions &amp; Orders</h1>
+                <p class="page-sub">Auto-synthesized kitchen prep schedules and supplier purchase orders</p>
+              </div>
+            </div>
+
+            <div class="filter-row scroll-reveal">
+              <select id="actionTypeFilter" class="form-select">
+                <option value="all">All Types</option>
+                <option value="Purchase">Purchase Orders</option>
+                <option value="Prep">Kitchen Prep</option>
+                <option value="Promo">Promotions</option>
+              </select>
+              <select id="actionStatusFilter" class="form-select">
+                <option value="all">All Statuses</option>
+                <option value="Pending">Pending Approval</option>
+                <option value="Approved">Approved</option>
+                <option value="Dismissed">Dismissed</option>
+              </select>
+            </div>
+
+            <div class="card scroll-reveal">
+              <div class="card-header">
+                <span class="card-title">Action Feed</span>
+              </div>
+              <div class="acc-list" id="actionsList">
+                <div style="padding:2.5rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading recommended
+                  actions…</div>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- ======= TAB 5: WASTE ANALYTICS ======= -->
+          <section id="tab-analytics" class="tab-content">
+            <div class="page-header scroll-reveal">
+              <div>
+                <h1 class="page-title">Waste Analytics &amp; ROI</h1>
+                <p class="page-sub">Operational waste classification and prevention benchmarks</p>
+              </div>
+            </div>
+
+            <div class="kpi-grid">
+              <div class="kpi-card scroll-reveal delay-1">
+                <div class="kpi-label">Month-to-Date Waste</div>
+                <div id="analyticsMtdWaste" class="kpi-value danger">—</div>
+                <div class="kpi-foot"><span>Recorded loss</span><span class="kpi-trend down">↓ 12% vs last mo</span>
+                </div>
+              </div>
+              <div class="kpi-card scroll-reveal delay-2">
+                <div class="kpi-label">Waste Avoided (Est.)</div>
+                <div id="analyticsAvoided" class="kpi-value success">—</div>
+                <div class="kpi-foot"><span>Via proactive actions</span><span class="kpi-trend up">↑ High ROI</span>
+                </div>
+              </div>
+              <div class="kpi-card scroll-reveal delay-3">
+                <div class="kpi-label">Forecast Accuracy</div>
+                <div id="analyticsAccuracy" class="kpi-value">—</div>
+                <div class="kpi-foot"><span>Weighted MAPE</span><span>94.8%</span></div>
+              </div>
+            </div>
+
+            <div class="two-col scroll-reveal">
+              <div class="card">
+                <div class="card-header"><span class="card-title">Waste by Reason</span></div>
+                <div class="acc-list" id="wasteReasonList">
+                  <div style="padding:2rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading…</div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header"><span class="card-title">Top Wasted Ingredients</span></div>
+                <div class="acc-list" id="wasteIngAccList">
+                  <div style="padding:2rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading…</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card scroll-reveal" style="margin-top:1.5rem;">
+              <div class="card-header">
+                <span class="card-title">30-Day Demand History</span>
+                <span style="font-size:0.72rem;color:var(--text-3);">Day-of-week seasonality</span>
+              </div>
+              <div class="trend-wrap" id="demandTrendChart">
+                <div style="color:var(--text-3);font-size:0.82rem;text-align:center;width:100%;padding:1rem;">Loading…
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ======= TAB 6: MY ACCOUNT & OWNER DETAILS ======= -->
+          <section id="tab-account" class="tab-content" style="display:none;">
+
+            <div class="page-header scroll-reveal">
+              <div>
+                <h1 class="page-title">My Account &amp; Establishment Details</h1>
+                <p class="page-sub">Manage owner profile, food licensing, outlet credentials, and operational
+                  preferences.</p>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.75rem;">
+
+                <button type="button" class="btn btn-primary" onclick="saveOwnerAccountDetails()"
+                  style="display:inline-flex;align-items:center;gap:0.4rem;">
+                  <span class="material-symbols-outlined" style="font-size:17px;">save</span>
+                  <span>Save Details</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Account Top Overview Banner -->
+            <div class="card scroll-reveal"
+              style="padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
+              <div style="display:flex;align-items:center;gap:1.25rem;">
+                <div
+                  style="width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg, #4f46e5, #6366f1);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 8px 20px rgba(79,70,229,0.3);flex-shrink:0;">
+                  <span class="material-symbols-outlined" style="font-size:32px;">storefront</span>
+                </div>
+                <div>
+                  <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.25rem;">
+                    <h2 id="overviewEstablishmentName"
+                      style="font-size:1.25rem;font-weight:700;color:var(--text-1);margin:0;">FreshFlow Cloud Kitchen
+                    </h2>
+                    <span
+                      style="font-size:0.72rem;font-weight:700;background:rgba(16,185,129,0.12);color:#059669;padding:0.18rem 0.55rem;border-radius:9999px;display:inline-flex;align-items:center;gap:0.25rem;">
+                      <span class="material-symbols-outlined" style="font-size:13px;">verified</span> Verified Outlet
+                    </span>
+                  </div>
+                  <div style="font-size:0.8rem;color:var(--text-3);display:flex;gap:1.25rem;flex-wrap:wrap;">
+                    <span>Owner: <strong id="overviewOwnerName" style="color:var(--text-2);">Vikram
+                        Sharma</strong></span>
+                    <span>Role: <strong id="overviewOwnerRole" style="color:var(--text-2);">Head Chef /
+                        Owner</strong></span>
+                    <span>Station: <strong id="overviewStationCode"
+                        style="color:var(--text-2);">BLR-CK-01</strong></span>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.75rem;">
+                <button type="button" class="btn btn-outline btn-sm" onclick="loadOwnerAccountDetails()"
+                  style="display:inline-flex;align-items:center;gap:0.35rem;">
+                  <span class="material-symbols-outlined" style="font-size:15px;">restart_alt</span> Reset
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="saveOwnerAccountDetails()"
+                  style="display:inline-flex;align-items:center;gap:0.35rem;">
+                  <span class="material-symbols-outlined" style="font-size:15px;">check</span> Save Changes
+                </button>
+              </div>
+            </div>
+
+            <!-- Two-Column Form Layout -->
+            <div class="two-col scroll-reveal">
+
+              <!-- LEFT CARD: Establishment Profile & Government Compliance -->
+              <div class="card" style="padding:1.5rem;">
+                <div class="card-header" style="margin-bottom:1.25rem;padding:0;border:none;">
+                  <div style="display:flex;align-items:center;gap:0.6rem;">
+                    <div class="sidebar-icon-wrap icon-gradient-blue"
+                      style="width:32px;height:32px;min-width:32px;border-radius:8px;">
+                      <span class="material-symbols-outlined" style="font-size:16px;">domain</span>
+                    </div>
+                    <div>
+                      <div class="card-title" style="font-size:1rem;">Establishment Credentials</div>
+                      <div style="font-size:0.75rem;color:var(--text-3);">Business mode, FSSAI license &amp; location
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:1.1rem;">
+                  <!-- Read-only Onboarding Business Choice -->
+                  <div class="form-group">
+                    <label class="form-label" style="display:flex;align-items:center;justify-content:space-between;">
+                      <span>Business Type (Configured at Login)</span>
+                      <span
+                        style="font-size:0.7rem;color:#059669;font-weight:700;display:inline-flex;align-items:center;gap:0.2rem;">
+                        <span class="material-symbols-outlined" style="font-size:13px;">lock</span> Selected at
+                        Onboarding
+                      </span>
+                    </label>
+                    <div
+                      style="display:flex;align-items:center;gap:0.5rem;background:rgba(241,245,249,0.8);border:1px solid rgba(203,213,225,0.7);border-radius:10px;padding:0.6rem 0.85rem;">
+                      <span class="material-symbols-outlined" id="accFormKitchenIcon"
+                        style="font-size:18px;color:#10b981;">restaurant</span>
+                      <input type="text" id="accBusinessTypeName" readonly value="Restaurant &amp; Dine-In"
+                        style="border:none;background:transparent;outline:none;font-size:0.85rem;font-weight:700;color:#1e293b;width:100%;cursor:not-allowed;" />
+                    </div>
+                    <span style="font-size:0.7rem;color:var(--text-4);">Selected once during login. Operational
+                      forecasting adapts dynamically to this profile.</span>
+                  </div>
+
+                  <!-- Establishment Name -->
+                  <div class="form-group">
+                    <label class="form-label" for="accEstablishmentName">Restaurant / Kitchen Name</label>
+                    <input type="text" id="accEstablishmentName" class="form-input"
+                      placeholder="e.g. Urban Flavors Cloud Kitchen" value="Urban Flavors Kitchen"
+                      style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                  </div>
+
+                  <!-- Outlet / Branch Code & Daily Capacity -->
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                    <div class="form-group">
+                      <label class="form-label" for="accOutletCode">Outlet / Station ID</label>
+                      <input type="text" id="accOutletCode" class="form-input" placeholder="e.g. BLR-CK-01"
+                        value="BLR-CK-01" style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="accTargetOrders">Daily Order Target</label>
+                      <input type="number" id="accTargetOrders" class="form-input" placeholder="350" value="350"
+                        style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                    </div>
+                  </div>
+
+                  <!-- FSSAI License & GST -->
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                    <div class="form-group">
+                      <label class="form-label" for="accFssaiNumber">FSSAI License No.</label>
+                      <input type="text" id="accFssaiNumber" class="form-input" placeholder="14-digit FSSAI"
+                        value="11224001000842" style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="accGstNumber">GSTIN / Tax ID</label>
+                      <input type="text" id="accGstNumber" class="form-input" placeholder="GSTIN"
+                        value="29ABCDE1234F1Z5" style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                    </div>
+                  </div>
+
+                  <!-- Physical Kitchen Address -->
+                  <div class="form-group">
+                    <label class="form-label" for="accAddress">Kitchen / Physical Address</label>
+                    <textarea id="accAddress" class="form-input" rows="3" placeholder="Full address..."
+                      style="height:auto;padding:0.6rem 0.75rem;border-radius:10px;font-size:0.85rem;resize:vertical;">Plot 42, 4th Main, 100 Feet Road, Indiranagar, Bengaluru, Karnataka - 560038</textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RIGHT CARD: Owner & Operator Details -->
+              <div class="card" style="padding:1.5rem;">
+                <div class="card-header" style="margin-bottom:1.25rem;padding:0;border:none;">
+                  <div style="display:flex;align-items:center;gap:0.6rem;">
+                    <div class="sidebar-icon-wrap icon-gradient-indigo"
+                      style="width:32px;height:32px;min-width:32px;border-radius:8px;">
+                      <span class="material-symbols-outlined" style="font-size:16px;">badge</span>
+                    </div>
+                    <div>
+                      <div class="card-title" style="font-size:1rem;">Owner &amp; Operator Details</div>
+                      <div style="font-size:0.75rem;color:var(--text-3);">Personal contact and role in kitchen</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:1.1rem;">
+                  <!-- Owner Full Name -->
+                  <div class="form-group">
+                    <label class="form-label" for="accOwnerName">Owner / Head Chef Full Name</label>
+                    <input type="text" id="accOwnerName" class="form-input" placeholder="e.g. Vikram Sharma"
+                      value="Vikram Sharma" style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                  </div>
+
+                  <!-- Role / Title -->
+                  <div class="form-group">
+                    <label class="form-label" for="accOwnerRole">Designation / Operational Role</label>
+                    <input type="text" id="accOwnerRole" class="form-input" placeholder="e.g. Head Chef &amp; Owner"
+                      value="Head Chef &amp; Owner" style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                  </div>
+
+                  <!-- Official Email -->
+                  <div class="form-group">
+                    <label class="form-label" for="accOwnerEmail">Work / Notification Email</label>
+                    <input type="email" id="accOwnerEmail" class="form-input" placeholder="owner@restaurant.com"
+                      value="admin@freshflow.ai" style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                  </div>
+
+                  <!-- Contact Phone & WhatsApp -->
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                    <div class="form-group">
+                      <label class="form-label" for="accOwnerPhone">Mobile / WhatsApp</label>
+                      <input type="tel" id="accOwnerPhone" class="form-input" placeholder="+91 98765 43210"
+                        value="+91 98765 43210" style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="accEmergencyPhone">Emergency Kitchen Tel</label>
+                      <input type="tel" id="accEmergencyPhone" class="form-input" placeholder="+91 91234 56789"
+                        value="+91 91234 56789" style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                    </div>
+                  </div>
+
+                  <!-- Operating Hours & Currency -->
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                    <div class="form-group">
+                      <label class="form-label" for="accOperatingHours">Operating Hours</label>
+                      <input type="text" id="accOperatingHours" class="form-input" placeholder="11:00 AM - 11:30 PM"
+                        value="11:00 AM - 11:30 PM" style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="accCurrency">Base Currency</label>
+                      <select id="accCurrency" class="form-select-full"
+                        style="height:40px;border-radius:10px;font-size:0.85rem;">
+                        <option value="INR" selected>₹ INR (Indian Rupee)</option>
+                        <option value="USD">$ USD (US Dollar)</option>
+                        <option value="EUR">€ EUR (Euro)</option>
+                        <option value="GBP">£ GBP (British Pound)</option>
+                        <option value="AED">AED (UAE Dirham)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Save Action Strip -->
+            <div class="card scroll-reveal"
+              style="margin-top:1.5rem;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:rgba(255,255,255,0.85)!important;">
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;color:var(--text-3);">
+                <span class="material-symbols-outlined" style="font-size:18px;color:#10b981;">check_circle</span>
+                <span>Profile details are saved locally in your browser and automatically update your operations
+                  identity.</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.75rem;">
+                <button type="button" class="btn btn-outline" onclick="loadOwnerAccountDetails()">
+                  Reset Form
+                </button>
+                <button type="button" class="btn btn-primary" onclick="saveOwnerAccountDetails()"
+                  style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.6rem 1.4rem;">
+                  <span class="material-symbols-outlined" style="font-size:17px;">save</span>
+                  <span>Save Account Details</span>
+                </button>
+              </div>
+            </div>
+
+          </section>
+
+        </main>
+
+        <!-- Site Footer -->
+        <footer class="site-footer">
+          <div class="footer-inner">
+            <span>FreshFlow OS v2.4.0 · Operational Food Intelligence</span>
+            <span style="display:flex;align-items:center;gap:0.5rem;">
+              <span
+                style="width:6px;height:6px;border-radius:50%;background:var(--success);display:inline-block;"></span>
+              Sync Engine Operational · © 2026 FreshFlow
+            </span>
+          </div>
+        </footer>
+
+      </div> <!-- /.workspace-main-content -->
+    </div> <!-- /.workspace-layout -->
+  </div> <!-- /.workspace-wrapper -->
+
+
+  <!-- ==========================================================================
+     MODALS
+     ========================================================================== -->
+  <div id="modalAddStock" class="modal-backdrop" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">Add Stock / Receive Delivery</span>
+        <button class="btn btn-ghost btn-icon btn-sm" onclick="window.app.closeModal('modalAddStock')"
+          type="button">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Restaurant</label>
+          <select id="modalAddStockRest" class="form-select-full">
+            <option value="R01">Restaurant A (R01)</option>
+            <option value="R02">Restaurant B (R02)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ingredient</label>
+          <select id="modalAddStockIng" class="form-select-full"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Quantity Added</label>
+          <input id="modalAddStockQty" type="number" min="0.1" step="0.5" value="5.0" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Days to Expiry (optional)</label>
+          <input id="modalAddStockExp" type="number" placeholder="e.g. 7" class="form-input" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="window.app.closeModal('modalAddStock')" type="button">Cancel</button>
+        <button class="btn btn-primary" onclick="window.app.submitAddStock()" type="button">Confirm Stock</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalRecordWaste" class="modal-backdrop" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">Record Waste Event</span>
+        <button class="btn btn-ghost btn-icon btn-sm" onclick="window.app.closeModal('modalRecordWaste')"
+          type="button">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Restaurant</label>
+          <select id="modalWasteRest" class="form-select-full">
+            <option value="R01">Restaurant A (R01)</option>
+            <option value="R02">Restaurant B (R02)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ingredient</label>
+          <select id="modalWasteIng" class="form-select-full"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Discard Quantity</label>
+          <input id="modalWasteQty" type="number" min="0.1" step="0.1" value="1.0" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reason</label>
+          <select id="modalWasteReason" class="form-select-full">
+            <option value="expired">Batch Expired</option>
+            <option value="spoilage">Chiller Spoilage</option>
+            <option value="over-prep">Over-preparation</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notes (optional)</label>
+          <input id="modalWasteNotes" type="text" placeholder="e.g. Past shelf life in walk-in" class="form-input" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="window.app.closeModal('modalRecordWaste')" type="button">Cancel</button>
+        <button class="btn btn-danger-outline" onclick="window.app.submitRecordWaste()"
+          style="background:var(--danger);color:#fff;border-color:transparent;" type="button">Log Waste</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" style="display:none;"></div>
+
+  <!-- Core Dashboard Engine -->
+  <script src="/static/app.js"></script>
+
+  <script>
+    // Sidebar Toggle Controller
+    function toggleAppSidebar() {
+      const sidebar = document.getElementById('appSidebar');
+      const toggleIcon = document.getElementById('sidebarToggleIcon');
+      const miniIcon = document.getElementById('sidebarMiniIcon');
+      if (!sidebar) return;
+
+      const isCollapsed = sidebar.classList.toggle('collapsed');
+      localStorage.setItem('freshflow_sidebar_collapsed', isCollapsed ? '1' : '0');
+
+      if (toggleIcon) toggleIcon.textContent = isCollapsed ? 'menu' : 'menu_open';
+      if (miniIcon) miniIcon.textContent = isCollapsed ? 'chevron_right' : 'chevron_left';
+    }
+
+    // Owner Account & Establishment Profile Logic
+    function loadOwnerAccountDetails() {
+      const profileKey = 'freshflow_owner_profile';
+      let data = {};
+      try {
+        const saved = localStorage.getItem(profileKey);
+        if (saved) data = JSON.parse(saved);
+      } catch (e) {
+        console.warn('Failed parsing owner profile:', e);
+      }
+
+      const kitchenType = localStorage.getItem('freshflow_kitchen_type') || 'restaurant';
+      const kitchenName = localStorage.getItem('freshflow_kitchen_name') || 'Restaurant & Dine-In';
+      const icons = { hotel: 'hotel', restaurant: 'restaurant', hostelmess: 'apartment', cloudkitchen: 'cloud_queue' };
+
+      // Set business mode badge & readonly name
+      const badgeEl = document.getElementById('accountModeBadge');
+      const iconEl = document.getElementById('accountModeIcon');
+      const formIconEl = document.getElementById('accFormKitchenIcon');
+      const formNameEl = document.getElementById('accBusinessTypeName');
+      if (badgeEl) badgeEl.textContent = `${kitchenName} (Locked)`;
+      if (iconEl) iconEl.textContent = icons[kitchenType] || 'restaurant';
+      if (formIconEl) formIconEl.textContent = icons[kitchenType] || 'restaurant';
+      if (formNameEl) formNameEl.value = kitchenName;
+
+      // Default values tailored to business type if not yet saved
+      const defaultEstablishments = {
+        cloudkitchen: 'Urban Spice Cloud Kitchen',
+        hotel: 'Grand Imperial Dining & Banquets',
+        hostelmess: 'Campus Central Dining Hall',
+        restaurant: 'The Urban Bistro & Dine-In'
+      };
+
+      const estName = data.establishmentName || defaultEstablishments[kitchenType] || 'FreshFlow Operations Outlet';
+      const ownerName = data.ownerName || 'Vikram Sharma';
+      const ownerRole = data.ownerRole || 'Head Chef & Owner';
+      const outletCode = data.outletCode || (kitchenType === 'cloudkitchen' ? 'BLR-CK-01' : 'HQ-REST-01');
+      const targetOrders = data.targetOrders || '350';
+      const fssai = data.fssai || '11224001000842';
+      const gst = data.gst || '29ABCDE1234F1Z5';
+      const address = data.address || 'Plot 42, 4th Main, 100 Feet Road, Indiranagar, Bengaluru, Karnataka - 560038';
+      const email = data.email || 'admin@freshflow.ai';
+      const phone = data.phone || '+91 98765 43210';
+      const emergencyPhone = data.emergencyPhone || '+91 91234 56789';
+      const hours = data.hours || '11:00 AM - 11:30 PM';
+      const currency = data.currency || 'INR';
+
+      if (document.getElementById('accEstablishmentName')) document.getElementById('accEstablishmentName').value = estName;
+      if (document.getElementById('accOwnerName')) document.getElementById('accOwnerName').value = ownerName;
+      if (document.getElementById('accOwnerRole')) document.getElementById('accOwnerRole').value = ownerRole;
+      if (document.getElementById('accOutletCode')) document.getElementById('accOutletCode').value = outletCode;
+      if (document.getElementById('accTargetOrders')) document.getElementById('accTargetOrders').value = targetOrders;
+      if (document.getElementById('accFssaiNumber')) document.getElementById('accFssaiNumber').value = fssai;
+      if (document.getElementById('accGstNumber')) document.getElementById('accGstNumber').value = gst;
+      if (document.getElementById('accAddress')) document.getElementById('accAddress').value = address;
+      if (document.getElementById('accOwnerEmail')) document.getElementById('accOwnerEmail').value = email;
+      if (document.getElementById('accOwnerPhone')) document.getElementById('accOwnerPhone').value = phone;
+      if (document.getElementById('accEmergencyPhone')) document.getElementById('accEmergencyPhone').value = emergencyPhone;
+      if (document.getElementById('accOperatingHours')) document.getElementById('accOperatingHours').value = hours;
+      if (document.getElementById('accCurrency')) document.getElementById('accCurrency').value = currency;
+
+      // Update overview summary banner
+      if (document.getElementById('overviewEstablishmentName')) document.getElementById('overviewEstablishmentName').textContent = estName;
+      if (document.getElementById('overviewOwnerName')) document.getElementById('overviewOwnerName').textContent = ownerName;
+      if (document.getElementById('overviewOwnerRole')) document.getElementById('overviewOwnerRole').textContent = ownerRole;
+      if (document.getElementById('overviewStationCode')) document.getElementById('overviewStationCode').textContent = outletCode;
+
+      // Update sidebar footer profile card with owner details
+      const sideName = document.getElementById('sidebarProfileName');
+      const sideRole = document.getElementById('sidebarProfileRole');
+      if (sideName) sideName.textContent = ownerName || estName;
+      if (sideRole) sideRole.textContent = `${ownerRole} · ${kitchenName.split(' ')[0]}`;
+    }
+
+    function saveOwnerAccountDetails() {
+      const data = {
+        establishmentName: document.getElementById('accEstablishmentName')?.value.trim() || 'Urban Flavors Kitchen',
+        ownerName: document.getElementById('accOwnerName')?.value.trim() || 'Vikram Sharma',
+        ownerRole: document.getElementById('accOwnerRole')?.value.trim() || 'Head Chef & Owner',
+        outletCode: document.getElementById('accOutletCode')?.value.trim() || 'BLR-CK-01',
+        targetOrders: document.getElementById('accTargetOrders')?.value.trim() || '350',
+        fssai: document.getElementById('accFssaiNumber')?.value.trim() || '11224001000842',
+        gst: document.getElementById('accGstNumber')?.value.trim() || '29ABCDE1234F1Z5',
+        address: document.getElementById('accAddress')?.value.trim() || '',
+        email: document.getElementById('accOwnerEmail')?.value.trim() || 'admin@freshflow.ai',
+        phone: document.getElementById('accOwnerPhone')?.value.trim() || '',
+        emergencyPhone: document.getElementById('accEmergencyPhone')?.value.trim() || '',
+        hours: document.getElementById('accOperatingHours')?.value.trim() || '',
+        currency: document.getElementById('accCurrency')?.value || 'INR',
+        savedAt: new Date().toISOString()
+      };
+
+      localStorage.setItem('freshflow_owner_profile', JSON.stringify(data));
+      loadOwnerAccountDetails();
+
+      if (window.app && window.app.showToast) {
+        window.app.showToast('✓ Owner & establishment details saved successfully!');
+      } else {
+        alert('✓ Owner & establishment details saved successfully!');
+      }
+    }
+
+    // Restore saved preferences
+    window.addEventListener('DOMContentLoaded', () => {
+      // Restore sidebar state
+      if (localStorage.getItem('freshflow_sidebar_collapsed') === '1') {
+        const sidebar = document.getElementById('appSidebar');
+        if (sidebar) sidebar.classList.add('collapsed');
+        const toggleIcon = document.getElementById('sidebarToggleIcon');
+        const miniIcon = document.getElementById('sidebarMiniIcon');
+        if (toggleIcon) toggleIcon.textContent = 'menu';
+        if (miniIcon) miniIcon.textContent = 'chevron_right';
+      }
+
+      // Restore kitchen profile
+      const type = localStorage.getItem('freshflow_kitchen_type') || 'restaurant';
+      const name = localStorage.getItem('freshflow_kitchen_name') || 'Restaurant & Dine-In';
+      const icons = { hotel: 'hotel', restaurant: 'restaurant', hostelmess: 'apartment', cloudkitchen: 'cloud_queue' };
+
+      const navName = document.getElementById('navbarKitchenName');
+      const navIcon = document.getElementById('navbarKitchenIcon');
+
+      if (navName) navName.textContent = name;
+      if (navIcon) navIcon.textContent = icons[type] || 'restaurant';
+
+      // Load Owner details into sidebar and account form
+      loadOwnerAccountDetails();
+
+      // Instantiate dashboard engine
+      if (window.FreshFlowApp) {
+        window.app = new FreshFlowApp();
+      }
+    });
+  </script>
+
+</body>
+
+</html>

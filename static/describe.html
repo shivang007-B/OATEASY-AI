@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FreshFlow — Select Business Type</title>
+  <meta name="description" content="Select what best describes your business: Hotel, Restaurant, Hostel / Mess, or Cloud Kitchen to tune your AI forecasting models."/>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <link href="/static/styles.css?v=2.4" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="/static/logo.png"/>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: url('/static/bg.png') no-repeat center center fixed !important;
+      background-size: cover !important;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Minimal Header */
+    .onboarding-nav {
+      height: 64px;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: #0f172a;
+    }
+    .brand-icon-box {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+    }
+    .brand-logo-img {
+      width: 34px; height: 34px; object-fit: contain; border-radius: 9px;
+      background: #ffffff; padding: 2px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+      display: block;
+    }
+    .brand-title {
+      font-size: 1.15rem; font-weight: 800; letter-spacing: -0.03em;
+    }
+
+    /* Main Container */
+    .onboarding-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+    .onboarding-container {
+      max-width: 880px;
+      width: 100%;
+    }
+    .onboarding-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #2563eb;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 0.3rem 0.85rem;
+      border-radius: 9999px;
+      margin-bottom: 0.85rem;
+    }
+    .onboarding-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      color: #0f172a;
+      margin-bottom: 0.65rem;
+    }
+    .onboarding-subtitle {
+      font-size: 0.98rem;
+      color: #64748b;
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+
+    /* 4-Cards Grid */
+    .business-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .business-card {
+      background: rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 1.65rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+    }
+    .business-card:hover {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+    }
+    .business-card.selected {
+      border-color: #10b981;
+      background: rgba(240, 253, 244, 0.88);
+      box-shadow: 0 0 0 2px #10b981, 0 16px 36px rgba(16, 185, 129, 0.16);
+    }
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.15rem;
+    }
+    .icon-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+    .radio-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      background: #ffffff;
+    }
+    .business-card.selected .radio-circle {
+      border-color: #10b981;
+      background: #10b981;
+      color: #ffffff;
+    }
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.45rem;
+      letter-spacing: -0.02em;
+    }
+    .card-desc {
+      font-size: 0.86rem;
+      color: #64748b;
+      line-height: 1.55;
+      margin-bottom: 1.1rem;
+      flex: 1;
+    }
+    .card-meta {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #059669;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(16, 185, 129, 0.08);
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      align-self: flex-start;
+    }
+
+    /* Gradients */
+    .bg-blue   { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
+    .bg-green  { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
+    .bg-amber  { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+    .bg-purple { background: linear-gradient(135deg, #ede9fe, #ddd6fe); }
+
+    /* Actions Bar */
+    .onboarding-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .btn-action-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      padding: 0.85rem 1.6rem;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .btn-action-back:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .btn-action-continue {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      padding: 0.85rem 2rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+      transition: all 0.2s;
+    }
+    .btn-action-continue:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.28);
+    }
+
+    @media (max-width: 768px) {
+      .business-grid { grid-template-columns: 1fr; }
+      .onboarding-title { font-size: 1.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Simple Navigation -->
+  <header class="onboarding-nav">
+    <a href="/landing" class="brand-group">
+      <img src="/static/logo.png" alt="FreshFlow Logo" class="brand-logo-img" />
+      <span class="brand-title">FreshFlow AI</span>
+    </a>
+    <a href="/landing" style="font-size:0.85rem;color:#64748b;text-decoration:none;display:flex;align-items:center;gap:0.3rem;">
+      <span class="material-symbols-outlined" style="font-size:16px;">close</span> Exit to Landing
+    </a>
+  </header>
+
+  <!-- Main Selection Area -->
+  <main class="onboarding-main">
+    <div class="onboarding-container">
+
+      <div class="onboarding-header">
+        <div class="step-pill">
+          <span class="material-symbols-outlined" style="font-size:14px;">tune</span>
+          Step 1 of 2: Food Operations Profile
+        </div>
+        <h1 class="onboarding-title">What best describes your business?</h1>
+        <p class="onboarding-subtitle">
+          FreshFlow dynamically tunes demand forecasting algorithms, safety stock buffers, and daily kitchen prep schedules for your specific operating model.
+        </p>
+      </div>
+
+      <!-- 4 Selectable Business Types -->
+      <div class="business-grid" id="businessGrid">
+        
+        <!-- 1. Hotel & Resort -->
+        <div class="business-card" data-type="hotel" data-name="Hotel & Resort Dining" onclick="selectBusiness('hotel', 'Hotel & Resort Dining')">
+          <div class="card-top">
+            <div class="icon-badge bg-blue">🏨</div>
+            <div class="radio-circle">
+              <span class="material-symbols-outlined" style="font-size:15px;">check</span>
+            </div>
+          </div>
+          <h2 class="card-title">Hotel</h2>
+          <p class="card-desc">
+            Multi-outlet dining, banquet halls, breakfast buffets, and centralized cold storerooms with cross-department pantry transfers.
+          </p>
+          <div class="card-meta">
+            <span class="material-symbols-outlined" style="font-size:15px;">verified</span>
+            Multi-Department Bulk Storage
+          </div>
+        </div>
+
+        <!-- 2. Restaurant & Dine-In (Default Selected) -->
+        <div class="business-card selected" data-type="restaurant" data-name="Restaurant & Dine-In" onclick="selectBusiness('restaurant', 'Restaurant & Dine-In')">
+          <div class="card-top">
+            <div class="icon-badge bg-green">🍽️</div>
+            <div class="radio-circle">
+              <span class="material-symbols-outlined" style="font-size:15px;">check</span>
+            </div>
+          </div>
+          <h2 class="card-title">Restaurant</h2>
+          <p class="card-desc">
+            Casual and fine dining restaurants with dynamic lunch/dinner rushes, table turnover velocity, and fresh daily ingredient prep.
+          </p>
+          <div class="card-meta">
+            <span class="material-symbols-outlined" style="font-size:15px;">verified</span>
+            Table Turns &amp; Daily Fresh Batches
+          </div>
+        </div>
+
+        <!-- 3. Hostel / Mess -->
+        <div class="business-card" data-type="hostelmess" data-name="Hostel Mess & Institutional" onclick="selectBusiness('hostelmess', 'Hostel Mess & Institutional')">
+          <div class="card-top">
+            <div class="icon-badge bg-amber">🏢</div>
+            <div class="radio-circle">
+              <span class="material-symbols-outlined" style="font-size:15px;">check</span>
+            </div>
+          </div>
+          <h2 class="card-title">Hostel / Mess</h2>
+          <p class="card-desc">
+            College hostels, corporate cafeterias, and institutional messes with cyclic meal menus, bulk staple procurement, and fixed meal slot counts.
+          </p>
+          <div class="card-meta">
+            <span class="material-symbols-outlined" style="font-size:15px;">verified</span>
+            High-Volume Cyclic Batches &amp; Staples
+          </div>
+        </div>
+
+        <!-- 4. Cloud Kitchen -->
+        <div class="business-card" data-type="cloudkitchen" data-name="Cloud Kitchen & Dark Kitchen" onclick="selectBusiness('cloudkitchen', 'Cloud Kitchen & Dark Kitchen')">
+          <div class="card-top">
+            <div class="icon-badge bg-purple">☁️</div>
+            <div class="radio-circle">
+              <span class="material-symbols-outlined" style="font-size:15px;">check</span>
+            </div>
+          </div>
+          <h2 class="card-title">Cloud Kitchen</h2>
+          <p class="card-desc">
+            Delivery-first multi-brand virtual kitchens (Swiggy/Zomato), rapid 15-minute dispatch timelines, and tight buffer prep lines.
+          </p>
+          <div class="card-meta">
+            <span class="material-symbols-outlined" style="font-size:15px;">verified</span>
+            Rapid Dispatch &amp; Tight Buffers
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Action Buttons -->
+      <div class="onboarding-actions">
+        <a href="/landing" class="btn-action-back">
+          <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+          <span>Back to Landing</span>
+        </a>
+
+        <button type="button" class="btn-action-continue" id="btnContinue" onclick="continueToLogin()">
+          <span>Continue to Sign In</span>
+          <span class="material-symbols-outlined" style="font-size:18px;">arrow_forward</span>
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    let selectedType = localStorage.getItem('freshflow_kitchen_type') || 'restaurant';
+    let selectedName = localStorage.getItem('freshflow_kitchen_name') || 'Restaurant & Dine-In';
+
+    function selectBusiness(type, name) {
+      selectedType = type;
+      selectedName = name;
+      localStorage.setItem('freshflow_kitchen_type', type);
+      localStorage.setItem('freshflow_kitchen_name', name);
+
+      document.querySelectorAll('.business-card').forEach(card => {
+        card.classList.toggle('selected', card.getAttribute('data-type') === type);
+      });
+    }
+
+    function continueToLogin() {
+      localStorage.setItem('freshflow_kitchen_type', selectedType);
+      localStorage.setItem('freshflow_kitchen_name', selectedName);
+      window.location.href = '/login';
+    }
+
+    // Restore on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('freshflow_kitchen_type');
+      if (saved) {
+        const target = document.querySelector(`.business-card[data-type="${saved}"]`);
+        if (target) {
+          selectBusiness(saved, target.getAttribute('data-name') || saved);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

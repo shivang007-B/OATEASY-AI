@@ -156,6 +156,7 @@ class FreshFlowApp {
       case 'forecast': this.loadForecasts(); this.loadPurchasePlan(); break;
       case 'actions':  this.loadActions(); break;
       case 'analytics':this.loadAnalytics(); break;
+      case 'account':  if (window.loadOwnerAccountDetails) window.loadOwnerAccountDetails(); break;
     }
   }
 
@@ -681,70 +682,191 @@ spinStyle.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
 document.head.appendChild(spinStyle);
 
 let app;
-window.addEventListener('DOMContentLoaded', () => { app = new FreshFlowApp(); });
+window.addEventListener('DOMContentLoaded', () => { 
+  app = new FreshFlowApp(); 
+  window.app = app; 
+});
 
-
-// ─── 3-SECOND APP LAUNCH SYMBOL & STATUS CONTROLLER ──────────────────────────
-window.triggerAppLaunch = function(durationMs = 3000) {
-  const screen = document.getElementById('appLaunchScreen');
-  const bar = document.getElementById('launchProgressFill');
-  const text = document.getElementById('launchStatusText');
-  const pct = document.getElementById('launchPercent');
-
-  if (!screen || !bar || !text || !pct) return;
-
-  // Reset state
-  screen.classList.remove('launch-complete');
-  screen.style.display = 'flex';
-  bar.style.width = '0%';
-  pct.textContent = '0%';
-  text.textContent = 'Initializing neural forecasting models...';
-
-  const stages = [
-    { at: 0.00, msg: 'Initializing neural forecasting models...' },
-    { at: 0.22, msg: 'Loading restaurant sensor & inventory telemetry...' },
-    { at: 0.48, msg: 'Computing ingredient waste risk & perishability vectors...' },
-    { at: 0.75, msg: 'Synthesizing prep suggestions & smart purchase orders...' },
-    { at: 0.94, msg: 'Intelligence matrix verified. Ready.' }
-  ];
-
-  const startTime = performance.now();
-
-  function tick(now) {
-    const elapsed = now - startTime;
-    const progress = Math.min(elapsed / durationMs, 1.0);
-    const percentInt = Math.floor(progress * 100);
-
-    bar.style.width = `${percentInt}%`;
-    pct.textContent = `${percentInt}%`;
-
-    for (let i = stages.length - 1; i >= 0; i--) {
-      if (progress >= stages[i].at) {
-        text.textContent = stages[i].msg;
-        break;
-      }
-    }
-
-    if (progress < 1.0) {
-      requestAnimationFrame(tick);
-    } else {
-      bar.style.width = '100%';
-      pct.textContent = '100%';
-      text.textContent = '✓ Welcome to FreshFlow Intelligence';
-      setTimeout(() => {
-        screen.classList.add('launch-complete');
-        // Let transitions complete before hidden
-        setTimeout(() => {
-          screen.style.display = 'none';
-        }, 600);
-      }, 250);
-    }
+// ─── MULTI-VIEW ROUTER & ONBOARDING CONTROLLER ───────────────────────────
+const KITCHEN_PROFILES = {
+  hotel: {
+    name: 'Hotel & Resort Dining',
+    short: 'Hotel & Resort',
+    role: 'Executive Chef & Banquet Manager',
+    icon: 'hotel'
+  },
+  restaurant: {
+    name: 'Restaurant & Dine-In',
+    short: 'Restaurant',
+    role: 'Head Chef & General Manager',
+    icon: 'restaurant'
+  },
+  hostelmess: {
+    name: 'Hostel Mess & Institutional',
+    short: 'Hostel Mess',
+    role: 'Mess Supervisor & Food Committee',
+    icon: 'corporate_fare'
+  },
+  cloudkitchen: {
+    name: 'Cloud Kitchen & Dark Kitchen',
+    short: 'Cloud Kitchen',
+    role: 'Delivery Operations Lead',
+    icon: 'cloud_queue'
+  },
+  cafebakery: {
+    name: 'Cafe, Bakery & Patisserie',
+    short: 'Bakery & Cafe',
+    role: 'Head Pastry Chef & Roaster',
+    icon: 'bakery_dining'
   }
-
-  requestAnimationFrame(tick);
 };
 
-// Auto-trigger 3-second app launch on page load
+let currentKitchenType = localStorage.getItem('freshflow_kitchen_type') || 'restaurant';
+
+window.navigateToView = function(viewName) {
+  document.querySelectorAll('.app-view').forEach(view => {
+    view.classList.remove('active');
+  });
+
+  const targetView = document.getElementById(`view-${viewName}`);
+  if (targetView) {
+    targetView.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // If entering app, ensure FreshFlowApp refreshes its reveal elements and current tab
+  if (viewName === 'app') {
+    if (window.app) {
+      window.app.switchTab(window.app.currentTab || 'home');
+      observeRevealEls();
+    }
+  }
+};
+
+window.selectKitchenType = function(typeKey) {
+  currentKitchenType = typeKey;
+  localStorage.setItem('freshflow_kitchen_type', typeKey);
+
+  // Update selection UI in onboarding cards
+  document.querySelectorAll('.kitchen-card').forEach(card => {
+    const cardType = card.getAttribute('data-kitchen');
+    card.classList.toggle('selected', cardType === typeKey);
+  });
+
+  // Update label on login page
+  const profile = KITCHEN_PROFILES[typeKey] || KITCHEN_PROFILES.restaurant;
+  const loginLabel = document.getElementById('loginKitchenLabel');
+  if (loginLabel) loginLabel.textContent = profile.name;
+
+  // Update labels in workspace navbar & sidebar
+  const navName = document.getElementById('navbarKitchenName');
+  const navIcon = document.getElementById('navbarKitchenIcon');
+  if (navName) navName.textContent = profile.short;
+  if (navIcon) navIcon.textContent = profile.icon;
+
+  const sideName = document.getElementById('sidebarProfileName');
+  const sideRole = document.getElementById('sidebarProfileRole');
+  if (sideName) sideName.textContent = profile.name;
+  if (sideRole) sideRole.textContent = profile.role;
+};
+
+window.fillDemoCredentials = function() {
+  const emailInput = document.getElementById('loginEmail');
+  const passInput = document.getElementById('loginPassword');
+  if (emailInput) emailInput.value = 'admin@freshflow.ai';
+  if (passInput) passInput.value = 'freshflow2026';
+  if (window.app && window.app.showToast) {
+    window.app.showToast('✓ Demo credentials filled!');
+  }
+};
+
+window.handleLoginSubmit = function(e) {
+  if (e) e.preventDefault();
+  if (window.app && window.app.showToast) {
+    window.app.showToast('✓ Signed in successfully! Launching workspace...');
+  }
+  window.navigateToView('app');
+};
+
+window.quickDemoLogin = function() {
+  window.navigateToView('app');
+  if (window.app && window.app.showToast) {
+    window.app.showToast('✓ Loaded workspace in Live Demo mode');
+  }
+};
+
+// ─── SIDEBAR COLLAPSE TOGGLE ─────────────────────────────────────────────
+window.toggleSidebar = function() {
+  const sidebar = document.getElementById('appSidebar');
+  const toggleIcon = document.getElementById('sidebarToggleIcon');
+  const miniIcon = document.getElementById('sidebarMiniIcon');
+  if (!sidebar) return;
+
+  const isCollapsed = sidebar.classList.toggle('collapsed');
+  localStorage.setItem('freshflow_sidebar_collapsed', isCollapsed ? '1' : '0');
+
+  if (toggleIcon) {
+    toggleIcon.textContent = isCollapsed ? 'menu' : 'menu_open';
+  }
+  if (miniIcon) {
+    miniIcon.textContent = isCollapsed ? 'chevron_right' : 'chevron_left';
+  }
+};
+
+// Restore saved sidebar collapsed state and kitchen type on page load
 window.addEventListener('DOMContentLoaded', () => {
-  window.triggerAppLaunch(3000);
+  if (localStorage.getItem('freshflow_sidebar_collapsed') === '1') {
+    const sidebar = document.getElementById('appSidebar');
+    if (sidebar) sidebar.classList.add('collapsed');
+    const toggleIcon = document.getElementById('sidebarToggleIcon');
+    const miniIcon = document.getElementById('sidebarMiniIcon');
+    if (toggleIcon) toggleIcon.textContent = 'menu';
+    if (miniIcon) miniIcon.textContent = 'chevron_right';
+  }
+
+  // Restore kitchen type
+  window.selectKitchenType(currentKitchenType);
 });
+
+// ─── VIDEO LOADING SCREEN CONTROLLER ──────────────────────────
+window.triggerAppLaunch = function() {
+  const screen = document.getElementById('appLaunchScreen');
+  if (!screen) return;
+
+  const video = document.getElementById('launchVideo');
+  screen.classList.remove('launch-complete');
+  screen.style.display = 'flex';
+
+  let dismissed = false;
+  const finishLaunch = function() {
+    if (dismissed) return;
+    dismissed = true;
+    screen.classList.add('launch-complete');
+    setTimeout(() => {
+      screen.style.display = 'none';
+    }, 650);
+  };
+
+  window.dismissLaunchScreen = finishLaunch;
+
+  if (video) {
+    try {
+      video.currentTime = 0;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => console.warn('Autoplay restricted:', err));
+      }
+    } catch (e) {
+      console.warn('Video error:', e);
+    }
+    video.addEventListener('ended', finishLaunch, { once: true });
+    setTimeout(finishLaunch, 4300);
+  } else {
+    setTimeout(finishLaunch, 1500);
+  }
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+  window.triggerAppLaunch();
+});
+

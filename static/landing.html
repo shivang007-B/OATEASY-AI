@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FreshFlow AI — Autonomous Restaurant &amp; Food Operations OS</title>
+  <meta name="description"
+    content="FreshFlow AI: Machine learning dish demand forecasting, perishable inventory risk radar, automated chef prep sheets, and 1-click supplier purchase orders." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <link href="/static/styles.css?v=2.6" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="/static/logo.png" />
+
+  <style>
+    /* Standalone Landing Page Design System */
+    :root {
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --primary-light: #ecfdf5;
+      --accent: #0f172a;
+      --bg-warm: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-soft: rgba(226, 232, 240, 0.85);
+      --glass-bg: rgba(255, 255, 255, 0.82);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at 10% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 40%, rgba(6, 182, 212, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
+        #f8fafc;
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* 1. INITIAL LOADING SCREEN (Video Experience) */
+    .app-launch-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      width: 100dvw;
+      height: 100dvh;
+      z-index: 999999;
+      background: #f6f1e3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      user-select: none;
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.65s;
+    }
+
+    .app-launch-screen.launch-complete {
+      opacity: 0;
+      transform: scale(1.02);
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .launch-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+
+    @media (max-aspect-ratio: 1/1) {
+      .launch-video {
+        object-fit: contain;
+      }
+    }
+
+    .btn-skip-video {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      color: #334155;
+      font-size: 0.78rem;
+      font-weight: 600;
+      font-family: inherit;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+      transition: all 0.2s ease;
+    }
+
+    .btn-skip-video:hover {
+      background: rgba(255, 255, 255, 0.95);
+      color: #0f172a;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+    }
+
+    /* 2. LANDING NAVBAR */
+    .landing-nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(255, 255, 255, 0.85);
+      border-bottom: 1px solid var(--border-soft);
+      height: 68px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+    }
+
+    .landing-nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .landing-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: #0f172a;
+    }
+
+    .landing-logo-img,
+    .brand-logo-img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 2px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 3px 10px rgba(16, 185, 129, 0.2);
+      display: block;
+    }
+
+    .landing-logo-text {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .landing-ai-pill {
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links-menu {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-link-item {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #475569;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .nav-link-item:hover {
+      color: #059669;
+    }
+
+    .landing-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    /* 3. HERO SECTION (FULLSCREEN BACKGROUND SLIDER & MINIMAL PUNCHY TEXT) */
+    .landing-hero {
+      position: relative;
+      width: 100%;
+      width: 100vw;
+      max-width: 100% !important;
+      margin: 0 !important;
+      min-height: calc(100vh - 68px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 2rem 4rem;
+      overflow: hidden;
+      text-align: center;
+      color: #ffffff;
+      box-sizing: border-box;
+    }
+
+    /* Fullscreen Desktop Background Slider Container */
+    .hero-bg-slider {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .hero-bg-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transform: scale(1.04);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .hero-bg-slide.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .hero-bg-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* Subtle Fullscreen Hero Background Overlay */
+    .hero-bg-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.38) 0%, rgba(15, 23, 42, 0.54) 100%);
+      pointer-events: none;
+    }
+
+    /* Left / Right Slider Navigation Buttons on Outer Hero Edges */
+    .slider-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .slider-nav-btn:hover {
+      background: #10b981;
+      color: #ffffff;
+      transform: translateY(-50%) scale(1.1);
+      border-color: #10b981;
+      box-shadow: 0 8px 28px rgba(16, 185, 129, 0.6);
+    }
+
+    .slider-nav-prev {
+      left: 2rem;
+    }
+
+    .slider-nav-next {
+      right: 2rem;
+    }
+
+    /* Hero Foreground Content - clean text over full background, no card wrapper */
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+
+    .landing-pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.42rem 1.15rem;
+      border-radius: 9999px;
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #6ee7b7;
+      margin-bottom: 1.35rem;
+      letter-spacing: 0.02em;
+    }
+
+    .landing-title {
+      font-size: 4rem;
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+      margin-bottom: 1.15rem;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 0.9);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #34d399 0%, #22d3ee 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 32px rgba(255, 255, 255, 0.6));
+    }
+
+    .landing-subtitle {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #ffffff;
+      max-width: 720px;
+      margin: 0 auto 2.25rem;
+      font-weight: 600;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.95), 0 0 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .landing-hero-btns {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Glassmorphic Primary Button with Emerald Border Glow */
+    .btn-hero-primary {
+      background: rgba(16, 185, 129, 0.26);
+      backdrop-filter: blur(20px) saturate(190%);
+      -webkit-backdrop-filter: blur(20px) saturate(190%);
+      color: #ffffff;
+      padding: 1rem 2.4rem;
+      border-radius: 14px;
+      font-size: 1.02rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      border: 1.5px solid rgba(52, 211, 153, 0.85);
+      box-shadow: 
+        0 0 20px rgba(16, 185, 129, 0.55),
+        inset 0 0 16px rgba(52, 211, 153, 0.25),
+        0 8px 24px rgba(0, 0, 0, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-hero-primary:hover {
+      transform: translateY(-2px);
+      background: rgba(16, 185, 129, 0.42);
+      border-color: #6ee7b7;
+      box-shadow: 
+        0 0 32px rgba(16, 185, 129, 0.85),
+        inset 0 0 22px rgba(52, 211, 153, 0.4),
+        0 12px 30px rgba(0, 0, 0, 0.45);
+      color: #ffffff;
+    }
+
+    .btn-hero-secondary {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: #ffffff;
+      padding: 1rem 2rem;
+      border-radius: 14px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .btn-hero-secondary:hover {
+      background: rgba(15, 23, 42, 0.95);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Glassmorphic Instant Demo Button with Cyan Border Glow */
+    .btn-hero-instant {
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(20px) saturate(190%);
+      -webkit-backdrop-filter: blur(20px) saturate(190%);
+      color: #ffffff;
+      padding: 1rem 2.1rem;
+      border-radius: 14px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1.5px solid rgba(56, 189, 248, 0.8);
+      box-shadow: 
+        0 0 20px rgba(56, 189, 248, 0.45),
+        inset 0 0 14px rgba(56, 189, 248, 0.2),
+        0 8px 24px rgba(0, 0, 0, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-hero-instant:hover {
+      transform: translateY(-2px);
+      background: rgba(56, 189, 248, 0.25);
+      border-color: #93c5fd;
+      color: #ffffff;
+      box-shadow: 
+        0 0 32px rgba(56, 189, 248, 0.75),
+        inset 0 0 20px rgba(56, 189, 248, 0.35),
+        0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Slider Bottom Control Strip */
+    .hero-slider-controls {
+      position: relative;
+      z-index: 3;
+      margin-top: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-slider-info {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0.38rem 1.1rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+    }
+
+    .live-dot-green {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: blinkDot 1.6s infinite;
+    }
+
+    @keyframes blinkDot {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(0.85);
+      }
+    }
+
+    .slider-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .slider-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.55);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .slider-dot.active {
+      width: 36px;
+      background: #10b981;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.95);
+      border-color: #34d399;
+    }
+
+    /* 4. METRICS STRIP */
+    .landing-metrics-bar {
+      max-width: 1240px;
+      margin: -2.5rem auto 4rem;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .metrics-card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 22px;
+      padding: 1.75rem 2rem;
+      box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    .metric-box {
+      text-align: center;
+      position: relative;
+    }
+
+    .metric-box:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background: #e2e8f0;
+    }
+
+    .metric-box-val {
+      font-size: 2.1rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #0f172a;
+      line-height: 1.15;
+      margin-bottom: 0.35rem;
+    }
+
+    .accent-green {
+      color: #059669;
+    }
+
+    .accent-blue {
+      color: #2563eb;
+    }
+
+    .accent-amber {
+      color: #d97706;
+    }
+
+    .metric-box-label {
+      font-size: 0.82rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* 5. HOW IT WORKS / ONBOARDING JOURNEY (4-STEPS) */
+    .onboarding-steps-sec {
+      padding: 4.5rem 1.5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .sec-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #059669;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 0.3rem 0.85rem;
+      border-radius: 9999px;
+      margin-bottom: 0.85rem;
+    }
+
+    .sec-title {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      color: #0f172a;
+      margin-bottom: 0.85rem;
+      line-height: 1.2;
+    }
+
+    .sec-subtitle {
+      font-size: 1.05rem;
+      color: #64748b;
+      max-width: 680px;
+      line-height: 1.6;
+      margin-bottom: 2.75rem;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      position: relative;
+    }
+
+    .step-card {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: 22px;
+      padding: 2rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .step-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.09);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .step-number-tag {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.4rem;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #e2e8f0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .step-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.35rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .step-icon-blue {
+      background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%);
+      color: #2563eb;
+      border: 1px solid #93c5fd;
+    }
+
+    .step-icon-emerald {
+      background: linear-gradient(135deg, #ecfdf5 0%, #a7f3d0 100%);
+      color: #059669;
+      border: 1px solid #6ee7b7;
+    }
+
+    .step-icon-purple {
+      background: linear-gradient(135deg, #faf5ff 0%, #ddd6fe 100%);
+      color: #7c3aed;
+      border: 1px solid #c4b5fd;
+    }
+
+    .step-icon-amber {
+      background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%);
+      color: #d97706;
+      border: 1px solid #fcd34d;
+    }
+
+    .step-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.65rem;
+    }
+
+    .step-desc {
+      font-size: 0.88rem;
+      color: #475569;
+      line-height: 1.55;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    .step-action-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #059669;
+      text-decoration: none;
+      transition: gap 0.15s ease;
+    }
+
+    .step-action-link:hover {
+      gap: 0.55rem;
+      color: #047857;
+    }
+
+    /* 6. DETAILED FEATURES SECTION */
+    .landing-features-sec {
+      padding: 5rem 1.5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+      margin-top: 2.5rem;
+    }
+
+    .feat-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: 24px;
+      padding: 2.25rem 2rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .feat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.09);
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+
+    .feat-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.35rem;
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    .icon-gradient-blue {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    }
+
+    .icon-gradient-green {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .icon-gradient-amber {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+
+    .icon-gradient-teal {
+      background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+    }
+
+    .icon-gradient-purple {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+    }
+
+    .icon-gradient-rose {
+      background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
+    }
+
+    .feat-title {
+      font-size: 1.28rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.65rem;
+    }
+
+    .feat-desc {
+      font-size: 0.92rem;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 1.35rem;
+      flex: 1;
+    }
+
+    .feat-bullets-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      padding-top: 0.85rem;
+      border-top: 1px dashed #e2e8f0;
+    }
+
+    .feat-bullet-item {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .feat-bullet-item .material-symbols-outlined {
+      font-size: 16px;
+      color: #10b981;
+    }
+
+    .feat-tag {
+      align-self: flex-start;
+      font-size: 0.74rem;
+      font-weight: 700;
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+      padding: 0.28rem 0.75rem;
+      border-radius: 9999px;
+    }
+
+    /* 7. 3-TIER MONTHLY PRICING SECTION */
+    .pricing-sec {
+      padding: 5rem 1.5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .pricing-header-wrap {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 3rem;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      align-items: stretch;
+    }
+
+    .pricing-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: 24px;
+      padding: 2.5rem 2.25rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+      position: relative;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(15, 23, 42, 0.1);
+    }
+
+    .pricing-card.featured {
+      background: #ffffff;
+      border: 2px solid #10b981;
+      box-shadow: 0 20px 50px rgba(16, 185, 129, 0.18), 0 0 0 1px #10b981;
+      transform: scale(1.02);
+    }
+
+    .pricing-card.featured:hover {
+      transform: scale(1.02) translateY(-6px);
+      box-shadow: 0 25px 60px rgba(16, 185, 129, 0.26);
+    }
+
+    .featured-ribbon {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.35rem 1.15rem;
+      border-radius: 9999px;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+    }
+
+    .plan-tier-name {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.45rem;
+    }
+
+    .plan-tier-desc {
+      font-size: 0.88rem;
+      color: #64748b;
+      margin-bottom: 1.75rem;
+      line-height: 1.5;
+      min-height: 42px;
+    }
+
+    .plan-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-price-val {
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #0f172a;
+    }
+
+    .plan-period {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #64748b;
+    }
+
+    .plan-billing-badge {
+      display: inline-flex;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #059669;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 0.2rem 0.65rem;
+      border-radius: 6px;
+      margin-bottom: 2rem;
+      width: fit-content;
+    }
+
+    .plan-features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 2.25rem;
+      flex: 1;
+    }
+
+    .plan-feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.88rem;
+      color: #334155;
+      line-height: 1.45;
+    }
+
+    .plan-feature-item .material-symbols-outlined {
+      font-size: 18px;
+      color: #10b981;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .btn-plan-select {
+      width: 100%;
+      padding: 0.95rem;
+      border-radius: 14px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-block;
+    }
+
+    .btn-plan-outline {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      color: #0f172a;
+    }
+
+    .btn-plan-outline:hover {
+      background: #ffffff;
+      border-color: #059669;
+      color: #059669;
+      transform: translateY(-2px);
+    }
+
+    .btn-plan-featured {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 10px 24px -4px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-plan-featured:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.55);
+    }
+
+    /* 8. BOTTOM CONVERSION CTA BANNER */
+    .landing-cta-banner {
+      max-width: 1240px;
+      margin: 4rem auto 5rem;
+      padding: 0 1.5rem;
+    }
+
+    .cta-banner-inner {
+      background:
+        linear-gradient(180deg, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.78) 100%),
+        url('/static/describebg.png') no-repeat center center;
+      background-size: cover;
+      border-radius: 28px;
+      padding: 4.5rem 3rem;
+      color: #ffffff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .cta-banner-inner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -20%;
+      width: 140%;
+      height: 200%;
+      background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .cta-banner-title {
+      font-size: 2.6rem;
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      margin-bottom: 1rem;
+      line-height: 1.18;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.85);
+    }
+
+    .cta-banner-sub {
+      font-size: 1.15rem;
+      color: #e2e8f0;
+      max-width: 640px;
+      margin: 0 auto 2.25rem;
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+      font-weight: 500;
+    }
+
+    .cta-btns-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    /* 9. FOOTER */
+    .landing-footer {
+      border-top: 1px solid var(--border-soft);
+      padding: 3rem 1.5rem;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .landing-footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.86rem;
+      color: #64748b;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer-links-group {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links-group a {
+      color: #475569;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links-group a:hover {
+      color: #059669;
+    }
+
+    /* Privacy Policy Modal Styles */
+    .privacy-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.22s ease;
+    }
+
+    .privacy-modal-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .privacy-modal-card {
+      width: 100%;
+      max-width: 680px;
+      max-height: 85vh;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.25);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: privacyModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes privacyModalIn {
+      from {
+        transform: scale(0.96) translateY(12px);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .privacy-modal-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+    }
+
+    .privacy-modal-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .privacy-modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      transition: all 0.15s;
+    }
+
+    .privacy-modal-close:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .privacy-modal-body {
+      padding: 1.75rem;
+      overflow-y: auto;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: #334155;
+    }
+
+    .privacy-modal-body h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 1.25rem;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .privacy-modal-body h4:first-child {
+      margin-top: 0;
+    }
+
+    .privacy-modal-footer {
+      padding: 1rem 1.75rem;
+      border-top: 1px solid #f1f5f9;
+      background: #f8fafc;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1024px) {
+      .landing-hero {
+        padding: 5.5rem 1.5rem 4rem;
+        min-height: 70vh;
+      }
+
+      .landing-title {
+        font-size: 3rem;
+      }
+
+      .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 520px;
+        margin: 2.5rem auto 0;
+      }
+
+      .pricing-card.featured {
+        transform: none;
+      }
+
+      .pricing-card.featured:hover {
+        transform: translateY(-6px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links-menu {
+        display: none;
+      }
+
+      .landing-hero {
+        padding: 4.5rem 1.25rem 3.5rem;
+        min-height: 65vh;
+      }
+
+      .landing-title {
+        font-size: 2.25rem;
+      }
+
+      .landing-subtitle {
+        font-size: 1rem;
+      }
+
+      .metrics-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 1.5rem 1rem;
+      }
+
+      .metric-box:not(:last-child)::after {
+        display: none;
+      }
+
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .slider-nav-btn {
+        display: none;
+      }
+
+      .cta-banner-inner {
+        padding: 3rem 1.5rem;
+      }
+
+      .cta-banner-title {
+        font-size: 1.9rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==========================================================================
+     1. INITIAL LOADING SCREEN (Video Experience)
+     ========================================================================== -->
+  <div id="appLaunchScreen" class="app-launch-screen">
+    <video id="launchVideo" class="launch-video" autoplay muted playsinline preload="auto">
+      <source src="/static/loading.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <button type="button" class="btn-skip-video" id="btnSkipVideo" onclick="window.dismissLaunchScreen()"
+      aria-label="Skip intro">
+      Skip &rarr;
+    </button>
+  </div>
+
+  <!-- ==========================================================================
+     2. LANDING PAGE
+     ========================================================================== -->
+  <div id="landingView">
+
+    <!-- Navigation Bar -->
+    <nav class="landing-nav">
+      <div class="landing-nav-inner">
+        <a href="/" class="landing-logo">
+          <img src="/static/logo.png" alt="FreshFlow Logo" class="landing-logo-img" />
+          <div class="landing-logo-text">
+            FreshFlow
+            <span class="landing-ai-pill">AI OS</span>
+          </div>
+        </a>
+
+        <!-- Middle Nav Anchors -->
+        <ul class="nav-links-menu">
+          <li><a href="#howItWorks" class="nav-link-item">How It Works</a></li>
+          <li><a href="#featuresSection" class="nav-link-item">Core Features</a></li>
+          <li><a href="#pricingSection" class="nav-link-item">Monthly Plans</a></li>
+
+        </ul>
+
+        <div class="landing-nav-actions">
+          <a href="/login" class="btn btn-ghost" style="text-decoration:none;font-weight:700;">
+            Sign In
+          </a>
+          <a href="/describe" class="btn btn-primary" style="text-decoration:none;">
+            Get Started
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ==========================================================================
+       3. HERO SECTION (FULLSCREEN BACKGROUND SLIDER & MINIMAL PUNCHY TEXT)
+       ========================================================================== -->
+    <header class="landing-hero" id="landingHero">
+
+      <!-- Fullscreen Background Image Slider -->
+      <div class="hero-bg-slider" id="heroBgSlider">
+        <div class="hero-bg-slide active" data-index="0"
+          data-caption="1/4: AI Demand Forecasting &amp; Daily Prep Sync">
+          <img src="/static/hero_slide_1.jpg" alt="Chef using FreshFlow AI Demand Forecasting" />
+        </div>
+        <div class="hero-bg-slide" data-index="1" data-caption="2/4: Zero Food Waste Radar &amp; Perishable Risk">
+          <img src="/static/hero_slide_2.jpg" alt="Zero Food Waste Radar displaying real-time inventory" />
+        </div>
+        <div class="hero-bg-slide" data-index="2" data-caption="3/4: Station Cookline Batch Scheduling">
+          <img src="/static/hero_slide_3.jpg" alt="Kitchen brigade with automated prep batches" />
+        </div>
+        <div class="hero-bg-slide" data-index="3" data-caption="4/4: Automated Supplier Procurement Orders">
+          <img src="/static/hero_slide_4.jpg" alt="Storekeeper with approved supplier purchase orders" />
+        </div>
+        <!-- Subtle Fullscreen Background Overlay -->
+        <div class="hero-bg-overlay"></div>
+      </div>
+
+      <!-- Left / Right Slider Nav Arrows -->
+      <button type="button" class="slider-nav-btn slider-nav-prev" onclick="prevHeroSlide()"
+        aria-label="Previous Slide">
+        <span class="material-symbols-outlined" style="font-size:22px;">chevron_left</span>
+      </button>
+      <button type="button" class="slider-nav-btn slider-nav-next" onclick="nextHeroSlide()" aria-label="Next Slide">
+        <span class="material-symbols-outlined" style="font-size:22px;">chevron_right</span>
+      </button>
+
+      <!-- Minimal, Punchy Foreground Content -->
+      <div class="hero-content">
+
+        <h1 class="landing-title">
+          Predict Demand. <br />
+          <span class="gradient-text">Zero Food Waste.</span>
+        </h1>
+
+        <p class="landing-subtitle">
+          Real-time neural demand curves, perishable shelf-life risk radar, and automated chef prep &amp; supplier
+          purchasing.
+        </p>
+
+        <div class="landing-hero-btns">
+          <a href="/describe" class="btn-hero-primary" id="btnGetStarted">
+            <span>Get Started — Choose Business</span>
+            <span class="material-symbols-outlined" style="font-size:20px;">arrow_forward</span>
+          </a>
+
+          <a href="/app" class="btn-hero-instant">
+            <span class="material-symbols-outlined" style="font-size:18px;">bolt</span>
+            <span>Instant Demo</span>
+          </a>
+        </div>
+
+
+      </div>
+
+    </header>
+
+    <!-- ==========================================================================
+       4. METRICS STRIP
+       ========================================================================== -->
+    <div class="landing-metrics-bar">
+      <div class="metrics-card-grid">
+        <div class="metric-box">
+          <div class="metric-box-val accent-green">94.8%</div>
+          <div class="metric-box-label">Demand Prediction Accuracy</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-box-val accent-blue">38%</div>
+          <div class="metric-box-label">Food Waste Prevented</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-box-val accent-amber">15 hrs</div>
+          <div class="metric-box-label">Weekly Chef Prep Saved</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-box-val">₹42,000+</div>
+          <div class="metric-box-label">Avg. Monthly Margin Saved</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+       5. HOW IT WORKS / ONBOARDING JOURNEY (4 SIMPLE STEPS)
+       ========================================================================== -->
+    <section class="onboarding-steps-sec" id="howItWorks">
+      <div style="text-align:center;max-width:760px;margin:0 auto;">
+        <div class="sec-badge">Streamlined Setup</div>
+        <h2 class="sec-title">How FreshFlow Works in 4 Simple Steps</h2>
+        <p class="sec-subtitle">
+          From selecting your kitchen profile to autonomous prep sheets in under 5 minutes. No complex hardware
+          installations or months of training required.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+
+        <!-- Step 1: Choose Your Business -->
+        <div class="step-card">
+          <span class="step-number-tag">01</span>
+          <div class="step-icon-wrap step-icon-blue">
+            <span class="material-symbols-outlined" style="font-size:26px;">storefront</span>
+          </div>
+          <h3 class="step-title">1. Choose Your Business</h3>
+          <p class="step-desc">
+            Select what best describes your operation: Hotel, Restaurant, Hostel / Mess, or Cloud Kitchen to tune your
+            AI forecasting models.
+          </p>
+          <a href="/describe" class="step-action-link">
+            <span>Select Business Model</span>
+            <span class="material-symbols-outlined" style="font-size:16px;">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- Step 2: Choose Your Plan -->
+        <div class="step-card">
+          <span class="step-number-tag">02</span>
+          <div class="step-icon-wrap step-icon-emerald">
+            <span class="material-symbols-outlined" style="font-size:26px;">loyalty</span>
+          </div>
+          <h3 class="step-title">2. Choose Your Plan</h3>
+          <p class="step-desc">
+            Pick a predictable monthly subscription tailored to your kitchen volume: Starter, Pro Kitchen, or
+            Multi-Outlet Enterprise.
+          </p>
+          <a href="#pricingSection" class="step-action-link">
+            <span>Explore Monthly Plans</span>
+            <span class="material-symbols-outlined" style="font-size:16px;">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- Step 3: Login & Setup Account -->
+        <div class="step-card">
+          <span class="step-number-tag">03</span>
+          <div class="step-icon-wrap step-icon-purple">
+            <span class="material-symbols-outlined" style="font-size:26px;">manage_accounts</span>
+          </div>
+          <h3 class="step-title">3. Login &amp; Setup Account</h3>
+          <p class="step-desc">
+            Sign in with demo credentials in 1 click or set up your kitchen staff roles for Executive Chefs,
+            Storekeepers, and Ops Directors.
+          </p>
+          <a href="/login" class="step-action-link">
+            <span>Operator Sign In</span>
+            <span class="material-symbols-outlined" style="font-size:16px;">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- Step 4: Ready to Go! -->
+        <div class="step-card">
+          <span class="step-number-tag">04</span>
+          <div class="step-icon-wrap step-icon-amber">
+            <span class="material-symbols-outlined" style="font-size:26px;">rocket_launch</span>
+          </div>
+          <h3 class="step-title">4. Ready to Go!</h3>
+          <p class="step-desc">
+            Autonomous kitchen operations begin immediately: live dish predictions, perishable shelf-life alerts, and
+            smart purchase orders run on autopilot.
+          </p>
+          <a href="/app" class="step-action-link">
+            <span>Launch Live App</span>
+            <span class="material-symbols-outlined" style="font-size:16px;">arrow_forward</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+       6. COMPREHENSIVE INTELLIGENT FEATURES SECTION
+       ========================================================================== -->
+    <section class="landing-features-sec" id="featuresSection">
+      <div style="text-align:center;max-width:760px;margin:0 auto;">
+        <div class="sec-badge">Intelligent Core Engines</div>
+        <h2 class="sec-title">Engineered for Commercial Food Precision</h2>
+        <p class="sec-subtitle">
+          FreshFlow combines cutting-edge Gradient Boosted Decision Trees and Poisson demand modelling with real-world
+          kitchen station workflows.
+        </p>
+      </div>
+
+      <div class="features-grid">
+
+        <!-- Feature 1 -->
+        <div class="feat-card">
+          <div class="feat-icon-wrap icon-gradient-blue">
+            <span class="material-symbols-outlined" style="font-size:26px;">trending_up</span>
+          </div>
+          <h3 class="feat-title">Neural Demand Forecasting</h3>
+          <p class="feat-desc">
+            7-day multi-quantile forecasts (Q10 safe baseline, Q50 median demand, Q90 banquet surge) factoring in
+            real-time weather telemetry, day-of-week dining velocity, and local holiday surges.
+          </p>
+          <ul class="feat-bullets-list">
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Dish-level probabilistic forecasting curves</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Weather, temperature &amp; rain impact modeling</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Table turn velocity &amp; advance reservation sync</span>
+            </li>
+          </ul>
+          <span class="feat-tag">GBDT + Quantile ML</span>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feat-card">
+          <div class="feat-icon-wrap icon-gradient-green">
+            <span class="material-symbols-outlined" style="font-size:26px;">inventory_2</span>
+          </div>
+          <h3 class="feat-title">Perishable Inventory Radar</h3>
+          <p class="feat-desc">
+            Active shelf-life countdown radar tracking walk-in chillers, deep freezers, and dry stores. Flags ingredient
+            spoilage days ahead with automated FEFO (First-Expired, First-Out) kitchen alerts.
+          </p>
+          <ul class="feat-bullets-list">
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Chiller shelf-life decay &amp; spoilage scoring</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>FEFO cookline utilization prioritization</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>38% reduction in perishable food dumping</span>
+            </li>
+          </ul>
+          <span class="feat-tag">Zero Food Waste Guard</span>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feat-card">
+          <div class="feat-icon-wrap icon-gradient-amber">
+            <span class="material-symbols-outlined" style="font-size:26px;">skillet</span>
+          </div>
+          <h3 class="feat-title">Autonomous Kitchen Station Prep</h3>
+          <p class="feat-desc">
+            Auto-synthesizes morning prep sheets directly mapped to forecasted covers. Breaks down prep batches by cook
+            station (grill, saute, pantry, bakery) to eliminate rush-hour bottlenecks.
+          </p>
+          <ul class="feat-bullets-list">
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Exact recipe ingredient batch weights</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Station-by-station chef morning workorders</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Saves chefs 15+ hours of manual math weekly</span>
+            </li>
+          </ul>
+          <span class="feat-tag">Shift Cookline Sync</span>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feat-card">
+          <div class="feat-icon-wrap icon-gradient-teal">
+            <span class="material-symbols-outlined" style="font-size:26px;">shopping_cart_checkout</span>
+          </div>
+          <h3 class="feat-title">Smart Supplier PO Generation</h3>
+          <p class="feat-desc">
+            Auto-drafts supplier purchase orders factoring vendor minimum order quantities (MOQs), delivery lead times,
+            and cut-off deadlines. 1-click dispatch via WhatsApp, email, or PDF export.
+          </p>
+          <ul class="feat-bullets-list">
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>1-Click purchase order generation &amp; dispatch</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Dynamic safety stock buffers &amp; vendor MOQs</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Eliminates expensive emergency vendor runs</span>
+            </li>
+          </ul>
+          <span class="feat-tag">1-Click Procurement</span>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feat-card">
+          <div class="feat-icon-wrap icon-gradient-purple">
+            <span class="material-symbols-outlined" style="font-size:26px;">donut_large</span>
+          </div>
+          <h3 class="feat-title">Waste Analytics &amp; P&amp;L ROI</h3>
+          <p class="feat-desc">
+            Granular breakdown of kitchen loss events (spoilage, over-prep, trimmings) with monetary rupee/dollar impact
+            analysis. Benchmark savings against monthly food cost percentages.
+          </p>
+          <ul class="feat-bullets-list">
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>₹42,000+ avg. monthly food cost savings</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Root-cause spoilage vs over-prep attribution</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Executive compliance reports for General Managers</span>
+            </li>
+          </ul>
+          <span class="feat-tag">Margin Protection</span>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feat-card">
+          <div class="feat-icon-wrap icon-gradient-rose">
+            <span class="material-symbols-outlined" style="font-size:26px;">hub</span>
+          </div>
+          <h3 class="feat-title">Multi-Entity &amp; Commissary Hub</h3>
+          <p class="feat-desc">
+            Unified inventory control and central commissary replenishment across Hotels, Fine Dining, College Messes,
+            and Delivery Cloud Kitchens with role-based operator controls.
+          </p>
+          <ul class="feat-bullets-list">
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Central warehouse to kitchen outlet transfers</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Executive Chef, Storekeeper &amp; Director roles</span>
+            </li>
+            <li class="feat-bullet-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Scales seamlessly from 1 to 50+ properties</span>
+            </li>
+          </ul>
+          <span class="feat-tag">Enterprise Architecture</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+       7. 3-TIER MONTHLY PRICING SECTION
+       ========================================================================== -->
+    <section class="pricing-sec" id="pricingSection">
+      <div class="pricing-header-wrap">
+        <div class="sec-badge">Transparent Pricing</div>
+        <h2 class="sec-title">Predictable Monthly Subscription Plans</h2>
+        <p class="sec-subtitle" style="margin-bottom:0;">
+          Select the monthly plan designed for your kitchen volume. No hidden installation fees or long-term contracts.
+          14-day free evaluation on all tiers.
+        </p>
+      </div>
+
+      <div class="pricing-grid">
+
+        <!-- Plan 1: Starter Kitchen -->
+        <div class="pricing-card">
+          <h3 class="plan-tier-name">Starter Kitchen</h3>
+          <p class="plan-tier-desc">Designed for single cafes, boutique bistros, and small restaurants looking to
+            eliminate food waste.</p>
+
+          <div class="plan-price-row">
+            <span class="plan-price-val">₹3,999</span>
+            <span class="plan-period">/ month</span>
+          </div>
+          <div class="plan-billing-badge">Billed Monthly · 14-Day Free Trial</div>
+
+          <ul class="plan-features-list">
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Up to 50 Active Menu Dishes</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>7-Day Dish Demand Forecasting (Q50)</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Perishable Inventory &amp; Expiry Tracker</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Daily Morning Chef Prep Workorders</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>1 Executive Kitchen Manager Account</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Daily PDF Summary &amp; Email Alerts</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Standard Email &amp; Ticket Support</span>
+            </li>
+          </ul>
+
+          <a href="/describe" class="btn-plan-select btn-plan-outline">
+            Select Starter Plan &rarr;
+          </a>
+        </div>
+
+        <!-- Plan 2: Pro Kitchen (FEATURED) -->
+        <div class="pricing-card featured">
+          <div class="featured-ribbon">⭐ Most Popular · Best Value</div>
+          <h3 class="plan-tier-name">Pro Kitchen</h3>
+          <p class="plan-tier-desc">For high-volume restaurants, buffet dining, and delivery cloud kitchens demanding
+            full automation.</p>
+
+          <div class="plan-price-row">
+            <span class="plan-price-val">₹8,999</span>
+            <span class="plan-period">/ month</span>
+          </div>
+          <div class="plan-billing-badge">Billed Monthly · 14-Day Free Trial</div>
+
+          <ul class="plan-features-list">
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span><strong>Unlimited</strong> Dishes &amp; Recipe Ingredients</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span><strong>Quantile Neural Forecasting</strong> (Q10, Q50, Q90)</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span><strong>Zero Waste Radar</strong> &amp; Active Chiller Scoring</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span><strong>Automated 1-Click Supplier POs</strong> (MOQ-aware)</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Station-Level Prep Sheets (Grill, Saute, Pantry)</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Up to 5 Operator Seats (Chef, Storekeeper, GM)</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>WhatsApp Emergency Stock &amp; Expiry Alerts</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span><strong>Priority 24/7 Phone &amp; Chat Support</strong></span>
+            </li>
+          </ul>
+
+          <a href="/describe" class="btn-plan-select btn-plan-featured">
+            Start 14-Day Free Trial &rarr;
+          </a>
+        </div>
+
+        <!-- Plan 3: Enterprise & Multi-Outlet -->
+        <div class="pricing-card">
+          <h3 class="plan-tier-name">Enterprise Hub</h3>
+          <p class="plan-tier-desc">Engineered for luxury hotels, multi-branch restaurant chains, and large
+            institutional hostel messes.</p>
+
+          <div class="plan-price-row">
+            <span class="plan-price-val">₹21,999</span>
+            <span class="plan-period">/ month</span>
+          </div>
+          <div class="plan-billing-badge">Billed Monthly · Dedicated Setup</div>
+
+          <ul class="plan-features-list">
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span><strong>Multi-Property Commissary</strong> &amp; Warehouse Hub</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Cross-Outlet Stock Rebalancing &amp; Transfers</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Custom POS, ERP &amp; Supplier API Integrations</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Custom Fine-Tuned ML Demand Hyperparameters</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Unlimited Operator Accounts with Granular Roles</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Automated Financial P&amp;L Waste Audit Reports</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>Dedicated Culinary Operations Account Specialist</span>
+            </li>
+            <li class="plan-feature-item">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>99.9% High-Availability Uptime SLA</span>
+            </li>
+          </ul>
+
+          <a href="/describe" class="btn-plan-select btn-plan-outline">
+            Deploy Enterprise &rarr;
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+       8. BOTTOM CONVERSION CTA BANNER
+       ========================================================================== -->
+    <div class="landing-cta-banner">
+      <div class="cta-banner-inner">
+        <h2 class="cta-banner-title">Ready to Cut Food Waste by 38% This Month?</h2>
+        <p class="cta-banner-sub">
+          Join executive chefs and restaurant operators achieving zero food waste, automated supplier purchasing, and
+          tighter kitchen margins.
+        </p>
+        <div class="cta-btns-row">
+          <a href="/describe" class="btn-hero-primary" style="padding:1rem 2.5rem;font-size:1.05rem;">
+            <span>Get Started Free — Choose Business</span>
+            <span class="material-symbols-outlined" style="font-size:20px;">arrow_forward</span>
+          </a>
+          <a href="/app" class="btn-hero-instant" style="padding:1rem 2.2rem;font-size:1.02rem;">
+            <span class="material-symbols-outlined" style="font-size:18px;">bolt</span>
+            <span>Launch Live Interactive Demo</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+       9. FOOTER
+       ========================================================================== -->
+    <footer class="landing-footer">
+      <div class="landing-footer-inner">
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <img src="/static/logo.png" alt="FreshFlow Logo" class="brand-logo-img" style="width:32px;height:32px;" />
+          <div>
+            <strong>FreshFlow AI OS v2.5</strong> · Autonomous Food Operations &amp; Zero Waste
+          </div>
+        </div>
+
+        <div class="footer-links-group">
+          <a href="/describe">Choose Business</a>
+          <a href="#howItWorks">How It Works</a>
+          <a href="#featuresSection">Core Features</a>
+          <a href="#pricingSection">Monthly Plans</a>
+          <a href="javascript:void(0)" onclick="openPrivacyModal()" style="font-weight:700;color:#059669;">Privacy Policy</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Privacy Policy Popup Modal -->
+  <div id="privacyPolicyModal" class="privacy-modal-backdrop" onclick="if(event.target===this)closePrivacyModal()">
+    <div class="privacy-modal-card" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+      <div class="privacy-modal-header">
+        <div class="privacy-modal-title" id="privacyTitle">
+          <span class="material-symbols-outlined" style="color:#059669;font-size:22px;">verified_user</span>
+          <span>FreshFlow AI OS — Privacy &amp; Data Protection Policy</span>
+        </div>
+        <button type="button" class="privacy-modal-close" onclick="closePrivacyModal()" aria-label="Close modal">
+          <span class="material-symbols-outlined" style="font-size:20px;">close</span>
+        </button>
+      </div>
+
+      <div class="privacy-modal-body">
+        <p style="margin-bottom:1rem;color:#64748b;font-size:0.8rem;">
+          <strong>Effective Date:</strong> January 2026 · Compliant with ISO/IEC 27001, GDPR &amp; Commercial Culinary Standards
+        </p>
+
+        <h4>
+          <span class="material-symbols-outlined" style="font-size:18px;color:#059669;">security</span>
+          1. Commercial Kitchen Data Confidentiality
+        </h4>
+        <p>
+          FreshFlow AI operates on strict enterprise privacy principles. Your restaurant's proprietary recipes, sales covers, ingredient unit costs, vendor pricing negotiations, and dish profit margins are strictly confidential and encrypted with military-grade AES-256.
+        </p>
+
+        <h4>
+          <span class="material-symbols-outlined" style="font-size:18px;color:#059669;">model_training</span>
+          2. Machine Learning Telemetry &amp; Isolation
+        </h4>
+        <p>
+          Neural demand forecasting curves and perishable expiry risk algorithms are containerized per organization. FreshFlow AI never shares, pools, or exposes your operational data to competitor restaurants, third-party brokers, or external advertising networks.
+        </p>
+
+        <h4>
+          <span class="material-symbols-outlined" style="font-size:18px;color:#059669;">sync_lock</span>
+          3. POS &amp; Inventory Integration Security
+        </h4>
+        <p>
+          When you connect Point-of-Sale (POS) systems, kitchen display units (KDS), or digital weighing scales, communications are secured through TLS 1.3 encrypted tunnels with automated API token rotation and zero credential exposure.
+        </p>
+
+        <h4>
+          <span class="material-symbols-outlined" style="font-size:18px;color:#059669;">shield_person</span>
+          4. Staff &amp; Operator Access Governance
+        </h4>
+        <p>
+          Role-Based Access Control (RBAC) ensures Executive Chefs, Storekeepers, and General Managers only access workflows relevant to their duty stations. Every purchase order approval, inventory audit, and waste write-off is logged in an immutable audit trail.
+        </p>
+
+        <h4>
+          <span class="material-symbols-outlined" style="font-size:18px;color:#059669;">delete_forever</span>
+          5. Data Ownership &amp; 1-Click Export
+        </h4>
+        <p>
+          You retain 100% intellectual property ownership of your culinary and sales data. You may download complete historical CSV/JSON backups or request complete data deletion at any time via your account dashboard.
+        </p>
+      </div>
+
+      <div class="privacy-modal-footer">
+        <button type="button" class="btn-hero-primary" onclick="closePrivacyModal()" style="padding:0.6rem 1.6rem;font-size:0.88rem;border-radius:10px;">
+          <span>I Understand &amp; Agree</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+     10. SCRIPTS: LOADING SCREEN & BACKGROUND HERO SLIDER CONTROLLER
+     ========================================================================== -->
+  <script>
+    // 1. Initial Video Loading Screen Controller
+    window.triggerAppLaunch = function () {
+      const screen = document.getElementById('appLaunchScreen');
+      const video = document.getElementById('launchVideo');
+
+      if (!screen) return;
+
+      screen.classList.remove('launch-complete');
+      screen.style.display = 'flex';
+
+      let dismissed = false;
+      const finishLaunch = function () {
+        if (dismissed) return;
+        dismissed = true;
+        screen.classList.add('launch-complete');
+        setTimeout(() => {
+          screen.style.display = 'none';
+        }, 650);
+      };
+
+      window.dismissLaunchScreen = finishLaunch;
+
+      if (video) {
+        try {
+          video.currentTime = 0;
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch((err) => {
+              console.warn('Autoplay restricted or deferred:', err);
+            });
+          }
+        } catch (e) {
+          console.warn('Video play error:', e);
+        }
+
+        // When video finishes playing naturally (~4 seconds)
+        video.addEventListener('ended', finishLaunch, { once: true });
+
+        // Fallback safety timeout so user is never stuck
+        setTimeout(finishLaunch, 4300);
+      } else {
+        setTimeout(finishLaunch, 2000);
+      }
+    };
+
+    // 2. Fullscreen Background Hero Image Slider Controller
+    let currentHeroSlide = 0;
+    const heroSlides = document.querySelectorAll('.hero-bg-slide');
+    const heroDots = document.querySelectorAll('.slider-dot');
+    const sliderLabel = document.getElementById('sliderActiveLabel');
+    const totalHeroSlides = heroSlides.length;
+    let heroSliderTimer = null;
+
+    window.goToHeroSlide = function (index) {
+      if (index >= totalHeroSlides) index = 0;
+      if (index < 0) index = totalHeroSlides - 1;
+      currentHeroSlide = index;
+
+      heroSlides.forEach((slide, i) => {
+        const isActive = i === currentHeroSlide;
+        slide.classList.toggle('active', isActive);
+        if (isActive && sliderLabel) {
+          sliderLabel.textContent = slide.getAttribute('data-caption') || `Slide ${i + 1}`;
+        }
+      });
+
+      heroDots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentHeroSlide);
+      });
+    };
+
+    window.nextHeroSlide = function () {
+      window.goToHeroSlide(currentHeroSlide + 1);
+    };
+
+    window.prevHeroSlide = function () {
+      window.goToHeroSlide(currentHeroSlide - 1);
+    };
+
+    function startHeroSliderAutoPlay() {
+      stopHeroSliderAutoPlay();
+      heroSliderTimer = setInterval(window.nextHeroSlide, 4500);
+    }
+
+    function stopHeroSliderAutoPlay() {
+      if (heroSliderTimer) clearInterval(heroSliderTimer);
+    }
+
+    const heroEl = document.getElementById('landingHero');
+    if (heroEl) {
+      heroEl.addEventListener('mouseenter', stopHeroSliderAutoPlay);
+      heroEl.addEventListener('mouseleave', startHeroSliderAutoPlay);
+    }
+
+    // Privacy Policy Popup Modal Controller
+    window.openPrivacyModal = function () {
+      const modal = document.getElementById('privacyPolicyModal');
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
+    window.closePrivacyModal = function () {
+      const modal = document.getElementById('privacyPolicyModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    };
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') window.closePrivacyModal();
+    });
+
+    // Initialize on DOM load
+    window.addEventListener('DOMContentLoaded', () => {
+      window.triggerAppLaunch();
+      startHeroSliderAutoPlay();
+    });
+  </script>
+</body>
+
+</html>
