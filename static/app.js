@@ -131,6 +131,14 @@ class FreshFlowApp {
       btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
     });
 
+    document.querySelectorAll('.mobile-nav-item[data-tab]').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
+    });
+
+    if (window.closeMobileSidebar) {
+      window.closeMobileSidebar();
+    }
+
     document.querySelectorAll('.tab-content').forEach(sec => {
       const isTarget = sec.id === `tab-${tab}`;
       if (isTarget) {
@@ -471,6 +479,8 @@ class FreshFlowApp {
 
       const badge = document.getElementById('pendingActionsBadge');
       if (badge) badge.textContent = data.pending_count || 0;
+      const mobBadge = document.getElementById('mobilePendingBadge');
+      if (mobBadge) mobBadge.textContent = data.pending_count || 0;
 
       const container = document.getElementById('actionsContainer');
       if (!data.actions?.length) {

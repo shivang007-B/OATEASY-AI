@@ -449,6 +449,236 @@
       backdrop-filter: blur(10px) !important;
       border: 1px solid rgba(255, 255, 255, 0.8) !important;
     }
+
+    /* Mobile Off-canvas Drawer & Mobile Bottom Nav System */
+    .sidebar-mobile-backdrop {
+      display: none;
+    }
+    .mobile-bottom-nav {
+      display: none;
+    }
+    .sidebar-mobile-header {
+      display: none !important;
+    }
+
+    @media (max-width: 768px) {
+      .simple-navbar {
+        height: 56px;
+      }
+      .simple-navbar-inner {
+        padding: 0 0.75rem;
+      }
+      .navbar-brand-section {
+        gap: 0.5rem;
+      }
+      .navbar-brand-name {
+        font-size: 1rem;
+      }
+      .navbar-ai-chip {
+        display: none !important;
+      }
+      .navbar-right-controls {
+        gap: 0.35rem;
+      }
+      .rest-select {
+        height: 32px;
+        max-width: 108px;
+        padding: 0 0.4rem;
+        font-size: 0.75rem;
+      }
+      #btnRunAnalysis {
+        height: 32px;
+        padding: 0 0.55rem;
+        font-size: 0.75rem;
+      }
+      #btnRunAnalysis .btn-label-text {
+        display: none;
+      }
+      .navbar-collapse-btn {
+        width: 32px;
+        height: 32px;
+      }
+
+      /* Workspace Layout: Full width on mobile */
+      .workspace-layout {
+        display: block !important;
+        min-height: auto;
+      }
+      .workspace-main-content {
+        width: 100% !important;
+        min-width: 100% !important;
+      }
+      .main-wrap {
+        padding: 1rem 0.85rem calc(68px + env(safe-area-inset-bottom, 12px)) !important;
+      }
+
+      /* Sidebar transforms to Off-canvas Drawer on mobile */
+      .colorful-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        width: 290px !important;
+        max-width: 86vw !important;
+        z-index: 1200 !important;
+        transform: translateX(-100%);
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease !important;
+        box-shadow: none !important;
+        border-right: 1px solid rgba(226, 232, 240, 0.9) !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(28px) saturate(200%) !important;
+        -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+      }
+
+      .colorful-sidebar.mobile-open {
+        transform: translateX(0) !important;
+        box-shadow: 0 0 50px rgba(15, 23, 42, 0.25) !important;
+      }
+
+      .sidebar-mobile-header {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        padding: 0.25rem 0.4rem 0.75rem;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+      }
+
+      /* Show all labels & profile in mobile drawer */
+      .colorful-sidebar .sidebar-label-wrap,
+      .colorful-sidebar .sidebar-section-title,
+      .colorful-sidebar .sidebar-profile-card,
+      .colorful-sidebar .sidebar-badge {
+        display: flex !important;
+      }
+      .colorful-sidebar .sidebar-section-title {
+        display: block !important;
+      }
+      .colorful-sidebar .sidebar-nav-item {
+        justify-content: flex-start !important;
+        padding: 0.65rem 0.75rem !important;
+      }
+
+      /* Dim backdrop */
+      .sidebar-mobile-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.45);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        z-index: 1150;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+      .sidebar-mobile-backdrop.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Native Mobile Bottom Nav Bar */
+      .mobile-bottom-nav {
+        display: flex !important;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        background: rgba(255, 255, 255, 0.9) !important;
+        backdrop-filter: blur(24px) saturate(200%) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(200%) !important;
+        border-top: 1px solid rgba(226, 232, 240, 0.9) !important;
+        box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.05);
+        z-index: 1000;
+        align-items: center;
+        justify-content: space-around;
+        padding-left: 0.35rem;
+        padding-right: 0.35rem;
+      }
+
+      .mobile-nav-item {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        background: transparent;
+        border: none;
+        color: #64748b;
+        cursor: pointer;
+        padding: 4px 0;
+        position: relative;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .mobile-nav-item .mobile-nav-icon-wrap {
+        width: 32px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        transition: all 0.2s;
+      }
+
+      .mobile-nav-item .material-symbols-outlined {
+        font-size: 21px;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .mobile-nav-item .mobile-nav-label {
+        font-size: 0.64rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1;
+      }
+
+      .mobile-nav-item:active {
+        transform: scale(0.92);
+      }
+
+      .mobile-nav-item.active {
+        color: #0f172a;
+      }
+
+      .mobile-nav-item.active .mobile-nav-icon-wrap {
+        background: rgba(16, 185, 129, 0.14);
+        color: #059669;
+      }
+
+      .mobile-nav-item.active .material-symbols-outlined {
+        transform: translateY(-1px);
+      }
+
+      .mobile-nav-item.active .mobile-nav-label {
+        color: #059669;
+        font-weight: 700;
+      }
+
+      .mobile-nav-badge {
+        position: absolute;
+        top: -3px;
+        right: -6px;
+        background: #f59e0b;
+        color: #ffffff;
+        font-size: 0.58rem;
+        font-weight: 800;
+        min-width: 15px;
+        height: 15px;
+        line-height: 15px;
+        text-align: center;
+        border-radius: 9999px;
+        padding: 0 4px;
+        box-shadow: 0 2px 4px rgba(245, 158, 11, 0.4);
+      }
+    }
   </style>
 </head>
 
@@ -490,7 +720,7 @@
 
           <button id="btnRunAnalysis" class="btn btn-primary" type="button">
             <span class="material-symbols-outlined" style="font-size:16px;">refresh</span>
-            Run Analysis
+            <span class="btn-label-text">Run Analysis</span>
           </button>
 
           <a href="/dashboard" class="btn btn-outline" style="text-decoration:none;" title="Executive Radar">
@@ -505,6 +735,9 @@
       </div>
     </header>
 
+    <!-- Mobile Backdrop for off-canvas drawer -->
+    <div class="sidebar-mobile-backdrop" id="sidebarMobileBackdrop" onclick="closeMobileSidebar()"></div>
+
     <!-- ==========================================================================
        2. WORKSPACE LAYOUT: COLORFUL COLLAPSIBLE SIDEBAR + MAIN CONTENT
        ========================================================================== -->
@@ -513,6 +746,17 @@
       <!-- COLORFUL COLLAPSIBLE SIDEBAR -->
       <aside class="colorful-sidebar" id="appSidebar">
         <div class="sidebar-content-wrap">
+
+          <!-- Mobile Drawer Top Header -->
+          <div class="sidebar-mobile-header" style="display:none;">
+            <div style="display:flex;align-items:center;gap:0.6rem;">
+              <img src="/static/logo.png" alt="FreshFlow Logo" style="width:26px;height:26px;border-radius:6px;" />
+              <span style="font-size:1rem;font-weight:800;color:#0f172a;">FreshFlow AI</span>
+            </div>
+            <button class="navbar-collapse-btn" onclick="closeMobileSidebar()" type="button" title="Close Menu" style="width:30px;height:30px;">
+              <span class="material-symbols-outlined" style="font-size:18px;">close</span>
+            </button>
+          </div>
 
           <div
             style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.85rem;padding:0 0.4rem;">
@@ -1137,7 +1381,7 @@
                   </div>
 
                   <!-- Outlet / Branch Code & Daily Capacity -->
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div class="grid-2col-responsive" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
                     <div class="form-group">
                       <label class="form-label" for="accOutletCode">Outlet / Station ID</label>
                       <input type="text" id="accOutletCode" class="form-input" placeholder="e.g. BLR-CK-01"
@@ -1151,7 +1395,7 @@
                   </div>
 
                   <!-- FSSAI License & GST -->
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div class="grid-2col-responsive" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
                     <div class="form-group">
                       <label class="form-label" for="accFssaiNumber">FSSAI License No.</label>
                       <input type="text" id="accFssaiNumber" class="form-input" placeholder="14-digit FSSAI"
@@ -1211,7 +1455,7 @@
                   </div>
 
                   <!-- Contact Phone & WhatsApp -->
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div class="grid-2col-responsive" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
                     <div class="form-group">
                       <label class="form-label" for="accOwnerPhone">Mobile / WhatsApp</label>
                       <input type="tel" id="accOwnerPhone" class="form-input" placeholder="+91 98765 43210"
@@ -1225,7 +1469,7 @@
                   </div>
 
                   <!-- Operating Hours & Currency -->
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div class="grid-2col-responsive" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
                     <div class="form-group">
                       <label class="form-label" for="accOperatingHours">Operating Hours</label>
                       <input type="text" id="accOperatingHours" class="form-input" placeholder="11:00 AM - 11:30 PM"
@@ -1379,8 +1623,18 @@
   <script src="/static/app.js"></script>
 
   <script>
-    // Sidebar Toggle Controller
+    // Sidebar Toggle Controller (Desktop Collapse + Mobile Drawer)
     function toggleAppSidebar() {
+      if (window.innerWidth <= 768) {
+        const sidebar = document.getElementById('appSidebar');
+        const backdrop = document.getElementById('sidebarMobileBackdrop');
+        if (!sidebar) return;
+        const isOpen = sidebar.classList.toggle('mobile-open');
+        if (backdrop) backdrop.classList.toggle('active', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+        return;
+      }
+
       const sidebar = document.getElementById('appSidebar');
       const toggleIcon = document.getElementById('sidebarToggleIcon');
       const miniIcon = document.getElementById('sidebarMiniIcon');
@@ -1392,6 +1646,28 @@
       if (toggleIcon) toggleIcon.textContent = isCollapsed ? 'menu' : 'menu_open';
       if (miniIcon) miniIcon.textContent = isCollapsed ? 'chevron_right' : 'chevron_left';
     }
+
+    function openMobileSidebar() {
+      const sidebar = document.getElementById('appSidebar');
+      const backdrop = document.getElementById('sidebarMobileBackdrop');
+      if (sidebar) sidebar.classList.add('mobile-open');
+      if (backdrop) backdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileSidebar() {
+      const sidebar = document.getElementById('appSidebar');
+      const backdrop = document.getElementById('sidebarMobileBackdrop');
+      if (sidebar) sidebar.classList.remove('mobile-open');
+      if (backdrop) backdrop.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        closeMobileSidebar();
+      }
+    });
 
     // Owner Account & Establishment Profile Logic
     function loadOwnerAccountDetails() {
@@ -1527,6 +1803,45 @@
       }
     });
   </script>
+
+  <!-- Mobile Floating / Sticky Bottom Navigation Bar (Active on <= 768px screens) -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Mobile Navigation">
+    <button class="mobile-nav-item active" data-tab="home" onclick="window.app.switchTab('home')" type="button">
+      <div class="mobile-nav-icon-wrap">
+        <span class="material-symbols-outlined">space_dashboard</span>
+      </div>
+      <span class="mobile-nav-label">Overview</span>
+    </button>
+
+    <button class="mobile-nav-item" data-tab="stock" onclick="window.app.switchTab('stock')" type="button">
+      <div class="mobile-nav-icon-wrap">
+        <span class="material-symbols-outlined">inventory_2</span>
+      </div>
+      <span class="mobile-nav-label">Stock</span>
+    </button>
+
+    <button class="mobile-nav-item" data-tab="forecast" onclick="window.app.switchTab('forecast')" type="button">
+      <div class="mobile-nav-icon-wrap">
+        <span class="material-symbols-outlined">trending_up</span>
+      </div>
+      <span class="mobile-nav-label">Forecast</span>
+    </button>
+
+    <button class="mobile-nav-item" data-tab="actions" onclick="window.app.switchTab('actions')" type="button">
+      <div class="mobile-nav-icon-wrap" style="position:relative;">
+        <span class="material-symbols-outlined">bolt</span>
+        <span id="mobilePendingBadge" class="mobile-nav-badge">0</span>
+      </div>
+      <span class="mobile-nav-label">Actions</span>
+    </button>
+
+    <button class="mobile-nav-item" id="btnMobileMore" onclick="openMobileSidebar()" type="button">
+      <div class="mobile-nav-icon-wrap">
+        <span class="material-symbols-outlined">menu</span>
+      </div>
+      <span class="mobile-nav-label">More</span>
+    </button>
+  </nav>
 
 </body>
 

@@ -392,6 +392,55 @@
       .nav-card-grid { grid-template-columns: repeat(2, 1fr); }
       .glass-header-card { flex-direction: column; }
     }
+
+    @media (max-width: 768px) {
+      .dashboard-nav {
+        height: auto !important;
+      }
+      .dashboard-nav-inner {
+        padding: 0.65rem 0.85rem !important;
+        flex-wrap: wrap !important;
+        gap: 0.6rem !important;
+        height: auto !important;
+      }
+      .radar-tag {
+        display: none !important;
+      }
+      .nav-actions {
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0.4rem !important;
+        flex-wrap: wrap !important;
+      }
+      .business-mode-chip {
+        display: none !important;
+      }
+      #dashRestaurantSelect {
+        flex: 1 !important;
+        max-width: 140px !important;
+      }
+      .exec-container {
+        padding: 1rem 0.85rem 3rem !important;
+      }
+      .nav-card-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .glass-header-card {
+        padding: 1.25rem 1rem !important;
+        gap: 1rem !important;
+      }
+      .glass-panel {
+        padding: 1.15rem 1rem !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .kpi-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
   </style>
 </head>
 <body>
