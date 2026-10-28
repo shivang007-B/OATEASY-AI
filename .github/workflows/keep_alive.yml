@@ -1,0 +1,19 @@
+name: Render Keep Alive Ping
+
+on:
+  schedule:
+    # Triggers every 10 minutes
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allows manual run button in GitHub Actions tab
+
+jobs:
+  ping-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping FreshFlow Health Endpoint
+        run: |
+          # Once deployed on Render, update this URL if your app name is different
+          TARGET_URL="${{ secrets.RENDER_APP_URL || 'https://freshflowai.onrender.com/health' }}"
+          echo "Pinging: $TARGET_URL"
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$TARGET_URL" || true)
+          echo "HTTP Status Code: $RESPONSE"
