@@ -16,11 +16,7 @@
   <!-- ==========================================================================
      COPAYFLOW / YOUPI ONE-SCRIPT PAYMENT GATEWAY INTEGRATION
      ========================================================================== -->
-  <script 
-    src="http://localhost:7000/youpi.js" 
-    data-youpi-key="00000000-0000-0000-0000-000000000001" 
-    data-currency="INR">
-  </script>
+  <script src="/static/youpi.js" id="youpiSdkScript" data-youpi-key="00000000-0000-0000-0000-000000000001" data-currency="INR"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1214,8 +1210,7 @@
       <div class="modal-body">
         <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:1rem;margin-bottom:1.25rem;font-size:0.86rem;color:#1e40af;line-height:1.5;">
           <strong>Gateway Integration Note:</strong><br/>
-          Copayflow client script was targeted at <code style="background:#ffffff;padding:2px 6px;border-radius:4px;">http://localhost:7000/youpi.js</code>.
-          If your local Copayflow service is running, it will open the interactive UPI QR code popup.
+          Copayflow UPI gateway is active. You can complete payment using the secure UPI modal or simulate instant success for development verification.
         </div>
 
         <div style="display:flex;flex-direction:column;gap:0.75rem;">
@@ -1412,7 +1407,10 @@
 
         closeCheckoutModal();
 
-        const checkoutUrl = session.checkoutUrl || `http://localhost:7000/checkout/${session.paymentId}`;
+        let checkoutUrl = session.checkoutUrl || `/checkout/${session.paymentId || currentOrderId}`;
+        if (checkoutUrl.startsWith('/')) {
+          checkoutUrl = window.location.origin + checkoutUrl;
+        }
         const paymentId = session.paymentId || currentOrderId;
 
         // 2. Invoke Youpi.pay with checkoutUrl (skips client-side fetch, directly opens modal)

@@ -3,12 +3,11 @@ import hashlib
 import json
 from datetime import datetime
 from fastapi import Request, Header, HTTPException
-from fastapi.responses import JSONResponse
 import os
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse, FileResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 from backend.db.seed_data import seed_database
 from backend.api.routes import reports, inventory, forecasts, actions, analytics, restaurants
 
@@ -245,15 +244,43 @@ async def create_payment_session(request: Request):
     except Exception as e:
         print(f"[Warning] Copayflow gateway session call failed: {e}. Generating fallback session URL.")
         fallback_payment_id = f"pay-{order_id.lower()}"
+        # If external gateway is unavailable, provide seamless self-hosted checkout URL
         return {
             "paymentId": fallback_payment_id,
             "orderId": order_id,
             "amount": str(amount),
             "currency": currency,
             "status": "INITIATED",
-            "checkoutUrl": f"{gateway_url}/checkout/{fallback_payment_id}?customAmount={amount}&customName=FreshFlow+{plan.capitalize()}+Plan",
+            "checkoutUrl": f"/checkout/{fallback_payment_id}?amount={amount}&plan={plan}&orderId={order_id}",
             "fallback": True
         }
+
+
+@app.get("/checkout/{payment_id}")
+def serve_checkout(payment_id: str, request: Request):
+    """
+    Serves the responsive UPI checkout page.
+    Provides instant dynamic UPI QR code, mobile deep links, and observation verification.
+    Ensures FreshFlow operates self-contained in production even without an external gateway.
+    """
+    checkout_file = os.path.join(STATIC_DIR, "checkout.html")
+    if os.path.exists(checkout_file):
+        return FileResponse(checkout_file)
+    return HTMLResponse("<h3>Checkout Portal Initializing...</h3>", status_code=200)
+
+
+@app.get("/api/v1/payments/config")
+def get_payment_config():
+    """Returns dynamic payment gateway client configuration."""
+    gateway_url = os.environ.get("YOUPI_GATEWAY_URL", "http://localhost:7000")
+    merchant_key = os.environ.get("YOUPI_MERCHANT_KEY", "00000000-0000-0000-0000-000000000001")
+    return {
+        "gatewayUrl": gateway_url,
+        "merchantKey": merchant_key,
+        "currency": os.environ.get("YOUPI_CURRENCY", "INR"),
+        "scriptUrl": os.environ.get("YOUPI_SCRIPT_URL", "/static/youpi.js"),
+        "isProduction": bool(os.environ.get("RENDER") or os.environ.get("ENVIRONMENT", "").lower() in ["production", "prod"])
+    }
 
 
 @app.get("/health")
