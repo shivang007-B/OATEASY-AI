@@ -1558,6 +1558,17 @@
         }
       }
 
+      // Dynamically sync gateway config from backend
+      fetch('/api/v1/payments/config')
+        .then(res => res.json())
+        .then(cfg => {
+          if (cfg && cfg.merchantKey) {
+            const scriptEl = document.getElementById('youpiSdkScript');
+            if (scriptEl) scriptEl.setAttribute('data-youpi-key', cfg.merchantKey);
+          }
+        })
+        .catch(() => {});
+
       // Check URL query parameters
       const urlParams = new URLSearchParams(window.location.search);
       const stepParam = urlParams.get('step');
