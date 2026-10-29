@@ -5,7 +5,7 @@ from datetime import datetime
 from fastapi import Request, Header, HTTPException
 import os
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse, FileResponse, HTMLResponse
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from backend.db.seed_data import seed_database
@@ -239,34 +239,14 @@ async def create_payment_session(request: Request):
         )
         with urllib.request.urlopen(req, timeout=5) as response:
             res_data = json.loads(response.read().decode("utf-8"))
-            print(f"[OK] [Payment Session Created] Order: {order_id}, PaymentId: {res_data.get('paymentId')}")
+            print(f"[OK] [Real CoPayFlow Session Created] Order: {order_id}, PaymentId: {res_data.get('paymentId')}, Checkout: {res_data.get('checkoutUrl')}")
             return res_data
     except Exception as e:
-        print(f"[Warning] Copayflow gateway session call failed: {e}. Generating fallback session URL.")
-        fallback_payment_id = f"pay-{order_id.lower()}"
-        # If external gateway is unavailable, provide seamless self-hosted checkout URL
-        return {
-            "paymentId": fallback_payment_id,
-            "orderId": order_id,
-            "amount": str(amount),
-            "currency": currency,
-            "status": "INITIATED",
-            "checkoutUrl": f"/checkout/{fallback_payment_id}?amount={amount}&plan={plan}&orderId={order_id}",
-            "fallback": True
-        }
-
-
-@app.get("/checkout/{payment_id}")
-def serve_checkout(payment_id: str, request: Request):
-    """
-    Serves the responsive UPI checkout page.
-    Provides instant dynamic UPI QR code, mobile deep links, and observation verification.
-    Ensures FreshFlow operates self-contained in production even without an external gateway.
-    """
-    checkout_file = os.path.join(STATIC_DIR, "checkout.html")
-    if os.path.exists(checkout_file):
-        return FileResponse(checkout_file)
-    return HTMLResponse("<h3>Checkout Portal Initializing...</h3>", status_code=200)
+        print(f"[Error] Real CoPayFlow gateway connection failed: {e}")
+        raise HTTPException(
+            status_code=502,
+            detail=f"CoPayFlow Gateway unavailable at {gateway_url}. Ensure CoPayFlow is running: {str(e)}"
+        )
 
 
 @app.get("/api/v1/payments/config")
