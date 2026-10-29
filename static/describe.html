@@ -1409,7 +1409,6 @@
 
         const checkoutUrl = session.checkoutUrl;
         const paymentId = session.paymentId || currentOrderId;
-        const paymentId = session.paymentId || currentOrderId;
 
         // 2. Invoke Youpi.pay with checkoutUrl (skips client-side fetch, directly opens modal)
         if (window.Youpi && typeof window.Youpi.pay === 'function') {
