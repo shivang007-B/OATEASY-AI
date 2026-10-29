@@ -407,7 +407,7 @@
       align-items: center;
       gap: 0.55rem;
       border: 1.5px solid rgba(52, 211, 153, 0.85);
-      box-shadow: 
+      box-shadow:
         0 0 20px rgba(16, 185, 129, 0.55),
         inset 0 0 16px rgba(52, 211, 153, 0.25),
         0 8px 24px rgba(0, 0, 0, 0.35);
@@ -418,7 +418,7 @@
       transform: translateY(-2px);
       background: rgba(16, 185, 129, 0.42);
       border-color: #6ee7b7;
-      box-shadow: 
+      box-shadow:
         0 0 32px rgba(16, 185, 129, 0.85),
         inset 0 0 22px rgba(52, 211, 153, 0.4),
         0 12px 30px rgba(0, 0, 0, 0.45);
@@ -466,7 +466,7 @@
       align-items: center;
       gap: 0.5rem;
       border: 1.5px solid rgba(56, 189, 248, 0.8);
-      box-shadow: 
+      box-shadow:
         0 0 20px rgba(56, 189, 248, 0.45),
         inset 0 0 14px rgba(56, 189, 248, 0.2),
         0 8px 24px rgba(0, 0, 0, 0.35);
@@ -478,7 +478,7 @@
       background: rgba(56, 189, 248, 0.25);
       border-color: #93c5fd;
       color: #ffffff;
-      box-shadow: 
+      box-shadow:
         0 0 32px rgba(56, 189, 248, 0.75),
         inset 0 0 20px rgba(56, 189, 248, 0.35),
         0 12px 30px rgba(0, 0, 0, 0.45);
@@ -622,6 +622,376 @@
       font-weight: 600;
     }
 
+
+    /* ==========================================================================
+       4.5 PRODUCT PREVIEW / INTERFACE SHOWCASE SECTION (preview 1 & preview 2)
+       ========================================================================== */
+    .preview-showcase-sec {
+      padding: 1.5rem 1.5rem 5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .preview-showcase-header {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .preview-switcher-wrap {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: 8px;
+      padding: 0.35rem;
+      gap: 0.35rem;
+      margin-bottom: 2.25rem;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .preview-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.75rem 1.65rem;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: #64748b;
+      font-size: 0.92rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .preview-tab-btn:hover {
+      color: #0f172a;
+      background: rgba(241, 245, 249, 0.75);
+    }
+
+    .preview-tab-btn.active {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4);
+    }
+
+    .preview-tab-btn .tab-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.24);
+      color: #ffffff;
+      letter-spacing: 0.03em;
+    }
+
+    .preview-tab-btn:not(.active) .tab-badge {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    /* Mockup Browser Window Container */
+    .preview-mockup-frame {
+      background: #ffffff;
+      border-radius: 22px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      box-shadow: 0 25px 65px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(16, 185, 129, 0.1);
+      overflow: hidden;
+      margin-bottom: 0;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .preview-mockup-frame:hover {
+      box-shadow: 0 30px 80px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(16, 185, 129, 0.25);
+    }
+
+    .mockup-top-bar {
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0.85rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .mockup-window-dots {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .mockup-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot-close {
+      background: #ff5f56;
+    }
+
+    .dot-minimize {
+      background: #ffbd2e;
+    }
+
+    .dot-maximize {
+      background: #27c93f;
+    }
+
+    .mockup-url-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      padding: 0.42rem 1.35rem;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #334155;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .mockup-actions-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .btn-mockup-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.4rem 0.95rem;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: #334155;
+      text-decoration: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .btn-mockup-action:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .btn-mockup-primary {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #059669;
+    }
+
+    .btn-mockup-primary:hover {
+      background: #10b981;
+      border-color: #10b981;
+      color: #ffffff;
+    }
+
+    /* Screen display and transitions */
+    .preview-screens-viewport {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      background: #0f172a;
+    }
+
+    .preview-screen-item {
+      display: none;
+      position: relative;
+      width: 100%;
+      opacity: 0;
+      transform: scale(0.99);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .preview-screen-item.active {
+      display: block;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .preview-mockup-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: zoom-in;
+      transition: transform 0.4s ease;
+    }
+
+    .preview-mockup-img:hover {
+      transform: scale(1.006);
+    }
+
+    /* Feature highlights bar below mockup */
+    .preview-features-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      padding: 1.15rem 1.5rem;
+    }
+
+    .preview-feat-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .preview-feat-pill .material-symbols-outlined {
+      font-size: 18px;
+      color: #059669;
+    }
+
+    /* Lightbox Modal */
+    .preview-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100000;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .preview-lightbox.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: 95vw;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 82vh;
+      border-radius: 14px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      object-fit: contain;
+    }
+
+    .lightbox-caption-bar {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      color: #ffffff;
+      font-size: 0.92rem;
+      font-weight: 600;
+      gap: 1rem;
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: -3.2rem;
+      right: 0;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .lightbox-close-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .lightbox-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lightbox-nav-btn:hover {
+      background: #10b981;
+      border-color: #10b981;
+    }
+
+    .lightbox-prev {
+      left: -3.8rem;
+    }
+
+    .lightbox-next {
+      right: -3.8rem;
+    }
+
+    @media (max-width: 900px) {
+      .preview-switcher-wrap {
+        width: 100%;
+        flex-direction: column;
+        border-radius: 8px;
+      }
+
+      .preview-tab-btn {
+        width: 100%;
+        justify-content: center;
+        border-radius: 6px;
+      }
+
+      .mockup-url-bar {
+        display: none;
+      }
+
+      .lightbox-prev {
+        left: 0.5rem;
+      }
+
+      .lightbox-next {
+        right: 0.5rem;
+      }
+    }
+
     /* 5. HOW IT WORKS / ONBOARDING JOURNEY (4-STEPS) */
     .onboarding-steps-sec {
       padding: 4.5rem 1.5rem;
@@ -659,7 +1029,7 @@
       color: #64748b;
       max-width: 680px;
       line-height: 1.6;
-      margin-bottom: 2.75rem;
+      margin-bottom: 0;
     }
 
     .steps-grid {
@@ -1206,6 +1576,7 @@
         transform: scale(0.96) translateY(12px);
         opacity: 0;
       }
+
       to {
         transform: scale(1) translateY(0);
         opacity: 1;
@@ -1366,32 +1737,41 @@
       .landing-nav-inner {
         padding: 0 0.85rem !important;
       }
+
       .landing-logo-text {
         font-size: 1.05rem !important;
       }
+
       .landing-ai-pill {
         display: none !important;
       }
+
       .landing-hero {
         padding: 4rem 1rem 3rem !important;
       }
+
       .landing-title {
         font-size: 2rem !important;
       }
+
       .landing-subtitle {
         font-size: 0.92rem !important;
         margin-bottom: 1.5rem !important;
       }
+
       .landing-hero-btns {
         flex-direction: column !important;
         width: 100% !important;
         gap: 0.75rem !important;
       }
-      .btn-hero-primary, .btn-hero-instant {
+
+      .btn-hero-primary,
+      .btn-hero-instant {
         width: 100% !important;
         justify-content: center !important;
         padding: 0.85rem 1.25rem !important;
       }
+
       .metrics-card-grid {
         grid-template-columns: 1fr !important;
       }
@@ -1433,6 +1813,7 @@
 
         <!-- Middle Nav Anchors -->
         <ul class="nav-links-menu">
+          <li><a href="#productPreview" class="nav-link-item">Platform Preview</a></li>
           <li><a href="#howItWorks" class="nav-link-item">How It Works</a></li>
           <li><a href="#featuresSection" class="nav-link-item">Core Features</a></li>
           <li><a href="#pricingSection" class="nav-link-item">Monthly Plans</a></li>
@@ -1498,7 +1879,7 @@
 
         <div class="landing-hero-btns">
           <a href="/describe" class="btn-hero-primary" id="btnGetStarted">
-            <span>Get Started — Choose Business</span>
+            <span>Get Started — Choose plan</span>
             <span class="material-symbols-outlined" style="font-size:20px;">arrow_forward</span>
           </a>
 
@@ -1536,6 +1917,113 @@
         </div>
       </div>
     </div>
+
+    <!-- ==========================================================================
+       4.5 PRODUCT PREVIEW / INTERFACE SHOWCASE SECTION (preview 1 & preview 2)
+       ========================================================================== -->
+    <section class="preview-showcase-sec" id="productPreview">
+      <div class="preview-showcase-header">
+        <div class="sec-badge">
+          <span class="material-symbols-outlined" style="font-size:16px;">screenshot_monitor</span>
+          <span>Live Platform Interface</span>
+        </div>
+        <h2 class="sec-title">Two Powerful Views. One Autonomous OS.</h2>
+        <p class="sec-subtitle" style="margin: 0 auto;">
+          Experience how FreshFlow bridges the gap between high-tempo chef line execution and high-altitude executive
+          margin control.
+        </p>
+      </div>
+
+      <!-- Interactive Tab Switcher -->
+      <div style="text-align: center;">
+        <div class="preview-switcher-wrap" role="tablist">
+          <button type="button" class="preview-tab-btn active" id="tabBtnOps" onclick="switchPreviewTab('ops')"
+            role="tab" aria-selected="true">
+            <span class="material-symbols-outlined" style="font-size:20px;">table_restaurant</span>
+            <span>Kitchen Operations Workspace</span>
+            <span class="tab-badge">Chef View · /app</span>
+          </button>
+          <button type="button" class="preview-tab-btn" id="tabBtnRadar" onclick="switchPreviewTab('radar')" role="tab"
+            aria-selected="false">
+            <span class="material-symbols-outlined" style="font-size:20px;">monitoring</span>
+            <span>Executive Operations Radar</span>
+            <span class="tab-badge">C-Suite / GM · /dashboard</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Browser Mockup Window -->
+      <div class="preview-mockup-frame">
+        <!-- Browser Top Bar -->
+        <div class="mockup-top-bar">
+          <div class="mockup-window-dots">
+            <span class="mockup-dot dot-close"></span>
+            <span class="mockup-dot dot-minimize"></span>
+            <span class="mockup-dot dot-maximize"></span>
+          </div>
+
+          <div class="mockup-url-bar">
+            <span class="material-symbols-outlined" style="font-size:15px;color:#10b981;">lock</span>
+            <span id="mockupUrlText">https://freshflow.ai/app</span>
+            <span
+              style="display:inline-flex;align-items:center;gap:4px;margin-left:0.5rem;font-size:0.7rem;color:#059669;background:#ecfdf5;padding:2px 8px;border-radius:9999px;">
+              <span class="live-dot-green" style="width:6px;height:6px;"></span> Live
+            </span>
+          </div>
+
+          <div class="mockup-actions-bar">
+            <button type="button" class="btn-mockup-action" onclick="openPreviewLightbox()"
+              title="View in fullscreen zoom">
+              <span class="material-symbols-outlined" style="font-size:16px;">zoom_in</span>
+              <span>Zoom View</span>
+            </button>
+            <a href="#pricingSection" class="btn-mockup-action btn-mockup-primary" id="mockupLiveActionBtn"
+              title="Choose Your Plan">
+              <span class="material-symbols-outlined" style="font-size:16px;">loyalty</span>
+              <span id="mockupLiveActionLabel">Choose Plan</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Screenshots Viewport -->
+        <div class="preview-screens-viewport">
+          <!-- View 1: Operations Workspace (preview 1.png) -->
+          <div class="preview-screen-item active" id="screenOpsView">
+            <img src="/static/preview (1).png"
+              alt="FreshFlow Kitchen Operations Workspace: Demand Forecasting, Prep Workorders, and Risk Matrix"
+              class="preview-mockup-img" onclick="openPreviewLightbox(1)" />
+          </div>
+
+          <!-- View 2: Executive Radar (preview 2.png) -->
+          <div class="preview-screen-item" id="screenRadarView">
+            <img src="/static/preview (2).png"
+              alt="FreshFlow Executive Operations Radar: Telemetry, Waste Avoidance, and Purchasing Approvals"
+              class="preview-mockup-img" onclick="openPreviewLightbox(2)" />
+          </div>
+        </div>
+
+        <!-- Live Telemetry Highlights Strip below image -->
+        <div class="preview-features-strip" id="previewHighlightsStrip">
+          <div class="preview-feat-pill">
+            <span class="material-symbols-outlined">trending_up</span>
+            <span id="stripStat1"><strong>345 Orders</strong> Predicted Tomorrow (+8.4% WoW)</span>
+          </div>
+          <div class="preview-feat-pill">
+            <span class="material-symbols-outlined">warning</span>
+            <span id="stripStat2"><strong>9 Perishables</strong> At High Spoilage Risk (FEFO Alert)</span>
+          </div>
+          <div class="preview-feat-pill">
+            <span class="material-symbols-outlined">savings</span>
+            <span id="stripStat3"><strong>₹18,831.65</strong> Estimated Prevented Waste</span>
+          </div>
+          <div class="preview-feat-pill">
+            <span class="material-symbols-outlined">shopping_cart_checkout</span>
+            <span id="stripStat4"><strong>₹630.00</strong> Auto-Drafted Supplier POs</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
 
     <!-- ==========================================================================
        5. HOW IT WORKS / ONBOARDING JOURNEY (4 SIMPLE STEPS)
@@ -2011,14 +2499,55 @@
 
         <div class="footer-links-group">
           <a href="/describe">Choose Business</a>
+          <a href="#productPreview">Platform Preview</a>
           <a href="#howItWorks">How It Works</a>
           <a href="#featuresSection">Core Features</a>
           <a href="#pricingSection">Monthly Plans</a>
-          <a href="javascript:void(0)" onclick="openPrivacyModal()" style="font-weight:700;color:#059669;">Privacy Policy</a>
+          <a href="javascript:void(0)" onclick="openPrivacyModal()" style="font-weight:700;color:#059669;">Privacy
+            Policy</a>
         </div>
       </div>
     </footer>
 
+  </div>
+
+
+  <!-- Platform Preview Lightbox Modal -->
+  <div id="previewLightboxModal" class="preview-lightbox" onclick="if(event.target===this)closePreviewLightbox()">
+    <div class="lightbox-inner" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+      <button type="button" class="lightbox-close-btn" onclick="closePreviewLightbox()"
+        aria-label="Close fullscreen view">
+        <span class="material-symbols-outlined" style="font-size:22px;">close</span>
+      </button>
+
+      <button type="button" class="lightbox-nav-btn lightbox-prev" onclick="prevLightboxImage()"
+        aria-label="Previous preview image">
+        <span class="material-symbols-outlined" style="font-size:24px;">chevron_left</span>
+      </button>
+
+      <img id="lightboxTargetImg" src="/static/preview (1).png" alt="FreshFlow UI Preview" class="lightbox-img" />
+
+      <button type="button" class="lightbox-nav-btn lightbox-next" onclick="nextLightboxImage()"
+        aria-label="Next preview image">
+        <span class="material-symbols-outlined" style="font-size:24px;">chevron_right</span>
+      </button>
+
+      <div class="lightbox-caption-bar">
+        <div>
+          <span id="lightboxBadge"
+            style="background:#10b981;color:#fff;padding:2px 10px;border-radius:9999px;font-size:0.75rem;font-weight:800;margin-right:0.5rem;">VIEW
+            1/2</span>
+          <span id="lightboxTitle">Kitchen Operations Workspace — Demand Forecast &amp; Daily Prep Sheet</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <a id="lightboxLiveLink" href="/app" class="btn-mockup-action btn-mockup-primary" style="padding:0.4rem 1rem;"
+            target="_blank">
+            <span class="material-symbols-outlined" style="font-size:16px;">open_in_new</span>
+            <span id="lightboxActionText">Open Live /app</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Privacy Policy Popup Modal -->
@@ -2036,7 +2565,8 @@
 
       <div class="privacy-modal-body">
         <p style="margin-bottom:1rem;color:#64748b;font-size:0.8rem;">
-          <strong>Effective Date:</strong> January 2026 · Compliant with ISO/IEC 27001, GDPR &amp; Commercial Culinary Standards
+          <strong>Effective Date:</strong> January 2026 · Compliant with ISO/IEC 27001, GDPR &amp; Commercial Culinary
+          Standards
         </p>
 
         <h4>
@@ -2044,7 +2574,9 @@
           1. Commercial Kitchen Data Confidentiality
         </h4>
         <p>
-          FreshFlow AI operates on strict enterprise privacy principles. Your restaurant's proprietary recipes, sales covers, ingredient unit costs, vendor pricing negotiations, and dish profit margins are strictly confidential and encrypted with military-grade AES-256.
+          FreshFlow AI operates on strict enterprise privacy principles. Your restaurant's proprietary recipes, sales
+          covers, ingredient unit costs, vendor pricing negotiations, and dish profit margins are strictly confidential
+          and encrypted with military-grade AES-256.
         </p>
 
         <h4>
@@ -2052,7 +2584,9 @@
           2. Machine Learning Telemetry &amp; Isolation
         </h4>
         <p>
-          Neural demand forecasting curves and perishable expiry risk algorithms are containerized per organization. FreshFlow AI never shares, pools, or exposes your operational data to competitor restaurants, third-party brokers, or external advertising networks.
+          Neural demand forecasting curves and perishable expiry risk algorithms are containerized per organization.
+          FreshFlow AI never shares, pools, or exposes your operational data to competitor restaurants, third-party
+          brokers, or external advertising networks.
         </p>
 
         <h4>
@@ -2060,7 +2594,9 @@
           3. POS &amp; Inventory Integration Security
         </h4>
         <p>
-          When you connect Point-of-Sale (POS) systems, kitchen display units (KDS), or digital weighing scales, communications are secured through TLS 1.3 encrypted tunnels with automated API token rotation and zero credential exposure.
+          When you connect Point-of-Sale (POS) systems, kitchen display units (KDS), or digital weighing scales,
+          communications are secured through TLS 1.3 encrypted tunnels with automated API token rotation and zero
+          credential exposure.
         </p>
 
         <h4>
@@ -2068,7 +2604,9 @@
           4. Staff &amp; Operator Access Governance
         </h4>
         <p>
-          Role-Based Access Control (RBAC) ensures Executive Chefs, Storekeepers, and General Managers only access workflows relevant to their duty stations. Every purchase order approval, inventory audit, and waste write-off is logged in an immutable audit trail.
+          Role-Based Access Control (RBAC) ensures Executive Chefs, Storekeepers, and General Managers only access
+          workflows relevant to their duty stations. Every purchase order approval, inventory audit, and waste write-off
+          is logged in an immutable audit trail.
         </p>
 
         <h4>
@@ -2076,12 +2614,14 @@
           5. Data Ownership &amp; 1-Click Export
         </h4>
         <p>
-          You retain 100% intellectual property ownership of your culinary and sales data. You may download complete historical CSV/JSON backups or request complete data deletion at any time via your account dashboard.
+          You retain 100% intellectual property ownership of your culinary and sales data. You may download complete
+          historical CSV/JSON backups or request complete data deletion at any time via your account dashboard.
         </p>
       </div>
 
       <div class="privacy-modal-footer">
-        <button type="button" class="btn-hero-primary" onclick="closePrivacyModal()" style="padding:0.6rem 1.6rem;font-size:0.88rem;border-radius:10px;">
+        <button type="button" class="btn-hero-primary" onclick="closePrivacyModal()"
+          style="padding:0.6rem 1.6rem;font-size:0.88rem;border-radius:10px;">
           <span>I Understand &amp; Agree</span>
         </button>
       </div>
@@ -2203,8 +2743,145 @@
       }
     };
 
+
+    // 3. Platform Preview (preview 1 & preview 2) Tab Switcher & Lightbox Controller
+    let currentPreviewIndex = 1; // 1 for preview (1).png (ops), 2 for preview (2).png (radar)
+    const previewData = {
+      1: {
+        key: 'ops',
+        title: 'Kitchen Operations Workspace — Demand Forecast & Daily Prep Sheet',
+        url: 'https://freshflow.ai/app',
+        liveHref: '#pricingSection',
+        btnText: 'Choose Plan',
+        badge: 'VIEW 1/2 · OPS APP',
+        imgSrc: '/static/preview (1).png',
+        stats: [
+          '<strong>345 Orders</strong> Predicted Tomorrow (+8.4% WoW)',
+          '<strong>9 Perishables</strong> At High Spoilage Risk (FEFO Alert)',
+          '<strong>₹18,831.65</strong> Estimated Prevented Waste',
+          '<strong>₹630.00</strong> Auto-Drafted Supplier POs'
+        ]
+      },
+      2: {
+        key: 'radar',
+        title: 'Executive Operations Radar — Real-time Multi-Unit Telemetry & Margin Protection',
+        url: 'https://freshflow.ai/dashboard',
+        liveHref: '#pricingSection',
+        btnText: 'Choose Plan',
+        badge: 'VIEW 2/2 · EXECUTIVE RADAR',
+        imgSrc: '/static/preview (2).png',
+        stats: [
+          '<strong>Executive Radar</strong> Multi-Outlet Real-time Telemetry',
+          '<strong>Hourly Distribution</strong> Neural Load Curves',
+          '<strong>₹3,000.86</strong> Actionable Preventable Exposure',
+          '<strong>94.2%</strong> Neural Model Confidence Index'
+        ]
+      }
+    };
+
+    window.switchPreviewTab = function (tabKey) {
+      const isOps = tabKey === 'ops';
+      currentPreviewIndex = isOps ? 1 : 2;
+      const data = previewData[currentPreviewIndex];
+
+      // Update switcher buttons
+      const tabOps = document.getElementById('tabBtnOps');
+      const tabRadar = document.getElementById('tabBtnRadar');
+      if (tabOps && tabRadar) {
+        tabOps.classList.toggle('active', isOps);
+        tabOps.setAttribute('aria-selected', isOps ? 'true' : 'false');
+        tabRadar.classList.toggle('active', !isOps);
+        tabRadar.setAttribute('aria-selected', !isOps ? 'true' : 'false');
+      }
+
+      // Update screen viewports
+      const screenOps = document.getElementById('screenOpsView');
+      const screenRadar = document.getElementById('screenRadarView');
+      if (screenOps && screenRadar) {
+        screenOps.classList.toggle('active', isOps);
+        screenRadar.classList.toggle('active', !isOps);
+      }
+
+      // Update browser mockup top bar elements
+      const urlText = document.getElementById('mockupUrlText');
+      if (urlText) urlText.textContent = data.url;
+
+      const liveBtn = document.getElementById('mockupLiveActionBtn');
+      const liveLabel = document.getElementById('mockupLiveActionLabel');
+      if (liveBtn) liveBtn.href = data.liveHref;
+      if (liveLabel) liveLabel.textContent = data.btnText;
+
+      // Update highlight stats strip
+      const s1 = document.getElementById('stripStat1');
+      const s2 = document.getElementById('stripStat2');
+      const s3 = document.getElementById('stripStat3');
+      const s4 = document.getElementById('stripStat4');
+      if (s1 && s2 && s3 && s4) {
+        s1.innerHTML = data.stats[0];
+        s2.innerHTML = data.stats[1];
+        s3.innerHTML = data.stats[2];
+        s4.innerHTML = data.stats[3];
+      }
+
+    };
+
+    window.openPreviewLightbox = function (idx) {
+      if (idx === 1 || idx === 2) {
+        currentPreviewIndex = idx;
+      }
+      updateLightboxDisplay();
+      const modal = document.getElementById('previewLightboxModal');
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
+    window.closePreviewLightbox = function () {
+      const modal = document.getElementById('previewLightboxModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    };
+
+    function updateLightboxDisplay() {
+      const data = previewData[currentPreviewIndex];
+      const img = document.getElementById('lightboxTargetImg');
+      const title = document.getElementById('lightboxTitle');
+      const badge = document.getElementById('lightboxBadge');
+      const liveLink = document.getElementById('lightboxLiveLink');
+      const actionText = document.getElementById('lightboxActionText');
+
+      if (img) img.src = data.imgSrc;
+      if (title) title.textContent = data.title;
+      if (badge) badge.textContent = data.badge;
+      if (liveLink) liveLink.href = data.liveHref;
+      if (actionText) actionText.textContent = 'Choose Plan';
+    }
+
+    window.nextLightboxImage = function () {
+      currentPreviewIndex = currentPreviewIndex === 1 ? 2 : 1;
+      updateLightboxDisplay();
+    };
+
+    window.prevLightboxImage = function () {
+      currentPreviewIndex = currentPreviewIndex === 1 ? 2 : 1;
+      updateLightboxDisplay();
+    };
+
+
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') window.closePrivacyModal();
+      if (e.key === 'Escape') {
+        window.closePrivacyModal();
+        window.closePreviewLightbox();
+      }
+      if (e.key === 'ArrowRight' && document.getElementById('previewLightboxModal') && document.getElementById('previewLightboxModal').classList.contains('active')) {
+        window.nextLightboxImage();
+      }
+      if (e.key === 'ArrowLeft' && document.getElementById('previewLightboxModal') && document.getElementById('previewLightboxModal').classList.contains('active')) {
+        window.prevLightboxImage();
+      }
     });
 
     // Initialize on DOM load
