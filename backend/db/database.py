@@ -212,3 +212,20 @@ def init_db():
                 units_sold INTEGER NOT NULL
             )
         ''')
+
+        # Payments table for Copayflow / Youpi integration
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS payments (
+                order_id TEXT PRIMARY KEY,
+                amount REAL NOT NULL,
+                currency TEXT DEFAULT 'INR',
+                customer_name TEXT,
+                customer_email TEXT,
+                customer_phone TEXT,
+                plan TEXT NOT NULL,
+                utr TEXT,
+                status TEXT NOT NULL,
+                raw_payload TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
