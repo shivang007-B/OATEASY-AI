@@ -67,7 +67,9 @@ function renderHistogram() {
 }
 
 // ─── Main app class ────────────────────────────────────────────────────────
-class FreshFlowApp {
+class OatEasyApp {
+
+
   constructor() {
     this.currentTab = 'home';
     this.selectedRestaurant = 'R01';
@@ -783,8 +785,8 @@ window.selectKitchenType = function(typeKey) {
 window.fillDemoCredentials = function() {
   const emailInput = document.getElementById('loginEmail');
   const passInput = document.getElementById('loginPassword');
-  if (emailInput) emailInput.value = 'admin@freshflow.ai';
-  if (passInput) passInput.value = 'freshflow2026';
+  if (emailInput) emailInput.value = 'admin@oateasy.ai';
+  if (passInput) passInput.value = 'oateasy2026';
   if (window.app && window.app.showToast) {
     window.app.showToast('✓ Demo credentials filled!');
   }
@@ -880,3 +882,6 @@ window.addEventListener('DOMContentLoaded', () => {
   window.triggerAppLaunch();
 });
 
+
+window.OatEasyApp = OatEasyApp;
+window.FreshFlowApp = OatEasyApp;

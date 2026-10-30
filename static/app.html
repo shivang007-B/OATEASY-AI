@@ -700,8 +700,8 @@
           </button>
 
           <a href="/" class="navbar-brand-name">
-            <img src="/static/logo.png" alt="FreshFlow Logo" class="brand-logo-img" style="width:30px;height:30px;border-radius:8px;" />
-            <span>FreshFlow</span>
+            <img src="/static/logo.png" alt="OatEasy Logo" class="brand-logo-img" style="width:30px;height:30px;border-radius:8px;" />
+            <span>OatEasy</span>
             <span class="navbar-ai-chip">AI OS</span>
           </a>
 
@@ -750,8 +750,8 @@
           <!-- Mobile Drawer Top Header -->
           <div class="sidebar-mobile-header" style="display:none;">
             <div style="display:flex;align-items:center;gap:0.6rem;">
-              <img src="/static/logo.png" alt="FreshFlow Logo" style="width:26px;height:26px;border-radius:6px;" />
-              <span style="font-size:1rem;font-weight:800;color:#0f172a;">FreshFlow AI</span>
+              <img src="/static/logo.png" alt="OatEasy Logo" style="width:26px;height:26px;border-radius:6px;" />
+              <span style="font-size:1rem;font-weight:800;color:#0f172a;">OatEasy AI</span>
             </div>
             <button class="navbar-collapse-btn" onclick="closeMobileSidebar()" type="button" title="Close Menu" style="width:30px;height:30px;">
               <span class="material-symbols-outlined" style="font-size:18px;">close</span>
@@ -1302,7 +1302,7 @@
                 <div>
                   <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.25rem;">
                     <h2 id="overviewEstablishmentName"
-                      style="font-size:1.25rem;font-weight:700;color:var(--text-1);margin:0;">FreshFlow Cloud Kitchen
+                      style="font-size:1.25rem;font-weight:700;color:var(--text-1);margin:0;">OatEasy Cloud Kitchen
                     </h2>
                     <span
                       style="font-size:0.72rem;font-weight:700;background:rgba(16,185,129,0.12);color:#059669;padding:0.18rem 0.55rem;border-radius:9999px;display:inline-flex;align-items:center;gap:0.25rem;">
@@ -1451,7 +1451,7 @@
                   <div class="form-group">
                     <label class="form-label" for="accOwnerEmail">Work / Notification Email</label>
                     <input type="email" id="accOwnerEmail" class="form-input" placeholder="owner@restaurant.com"
-                      value="admin@freshflow.ai" style="height:40px;border-radius:10px;font-size:0.85rem;" />
+                      value="admin@oateasy.ai" style="height:40px;border-radius:10px;font-size:0.85rem;" />
                   </div>
 
                   <!-- Contact Phone & WhatsApp -->
@@ -1520,11 +1520,11 @@
         <!-- Site Footer -->
         <footer class="site-footer">
           <div class="footer-inner">
-            <span>FreshFlow OS v2.4.0 · Operational Food Intelligence</span>
+            <span>OatEasy OS v2.4.0 · Operational Food Intelligence</span>
             <span style="display:flex;align-items:center;gap:0.5rem;">
               <span
                 style="width:6px;height:6px;border-radius:50%;background:var(--success);display:inline-block;"></span>
-              Sync Engine Operational · © 2026 FreshFlow
+              Sync Engine Operational · © 2026 OatEasy
             </span>
           </div>
         </footer>
@@ -1702,7 +1702,7 @@
         restaurant: 'The Urban Bistro & Dine-In'
       };
 
-      const estName = data.establishmentName || defaultEstablishments[kitchenType] || 'FreshFlow Operations Outlet';
+      const estName = data.establishmentName || defaultEstablishments[kitchenType] || 'OatEasy Operations Outlet';
       const ownerName = data.ownerName || 'Vikram Sharma';
       const ownerRole = data.ownerRole || 'Head Chef & Owner';
       const outletCode = data.outletCode || (kitchenType === 'cloudkitchen' ? 'BLR-CK-01' : 'HQ-REST-01');
@@ -1710,7 +1710,7 @@
       const fssai = data.fssai || '11224001000842';
       const gst = data.gst || '29ABCDE1234F1Z5';
       const address = data.address || 'Plot 42, 4th Main, 100 Feet Road, Indiranagar, Bengaluru, Karnataka - 560038';
-      const email = data.email || 'admin@freshflow.ai';
+      const email = data.email || 'admin@oateasy.ai';
       const phone = data.phone || '+91 98765 43210';
       const emergencyPhone = data.emergencyPhone || '+91 91234 56789';
       const hours = data.hours || '11:00 AM - 11:30 PM';
@@ -1753,7 +1753,7 @@
         fssai: document.getElementById('accFssaiNumber')?.value.trim() || '11224001000842',
         gst: document.getElementById('accGstNumber')?.value.trim() || '29ABCDE1234F1Z5',
         address: document.getElementById('accAddress')?.value.trim() || '',
-        email: document.getElementById('accOwnerEmail')?.value.trim() || 'admin@freshflow.ai',
+        email: document.getElementById('accOwnerEmail')?.value.trim() || 'admin@oateasy.ai',
         phone: document.getElementById('accOwnerPhone')?.value.trim() || '',
         emergencyPhone: document.getElementById('accEmergencyPhone')?.value.trim() || '',
         hours: document.getElementById('accOperatingHours')?.value.trim() || '',
@@ -1798,8 +1798,8 @@
       loadOwnerAccountDetails();
 
       // Instantiate dashboard engine
-      if (window.FreshFlowApp) {
-        window.app = new FreshFlowApp();
+      if (window.FreshFlowApp || window.OatEasyApp) {
+        window.app = new (window.OatEasyApp || window.FreshFlowApp)();
       }
     });
   </script>

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FreshFlow — Operator Sign In</title>
   <meta name="description"
-    content="Sign in to FreshFlow Restaurant Intelligence Platform. Demo credentials pre-loaded for instant evaluation." />
+    content="Sign in to OatEasy Restaurant Intelligence Platform. Demo credentials pre-loaded for instant evaluation." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
@@ -485,8 +485,8 @@
   <!-- Top Simple Navigation -->
   <header class="login-nav">
     <a href="/landing" class="brand-group">
-      <img src="/static/logo.png" alt="FreshFlow Logo" class="brand-logo-img" />
-      <span class="brand-title">FreshFlow AI</span>
+      <img src="/static/logo.png" alt="OatEasy Logo" class="brand-logo-img" />
+      <span class="brand-title">OatEasy AI</span>
     </a>
     <div style="font-size:0.82rem;color:#64748b;font-weight:600;display:flex;align-items:center;gap:0.35rem;">
       <span class="material-symbols-outlined" style="font-size:16px;color:#059669;">verified_user</span>
@@ -499,9 +499,9 @@
     <div class="login-card">
 
       <div class="login-brand-row">
-        <img src="/static/logo.png" alt="FreshFlow Logo" class="brand-logo-img"
+        <img src="/static/logo.png" alt="OatEasy Logo" class="brand-logo-img"
           style="width:42px;height:42px;border-radius:11px;" />
-        <span style="font-size:1.35rem;font-weight:800;color:#0f172a;letter-spacing:-0.03em;">FreshFlow AI</span>
+        <span style="font-size:1.35rem;font-weight:800;color:#0f172a;letter-spacing:-0.03em;">OatEasy AI</span>
       </div>
 
       <h1 class="login-title">Sign In to Workspace</h1>
@@ -526,13 +526,13 @@
       <form id="loginForm" onsubmit="handleLoginSubmit(event)">
         <div class="form-group">
           <label class="form-label">Operator Work Email / ID</label>
-          <input type="email" id="loginEmail" class="form-input" value="admin@freshflow.ai" required
+          <input type="email" id="loginEmail" class="form-input" value="admin@oateasy.ai" required
             placeholder="chef@restaurant.com" />
         </div>
 
         <div class="form-group">
           <label class="form-label">Password</label>
-          <input type="password" id="loginPassword" class="form-input" value="freshflow2026" required
+          <input type="password" id="loginPassword" class="form-input" value="oateasy2026" required
             placeholder="••••••••••••" />
         </div>
 
@@ -597,7 +597,7 @@
           1. Commercial Kitchen Data Confidentiality
         </h4>
         <p>
-          FreshFlow AI operates on strict enterprise privacy principles. Your restaurant's proprietary recipes, sales
+          OatEasy AI operates on strict enterprise privacy principles. Your restaurant's proprietary recipes, sales
           covers, ingredient unit costs, vendor pricing negotiations, and dish profit margins are strictly confidential
           and encrypted with military-grade AES-256.
         </p>
@@ -608,7 +608,7 @@
         </h4>
         <p>
           Neural demand forecasting curves and perishable expiry risk algorithms are containerized per organization.
-          FreshFlow AI never shares, pools, or exposes your operational data to competitor restaurants, third-party
+          OatEasy AI never shares, pools, or exposes your operational data to competitor restaurants, third-party
           brokers, or external advertising networks.
         </p>
 
@@ -670,8 +670,8 @@
     }
 
     function fillDemoCredentials() {
-      document.getElementById('loginEmail').value = 'admin@freshflow.ai';
-      document.getElementById('loginPassword').value = 'freshflow2026';
+      document.getElementById('loginEmail').value = 'admin@oateasy.ai';
+      document.getElementById('loginPassword').value = 'oateasy2026';
 
       const btn = document.querySelector('.demo-btn-chip');
       if (btn) {

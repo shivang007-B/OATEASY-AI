@@ -748,8 +748,8 @@
   <!-- Top Simple Navigation -->
   <header class="onboarding-nav">
     <a href="/landing" class="brand-group">
-      <img src="/static/logo.png" alt="FreshFlow Logo" class="brand-logo-img" />
-      <span class="brand-title">FreshFlow AI</span>
+      <img src="/static/logo.png" alt="OatEasy Logo" class="brand-logo-img" />
+      <span class="brand-title">OatEasy AI</span>
     </a>
     <a href="/landing" style="font-size:0.85rem;color:#64748b;text-decoration:none;display:flex;align-items:center;gap:0.3rem;">
       <span class="material-symbols-outlined" style="font-size:16px;">close</span> Exit to Landing
@@ -771,7 +771,7 @@
           </div>
           <h1 class="onboarding-title">What best describes your business?</h1>
           <p class="onboarding-subtitle">
-            FreshFlow dynamically tunes demand forecasting algorithms, safety stock buffers, and daily kitchen prep schedules for your specific operating model.
+            OatEasy dynamically tunes demand forecasting algorithms, safety stock buffers, and daily kitchen prep schedules for your specific operating model.
           </p>
         </div>
 
@@ -1036,7 +1036,7 @@
               </div>
               <h2 class="demo-title">Want to Test First? Explore Live Interactive Demo</h2>
               <p class="demo-desc">
-                Evaluate FreshFlow AI with preloaded commercial recipes, simulated 7-day quantile dish demand curves, walk-in chiller expiry radars, and automated chef morning prep workorders before committing. No payment or credit card required.
+                Evaluate OatEasy AI with preloaded commercial recipes, simulated 7-day quantile dish demand curves, walk-in chiller expiry radars, and automated chef morning prep workorders before committing. No payment or credit card required.
               </p>
             </div>
           </div>
@@ -1108,7 +1108,7 @@
 
           <div class="form-group-checkout">
             <label>Work Email (for Invoice &amp; License Key)</label>
-            <input type="email" id="custEmail" class="form-input-checkout" value="admin@freshflow.ai" required />
+            <input type="email" id="custEmail" class="form-input-checkout" value="admin@oateasy.ai" required />
           </div>
 
           <div class="form-group-checkout">
@@ -1312,7 +1312,7 @@
       activePlanKey = planKey;
       activePlanAmount = amount;
       activePlanTitle = planName;
-      currentOrderId = 'FF-' + planKey.toUpperCase() + '-' + Date.now().toString().slice(-6);
+      currentOrderId = 'OE-' + planKey.toUpperCase() + '-' + Date.now().toString().slice(-6);
 
       const modalPlanName = document.getElementById('modalPlanName');
       const modalPlanAmount = document.getElementById('modalPlanAmount');
@@ -1380,7 +1380,7 @@
       }
 
       const name = (document.getElementById('custName')?.value || '').trim() || 'Restaurant Partner';
-      const email = (document.getElementById('custEmail')?.value || '').trim() || 'partner@freshflow.ai';
+      const email = (document.getElementById('custEmail')?.value || '').trim() || 'partner@oateasy.ai';
       const phone = (document.getElementById('custPhone')?.value || '').trim() || '9876543210';
 
       try {
@@ -1419,7 +1419,7 @@
               checkoutUrl: checkoutUrl,
               amount: activePlanAmount,
               currency: 'INR',
-              name: 'FreshFlow AI · ' + activePlanTitle,
+              name: 'OatEasy AI · ' + activePlanTitle,
               customer: { name: name, email: email, phone: phone },
               metadata: {
                 plan: activePlanKey,
@@ -1465,7 +1465,7 @@
       const mockUtr = 'UTR' + Math.floor(1000000000 + Math.random() * 9000000000);
       const mockResponse = {
         status: "SUCCESS",
-        order_id: currentOrderId || ('FF-' + activePlanKey.toUpperCase() + '-' + Date.now().toString().slice(-6)),
+        order_id: currentOrderId || ('OE-' + activePlanKey.toUpperCase() + '-' + Date.now().toString().slice(-6)),
         amount_received: activePlanAmount,
         utr: mockUtr
       };

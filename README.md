@@ -1,6 +1,6 @@
-# FreshFlow AI — Autonomous Restaurant Intelligence Platform
+# OatEasy AI — Autonomous Restaurant Intelligence Platform
 
-FreshFlow AI is an end-to-end operational intelligence layer for restaurants. Powered by Machine Learning, it predicts dish-level demand, models perishable inventory risk, and generates automated prep & purchasing plans to eliminate food waste and protect profit margins.
+OatEasy AI is an end-to-end operational intelligence layer for restaurants. Powered by Machine Learning, it predicts dish-level demand, models perishable inventory risk, and generates automated prep & purchasing plans to eliminate food waste and protect profit margins.
 
 ---
 

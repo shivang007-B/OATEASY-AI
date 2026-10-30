@@ -40,7 +40,7 @@ seed_database(force=False)
 
 app = FastAPI(
 
-    title="FreshFlow Restaurant Intelligence API",
+    title="OatEasy Restaurant Intelligence API",
 
     description="Operational restaurant intelligence platform powered by Machine Learning demand forecasting, ingredient waste risk prediction, and automated prep & purchasing planning.",
 
@@ -116,7 +116,7 @@ def serve_root():
 
         return FileResponse(index_file)
 
-    return {"message": "FreshFlow platform initialized."}
+    return {"message": "OatEasy platform initialized."}
 
 
 
@@ -186,7 +186,7 @@ def serve_app():
 
         return FileResponse(index_file)
 
-    return {"message": "FreshFlow app not found."}
+    return {"message": "OatEasy app not found."}
 
 
 
@@ -452,13 +452,13 @@ async def create_payment_session(request: Request):
 
             "fullName": customer.get("name") or customer.get("fullName") or "Restaurant Partner",
 
-            "email": customer.get("email") or "partner@freshflow.ai",
+            "email": customer.get("email") or "partner@oateasy.ai",
 
             "phoneNumber": customer.get("phone") or customer.get("phoneNumber") or "9876543210"
 
         },
 
-        "description": f"FreshFlow AI {plan.capitalize()} Plan Subscription",
+        "description": f"OatEasy AI {plan.capitalize()} Plan Subscription",
 
         "metadata": metadata
 
@@ -484,7 +484,7 @@ async def create_payment_session(request: Request):
 
                     "X-Merchant-Id": merchant_key,
 
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) FreshFlow/1.0"
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) OatEasy/1.0"
 
                 },
 
@@ -554,7 +554,7 @@ def get_payment_config():
 
 def health_check():
 
-    return {"status": "ok", "app": "FreshFlow Intelligence", "version": "1.0.0"}
+    return {"status": "ok", "app": "OatEasy Intelligence", "version": "1.0.0"}
 
 
 
