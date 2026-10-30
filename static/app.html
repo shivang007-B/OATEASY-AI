@@ -1151,9 +1151,20 @@
                     <label class="form-label">Avg Temp (°C)</label>
                     <input id="simTemp" type="number" value="24.0" step="0.5" class="form-input" />
                   </div>
+                  <div class="form-group">
+                    <label class="form-label">Rainfall (mm)</label>
+                    <input id="simRain" type="number" value="0.0" step="0.5" class="form-input" />
+                  </div>
                 </div>
-                <button class="btn btn-primary" onclick="window.app.runSimulation()" type="button">Run
-                  Simulation</button>
+                <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap;">
+                  <label style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.82rem;cursor:pointer;">
+                    <input id="simPromo" type="checkbox" style="accent-color:var(--primary);" /> Promotion Active (+15-25% demand)
+                  </label>
+                  <label style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.82rem;cursor:pointer;">
+                    <input id="simHoliday" type="checkbox" style="accent-color:var(--primary);" /> Public Holiday (+20% uplift)
+                  </label>
+                </div>
+                <button id="btnRunSimulator" class="btn btn-primary" onclick="window.app.runSimulation()" type="button">Run Simulation</button>
                 <div id="simResultBox" style="margin-top:1rem;display:none;"></div>
               </div>
             </div>
@@ -1173,8 +1184,21 @@
                 <span style="font-size:0.72rem;color:var(--text-3);">Click any row to expand prep details</span>
               </div>
               <div class="acc-list" id="forecastAccList">
-                <div style="padding:2.5rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading forecasts…
+                <div style="padding:2.5rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading forecasts…</div>
+              </div>
+            </div>
+
+            <!-- Recommended Purchase Plan Card -->
+            <div class="card scroll-reveal" style="margin-top:1.5rem;">
+              <div class="card-header">
+                <div>
+                  <span class="card-title">Recommended Purchase Plan</span>
+                  <p style="font-size:0.75rem;color:var(--text-3);margin:0.2rem 0 0 0;">Synthesized from dish demand &amp; recipe BOM</p>
                 </div>
+                <span id="totalPurchaseValueBadge" class="badge badge-success" style="font-size:0.82rem;">Total: ₹0.00</span>
+              </div>
+              <div class="acc-list" id="purchasePlanAccList">
+                <div style="padding:2.5rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading purchase plan…</div>
               </div>
             </div>
           </section>
@@ -1187,20 +1211,45 @@
                 <h1 class="page-title">Smart Actions &amp; Orders</h1>
                 <p class="page-sub">Auto-synthesized kitchen prep schedules and supplier purchase orders</p>
               </div>
+              <div class="page-actions">
+                <button class="btn btn-outline btn-sm" onclick="window.app.resetActions()" type="button" title="Reset all actions back to pending">
+                  <span class="material-symbols-outlined" style="font-size:14px;">restart_alt</span> Reset Statuses
+                </button>
+              </div>
+            </div>
+
+            <!-- Actions KPI Metrics -->
+            <div class="kpi-grid">
+              <div class="kpi-card scroll-reveal delay-1">
+                <div class="kpi-label">Pending Approvals</div>
+                <div id="actionsPendingCount" class="kpi-value warn">0</div>
+                <div class="kpi-foot"><span>Requires kitchen sign-off</span></div>
+              </div>
+              <div class="kpi-card scroll-reveal delay-2">
+                <div class="kpi-label">Actions Completed</div>
+                <div id="actionsCompletedCount" class="kpi-value success">0</div>
+                <div class="kpi-foot"><span>Executed by staff</span></div>
+              </div>
+              <div class="kpi-card scroll-reveal delay-3">
+                <div class="kpi-label">Captured Savings</div>
+                <div id="actionsCapturedSavings" class="kpi-value success">₹0.00</div>
+                <div class="kpi-foot"><span>Waste avoided via actions</span></div>
+              </div>
             </div>
 
             <div class="filter-row scroll-reveal">
               <select id="actionTypeFilter" class="form-select">
                 <option value="all">All Types</option>
-                <option value="Purchase">Purchase Orders</option>
-                <option value="Prep">Kitchen Prep</option>
-                <option value="Promo">Promotions</option>
+                <option value="hold_purchase">Hold Purchase Orders</option>
+                <option value="use_existing_stock">Use Existing Stock First</option>
+                <option value="stage_preparation">Staged Kitchen Prep</option>
               </select>
               <select id="actionStatusFilter" class="form-select">
                 <option value="all">All Statuses</option>
-                <option value="Pending">Pending Approval</option>
-                <option value="Approved">Approved</option>
-                <option value="Dismissed">Dismissed</option>
+                <option value="pending">Pending Approval</option>
+                <option value="completed">Completed / Executed</option>
+                <option value="deferred">Deferred</option>
+                <option value="dismissed">Dismissed</option>
               </select>
             </div>
 
@@ -1209,8 +1258,7 @@
                 <span class="card-title">Action Feed</span>
               </div>
               <div class="acc-list" id="actionsList">
-                <div style="padding:2.5rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading recommended
-                  actions…</div>
+                <div style="padding:2.5rem;text-align:center;color:var(--text-3);font-size:0.82rem;">Loading recommended actions…</div>
               </div>
             </div>
           </section>

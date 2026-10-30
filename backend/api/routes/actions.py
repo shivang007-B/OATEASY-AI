@@ -23,19 +23,37 @@ def get_actions(
             query += " AND restaurant_id = ?"
             params.append(restaurant_id)
         if type and type != "all":
-            query += " AND type = ?"
-            params.append(type)
+            t_lower = type.lower()
+            if t_lower in ("purchase", "hold_purchase"):
+                query += " AND type = 'hold_purchase'"
+            elif t_lower in ("prep", "stage_preparation"):
+                query += " AND type = 'stage_preparation'"
+            elif t_lower in ("stock", "use_existing_stock"):
+                query += " AND type = 'use_existing_stock'"
+            elif t_lower in ("promo", "promotion", "promote_dish"):
+                query += " AND type = 'promote_dish'"
+            else:
+                query += " AND LOWER(type) = ?"
+                params.append(t_lower)
         if status and status != "all":
-            query += " AND status = ?"
-            params.append(status)
+            s_lower = status.lower()
+            if s_lower in ("approved", "completed"):
+                query += " AND status = 'completed'"
+            else:
+                query += " AND LOWER(status) = ?"
+                params.append(s_lower)
 
         query += " ORDER BY priority_score DESC"
         cursor.execute(query, params)
         rows = [dict(r) for r in cursor.fetchall()]
 
-    completed_count = sum(1 for r in rows if r["status"] == "completed")
-    pending_count = sum(1 for r in rows if r["status"] == "pending")
-    saved_inr = sum(r["avoidable_cost_inr"] for r in rows if r["status"] == "completed" and r["type"] != "stage_preparation")
+    completed_count = sum(1 for r in rows if r.get("status") == "completed")
+    pending_count = sum(1 for r in rows if r.get("status") == "pending")
+    saved_inr = sum(
+        float(r.get("avoidable_cost_inr") or 0.0)
+        for r in rows
+        if r.get("status") == "completed" and r.get("type") != "stage_preparation"
+    )
 
     return {
         "count": len(rows),
