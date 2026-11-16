@@ -96,6 +96,14 @@ if not os.path.exists(STATIC_DIR):
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+@app.get("/favicon.ico", include_in_schema=False)
+def serve_favicon():
+    fav = os.path.join(STATIC_DIR, "favicon.ico")
+    if os.path.exists(fav):
+        return FileResponse(fav)
+    return JSONResponse(status_code=404, content={"error": "favicon not found"})
+
+
 
 
 @app.get("/")

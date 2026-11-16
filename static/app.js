@@ -81,7 +81,9 @@ class OatEasyApp {
     this.bindEvents();
     renderHistogram();
     await this.loadInitialData();
-    this.switchTab('home');
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialTab = urlParams.get('tab') || window.location.hash.replace('#', '') || 'home';
+    this.switchTab(initialTab);
     observeRevealEls();
   }
 

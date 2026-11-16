@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FreshFlow — Restaurant Operations Workspace</title>
+  <title>OatEasy — Restaurant Operations Workspace</title>
   <meta name="description"
     content="Operational restaurant intelligence platform powered by Machine Learning demand forecasting, ingredient waste risk prediction, and automated prep & purchasing planning." />
 
@@ -16,7 +16,8 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     rel="stylesheet" />
   <link href="/static/styles.css?v=2.4" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="/static/logo.png" />
+  <link rel="icon" type="image/png" href="/static/favicon.png"/>
+  <link rel="shortcut icon" href="/static/favicon.ico"/>
 
   <style>
     /* Liquid Glassmorphism & Light bg.png theme */
@@ -1891,6 +1892,11 @@
     </button>
   </nav>
 
-</body>
+<script>
+    const scrollY = new URLSearchParams(window.location.search).get("scroll");
+    if (scrollY) {
+      setTimeout(() => window.scrollTo({ top: parseInt(scrollY), behavior: "instant" }), 400);
+    }
+</script></body>
 
 </html>
