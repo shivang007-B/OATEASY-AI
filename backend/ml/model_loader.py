@@ -5,7 +5,7 @@ import joblib
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
-BASE_ML_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "FreshFlow_ML")
+BASE_ML_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "OatEasy_ML")
 MODELS_DIR = os.path.join(BASE_ML_DIR, "models")
 
 class ModelLoader:

@@ -10,10 +10,10 @@ jobs:
   ping-service:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping FreshFlow Health Endpoint
+      - name: Ping OatEasy Health Endpoint
         run: |
           # Once deployed on Render, update this URL if your app name is different
-          TARGET_URL="${{ secrets.RENDER_APP_URL || 'https://freshflowai.onrender.com/health' }}"
+          TARGET_URL="${{ secrets.RENDER_APP_URL || 'https://oateasy-ai.onrender.com/health' }}"
           echo "Pinging: $TARGET_URL"
           RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$TARGET_URL" || true)
           echo "HTTP Status Code: $RESPONSE"

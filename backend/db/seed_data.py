@@ -4,7 +4,7 @@ import sqlite3
 import pandas as pd
 from backend.db.database import get_db, init_db, DB_PATH
 
-BASE_ML_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "FreshFlow_ML")
+BASE_ML_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "OatEasy_ML")
 DATA_DIR = os.path.join(BASE_ML_DIR, "data")
 OUTPUTS_DIR = os.path.join(BASE_ML_DIR, "outputs")
 
@@ -21,7 +21,7 @@ def seed_database(force=False):
             print("Database already seeded. Skipping.")
             return
 
-        print("Seeding database from FreshFlow_ML...")
+        print("Seeding database from OatEasy_ML...")
 
         # 1. Restaurants
         df_rest = pd.read_csv(os.path.join(DATA_DIR, "restaurants.csv"))

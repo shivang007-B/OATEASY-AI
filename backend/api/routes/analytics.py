@@ -6,7 +6,7 @@ from backend.db.database import get_db
 
 router = APIRouter(prefix="/analytics", tags=["Analytics"])
 
-BASE_ML_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))), "FreshFlow_ML")
+BASE_ML_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))), "OatEasy_ML")
 OUTPUTS_DIR = os.path.join(BASE_ML_DIR, "outputs")
 
 @router.get("/waste-by-reason")

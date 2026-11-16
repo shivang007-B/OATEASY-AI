@@ -152,7 +152,7 @@ OatEasy AI dynamically reconfigures its algorithms, safety buffers, and prep fre
 ## 📂 Project Directory Structure
 
 ```
-FreshFlowAI/
+OatEasyAI/
 ├── .env                                  # Local production secrets (ignored by Git)
 ├── .env.example                          # Environment variable template
 ├── .gitignore                            # Comprehensive ignore rules (.env, models, logs)
@@ -161,7 +161,7 @@ FreshFlowAI/
 │
 ├── backend/                              # FastAPI Application Core
 │   ├── main.py                           # Application entry point, static routes & webhooks
-│   ├── freshflow.db                      # SQLite operational database
+│   ├── oateasy.db                      # SQLite operational database
 │   ├── api/routes/                       # REST API route controllers
 │   │   ├── actions.py                    # Action approval, deferral & completion routes
 │   │   ├── analytics.py                  # Historical demand & waste analysis endpoints
@@ -181,7 +181,7 @@ FreshFlowAI/
 │       ├── report_service.py             # Telemetry compilation
 │       └── risk_service.py               # Expiry risk classification logic
 │
-├── FreshFlow_ML/                         # ML Training, Notebooks & Datasets
+├── OatEasy_ML/                         # ML Training, Notebooks & Datasets
 │   ├── data/                             # Master catalogs (dishes, ingredients, recipes, calendar)
 │   ├── models/                           # Serialized Joblib models (Poisson, Q10, Q90, GBM)
 │   ├── notebooks/                        # Jupyter notebooks for model development & evaluation
@@ -214,7 +214,7 @@ FreshFlowAI/
 ### 2. Setup Virtual Environment & Install Dependencies
 ```bash
 # Clone the repository and navigate into the project
-cd FreshFlowAI
+cd OatEasyAI
 
 # Create virtual environment
 python -m venv venv

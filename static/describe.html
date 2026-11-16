@@ -1233,8 +1233,8 @@
      ========================================================================== -->
     <script>
     // State
-    let selectedType = localStorage.getItem('freshflow_kitchen_type') || 'restaurant';
-    let selectedName = localStorage.getItem('freshflow_kitchen_name') || 'Restaurant & Dine-In';
+    let selectedType = localStorage.getItem('oateasy_kitchen_type') || 'restaurant';
+    let selectedName = localStorage.getItem('oateasy_kitchen_name') || 'Restaurant & Dine-In';
     
     let activePlanKey = 'pro';
     let activePlanAmount = 8999;
@@ -1251,8 +1251,8 @@
     function selectBusiness(type, name) {
       selectedType = type;
       selectedName = name || kitchenTypeMap[type] || 'Restaurant';
-      localStorage.setItem('freshflow_kitchen_type', selectedType);
-      localStorage.setItem('freshflow_kitchen_name', selectedName);
+      localStorage.setItem('oateasy_kitchen_type', selectedType);
+      localStorage.setItem('oateasy_kitchen_name', selectedName);
 
       document.querySelectorAll('.business-card').forEach(card => {
         card.classList.toggle('selected', card.getAttribute('data-type') === type);
@@ -1302,9 +1302,9 @@
 
     function launchDemoDirect(e) {
       if (e) e.preventDefault();
-      localStorage.setItem('freshflow_kitchen_type', selectedType);
-      localStorage.setItem('freshflow_kitchen_name', selectedName);
-      localStorage.setItem('freshflow_demo_mode', '1');
+      localStorage.setItem('oateasy_kitchen_type', selectedType);
+      localStorage.setItem('oateasy_kitchen_name', selectedName);
+      localStorage.setItem('oateasy_demo_mode', '1');
       window.location.href = '/app';
     }
 
@@ -1479,10 +1479,10 @@
       const utr = response.utr || response.bankRef || 'UPI-' + Date.now();
 
       // Store in localStorage
-      localStorage.setItem('freshflow_paid_plan', activePlanKey);
-      localStorage.setItem('freshflow_utr', utr);
-      localStorage.setItem('freshflow_order_id', orderId);
-      localStorage.setItem('freshflow_authenticated', '1');
+      localStorage.setItem('oateasy_paid_plan', activePlanKey);
+      localStorage.setItem('oateasy_utr', utr);
+      localStorage.setItem('oateasy_order_id', orderId);
+      localStorage.setItem('oateasy_authenticated', '1');
 
       // Post to our backend webhook to confirm order authoritatively
       fetch('/api/webhook', {
@@ -1551,7 +1551,7 @@
 
     // Restore on load & check query param
     window.addEventListener('DOMContentLoaded', () => {
-      const saved = localStorage.getItem('freshflow_kitchen_type');
+      const saved = localStorage.getItem('oateasy_kitchen_type');
       if (saved) {
         const target = document.querySelector(`.business-card[data-type="${saved}"]`);
         if (target) {

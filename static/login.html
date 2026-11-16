@@ -653,8 +653,8 @@
 
   <script>
     function updateContextPill() {
-      const type = localStorage.getItem('freshflow_kitchen_type') || 'restaurant';
-      const name = localStorage.getItem('freshflow_kitchen_name') || 'Restaurant & Dine-In';
+      const type = localStorage.getItem('oateasy_kitchen_type') || 'restaurant';
+      const name = localStorage.getItem('oateasy_kitchen_name') || 'Restaurant & Dine-In';
 
       const labelEl = document.getElementById('loginKitchenLabel');
       const iconEl = document.getElementById('contextIcon');
@@ -691,8 +691,8 @@
         return;
       }
       const role = document.getElementById('loginRole').value;
-      localStorage.setItem('freshflow_operator_role', role);
-      localStorage.setItem('freshflow_authenticated', '1');
+      localStorage.setItem('oateasy_operator_role', role);
+      localStorage.setItem('oateasy_authenticated', '1');
       window.location.href = '/app';
     }
 

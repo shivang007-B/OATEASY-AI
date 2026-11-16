@@ -1,5 +1,5 @@
 /**
- * FreshFlow — Minimal Intelligence Dashboard
+ * OatEasy — Minimal Intelligence Dashboard
  * Accordion rows · Scrollytelling · Clean tab transitions
  */
 
@@ -763,7 +763,7 @@ document.head.appendChild(spinStyle);
 
 let app;
 window.addEventListener('DOMContentLoaded', () => { 
-  app = new FreshFlowApp(); 
+  app = new OatEasyApp(); 
   window.app = app; 
 });
 
@@ -801,7 +801,7 @@ const KITCHEN_PROFILES = {
   }
 };
 
-let currentKitchenType = localStorage.getItem('freshflow_kitchen_type') || 'restaurant';
+let currentKitchenType = localStorage.getItem('oateasy_kitchen_type') || 'restaurant';
 
 window.navigateToView = function(viewName) {
   document.querySelectorAll('.app-view').forEach(view => {
@@ -814,7 +814,7 @@ window.navigateToView = function(viewName) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // If entering app, ensure FreshFlowApp refreshes its reveal elements and current tab
+  // If entering app, ensure OatEasyApp refreshes its reveal elements and current tab
   if (viewName === 'app') {
     if (window.app) {
       window.app.switchTab(window.app.currentTab || 'home');
@@ -825,7 +825,7 @@ window.navigateToView = function(viewName) {
 
 window.selectKitchenType = function(typeKey) {
   currentKitchenType = typeKey;
-  localStorage.setItem('freshflow_kitchen_type', typeKey);
+  localStorage.setItem('oateasy_kitchen_type', typeKey);
 
   // Update selection UI in onboarding cards
   document.querySelectorAll('.kitchen-card').forEach(card => {
@@ -883,7 +883,7 @@ window.toggleSidebar = function() {
   if (!sidebar) return;
 
   const isCollapsed = sidebar.classList.toggle('collapsed');
-  localStorage.setItem('freshflow_sidebar_collapsed', isCollapsed ? '1' : '0');
+  localStorage.setItem('oateasy_sidebar_collapsed', isCollapsed ? '1' : '0');
 
   if (toggleIcon) {
     toggleIcon.textContent = isCollapsed ? 'menu' : 'menu_open';
@@ -895,7 +895,7 @@ window.toggleSidebar = function() {
 
 // Restore saved sidebar collapsed state and kitchen type on page load
 window.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('freshflow_sidebar_collapsed') === '1') {
+  if (localStorage.getItem('oateasy_sidebar_collapsed') === '1') {
     const sidebar = document.getElementById('appSidebar');
     if (sidebar) sidebar.classList.add('collapsed');
     const toggleIcon = document.getElementById('sidebarToggleIcon');
@@ -952,4 +952,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 window.OatEasyApp = OatEasyApp;
-window.FreshFlowApp = OatEasyApp;
+window.OatEasyApp = OatEasyApp;
